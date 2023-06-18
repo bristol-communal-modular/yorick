@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "USBPower")(type "KiCad")(uri "${KIPRJMOD}/USBPower.pretty")(options "")(descr ""))
+)
