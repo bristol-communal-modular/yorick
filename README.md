@@ -1,4 +1,4 @@
-# BCM Machina Noise Synth
+# BCM Yorick Synth
 
 A little noisy synth thing made for the Machina Bristonica festival.
 
@@ -8,7 +8,7 @@ Come down the Bristol Hackspace on a Tuesday night to say hello.
 
 ## License
 
-The BCM Noise Synth is shared under an [Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+The BCM Yorick Synth is shared under an [Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 This means that you can share the info here around, and transform or build upon the circuits and designs in here, as long as you share anything you do under the same license and give BCM a shout-out.
 
