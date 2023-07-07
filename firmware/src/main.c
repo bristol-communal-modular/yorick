@@ -32,12 +32,6 @@ void startADCConversion(uint8_t adc_channel) {
   ADCSRA |= _BV(ADSC);
 }
 
-uint16_t getADCConversionResult() {
-  uint16_t result = ADCL;
-  return result | (ADCH<<8);
-}
-
-
 volatile uint16_t accumulator;
 uint16_t freq = 0;
 
@@ -110,7 +104,8 @@ int main () {
 }
 
 ISR(ADC_vect) {
-  uint16_t adc_value = getADCConversionResult();
+  uint16_t adc_value = ADCL;
+  adc_value |= (ADCH<<8);
 
   switch(adc_read_channel) {
     case FREQ_IN_MUX:
