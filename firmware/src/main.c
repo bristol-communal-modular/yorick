@@ -125,9 +125,11 @@ ISR(ADC_vect) {
 
 ISR( TIM0_COMPA_vect ) {
 
-  uint16_t note = freq;
-
+  uint16_t note = analog_values[FREQ_IN_ADC] + 20;
 
   accumulator = accumulator + note;
-  OCR1B = (accumulator >> 8) & 0x80;
+
+  if (analog_values[FREQ_IN_ADC] > 10) {
+    OCR1B = (accumulator >> 8) & 0x80;
+  }
 }
