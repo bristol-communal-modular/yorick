@@ -46,16 +46,16 @@ int main () {
   TCCR1B |= _BV(CS10);                // No PWM prescaler
 
   /* Setup Pin In/Outs */
-  DDRA |= _BV(LED_1_OUT_PIN); // LED 1 pin output
-  DDRB |= _BV(LED_2_OUT_PIN); // LED 2 pin output
-  DDRA |= _BV(OSC_OUT_PIN); // LED 1 pin output
-  DDRB |= _BV(LFO_OUT_PIN); // LED 2 pin output
-                              //
-  DDRA &= ~_BV(BUTTON_1_IN_PIN); // Butt
-  DDRA &= ~_BV(BUTTON_2_IN_PIN); // Button 2 pin input
+  DDRA |= _BV(LED_1_OUT_PIN);        // LED 1 pin output
+  DDRB |= _BV(LED_2_OUT_PIN);        // LED 2 pin output
+  DDRA |= _BV(OSC_OUT_PIN);          // LED 1 pin output
+  DDRB |= _BV(LFO_OUT_PIN);          // LED 2 pin output
 
-  PORTA |= _BV(BUTTON_1_IN_PIN); // Button 1 pin pull up resistor
-  PORTA |= _BV(BUTTON_2_IN_PIN); // Button 2 pin pull up resistor
+  DDRA &= ~_BV(BUTTON_1_IN_PIN);     // Button 1 pin input
+  DDRA &= ~_BV(BUTTON_2_IN_PIN);     // Button 2 pin input
+
+  PORTA |= _BV(BUTTON_1_IN_PIN);     // Button 1 pin pull up resistor
+  PORTA |= _BV(BUTTON_2_IN_PIN);     // Button 2 pin pull up resistor
 
   sei();            
 
