@@ -1,13 +1,16 @@
 #define F_CPU 8000000
 
+#include <stdlib.h>
 #include <stdbool.h>
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
-//#define FREQ_IN_PIN A1
-//#define MOD_IN_PIN A2
+#define FREQ_IN_ADC 0
+#define FREQ_IN_MUX MUX0
+#define MOD_IN_ADC 1
+#define MOD_IN_MUX MUX1
 
 #define BUTTON_1_IN_PIN PA0
 #define BUTTON_2_IN_PIN PA3
@@ -20,6 +23,23 @@
 
 #define OSC_OUT_PWM OCR1B
 #define LFO_OUT_PWM OCR0B
+
+uint8_t adc_read_channel = FREQ_IN_MUX;
+uint16_t analog_values[2];
+
+void startADCConversion(uint8_t adc_channel) {
+  ADMUX  = _BV(adc_channel);
+  ADCSRA |= _BV(ADSC);
+}
+
+uint16_t getADCConversionResult() {
+  uint16_t result = ADCL;
+  return result | (ADCH<<8);
+}
+
+
+volatile uint16_t accumulator;
+uint16_t freq = 0;
 
 int main () {
 
@@ -45,6 +65,15 @@ int main () {
   TCCR1A |= _BV(COM1B1);              // Enable OSC Out Pin PWM
   TCCR1B |= _BV(CS10);                // No PWM prescaler
 
+  /* Setup ADC */
+  ADMUX = 0;
+
+  ADCSRA |= _BV(ADEN);               // Enable the ADC
+  // ADC clock runs at main clock / 128
+  ADCSRA |= _BV(ADIE) | _BV(ADPS2) | _BV(ADPS1) | _BV(ADPS0);
+  //ADCSRA |= _BV(ADIE);               // Enable the conversion finish interrupt
+  ADCSRB |= _BV(ADEN);               // Enable the ADC
+
   /* Setup Pin In/Outs */
   DDRA |= _BV(LED_1_OUT_PIN);        // LED 1 pin output
   DDRB |= _BV(LED_2_OUT_PIN);        // LED 2 pin output
@@ -59,30 +88,51 @@ int main () {
 
   sei();            
 
+  startADCConversion(adc_read_channel);
+
   while (1) {
 
-    _delay_ms(1);
-
-    if (bit_is_clear(PINA, BUTTON_1_IN_PIN)) {
-      PORTA |= _BV(LED_1_OUT_PIN);
-    } else {
-      PORTA &= ~_BV(LED_1_OUT_PIN);
-    }
-
-    if (bit_is_clear(PINA, BUTTON_2_IN_PIN)) {
+    if (analog_values[FREQ_IN_ADC] > 400) {
       PORTB |= _BV(LED_2_OUT_PIN);
     } else {
       PORTB &= ~_BV(LED_2_OUT_PIN);
     }
 
+    if (analog_values[MOD_IN_ADC] > 400) {
+      PORTA |= _BV(LED_1_OUT_PIN);
+    } else {
+      PORTA &= ~_BV(LED_1_OUT_PIN);
+    }
+
+
   }
 
 }
 
-volatile unsigned int accumulator;
-unsigned int note = 857; // Middle C
+ISR(ADC_vect) {
+  uint16_t adc_value = getADCConversionResult();
+
+  switch(adc_read_channel) {
+    case FREQ_IN_MUX:
+      analog_values[FREQ_IN_ADC] = adc_value;
+      adc_read_channel = MOD_IN_MUX;
+      break;
+    case MOD_IN_MUX:
+      analog_values[MOD_IN_ADC] = adc_value;
+      adc_read_channel = FREQ_IN_MUX;
+      break;
+    default:
+      adc_read_channel = FREQ_IN_MUX;
+  }
+
+  startADCConversion(adc_read_channel);
+}
 
 ISR( TIM0_COMPA_vect ) {
+
+  uint16_t note = freq;
+
+
   accumulator = accumulator + note;
   OCR1B = (accumulator >> 8) & 0x80;
 }
