@@ -92,11 +92,11 @@ The filter circuit actually gives us the high-pass, band-pass and low-pass signa
 
 \subsubsection{Resonance Feedback Amplifier}
 
-Inverter U4D along with variable resistor $VR_q$ is responsible for the amount of band-pass signal getting fed back to the input, which controls the overall resonance. Treating it like the inverting amplifier, we can see that as the potentiometer is turned to bring the wiper to pin 1, the effecting feedback resistance will drop and the input resistence will rise, giving a lower gain. Turning the potentiometer to bring the wiper to pin 3 will instead increase the gain.
+Inverter U4D along with resistors $Rq$, $Rqf$, $Rqmax$, and potentiometer $VR_q$ is responsible for the amount of band-pass signal getting fed back to the input, which controls the overall resonance. This is just an inverting amplifier with the potentiometer set to change the input resistance and so give manual control over the gain. The minimum gain will be $\frac{Rqf}{VRq + Rqmax}$, and the maximum gain will be $\frac{Rqf}{Rqmax}$, but these will be negative because the amplifier is inverting.
 
-If $y$ is a value from 0 to 1 for the rotation of the potentiometer, then the gain will be $(-y)VR_{res}$. In the final circuit design it would probably be worth having another resistor in series before the potentiometer to limit the gain.
+The setup with the potentiometer being used as a variable resistance instead of being tied to ground is because the bias point for the filter circuit is actually at $Vcc / 2$, but we would have to create this voltage as it doesn't currently exist in the circuit.
 
-To simplify the equations for the time being, we'll just say this is a gain factor $\beta$ which is controlled by the potentiometer rotation.
+To simplify the equations for the time being, we'll just say this is a gain factor $-\beta$ which is controlled by the potentiometer rotation.
 
 \subsubsection{Input Mixer}
 
@@ -104,7 +104,7 @@ The first stage of the filter is a summing mixer built around U4A.
 
 
 \begin{equation}
-  \frac{v_{in}(s)}{R_{in}} + \frac{v_{hp}(s)}{R_f} + \frac{v_{lp}(s)}{R_{lp}}  + \frac{{\beta}v_{bp}(s)}{R_q} = 0
+  \frac{v_{in}(s)}{R_{in}} + \frac{v_{hp}(s)}{R_f} + \frac{v_{lp}(s)}{R_{lp}}  + \frac{{-\beta}v_{bp}(s)}{R_q} = 0
 \end{equation}
 
 It is useful to note that $v_{bp}(s) = v_{hp}(s)\alpha(s)$, and $v_{lp}(s) = v_{hp}(s)\alpha(s^2)$. Also to simplify here we'll set $R_{lp} == R_f$.
@@ -113,15 +113,15 @@ It is useful to note that $v_{bp}(s) = v_{hp}(s)\alpha(s)$, and $v_{lp}(s) = v_{
 
 \begin{equation*}
 \begin{split}
-  \frac{v_{hp}(s)}{R_{f}} & = - \frac{v_{in}(s)}{R_{in}} - \frac{v_{lp}(s)}{R_{f}} - \frac{v_{bp}(s)\beta}{R_q} \\
-  \frac{v_{hp}(s)}{R_{f}} & = - \frac{v_{in}(s)}{R_{in}} - \frac{v_{hp}(s)\alpha(s^2)}{R_{f}} - \frac{{\beta}v_{hp}(s)\alpha(s)}{R_q} \\
-  \frac{v_{in}(s)}{R_{in}} & = - \frac{v_{hp}(s)}{R_{f}} - \frac{v_{hp}(s)\alpha(s^2)}{R_{f}} - \frac{{\beta}v_{hp}(s)\alpha(s)}{R_q} \\
+  \frac{v_{hp}(s)}{R_{f}} & = - \frac{v_{in}(s)}{R_{in}} - \frac{v_{lp}(s)}{R_{f}} - \frac{v_{bp}(s)-\beta}{R_q} \\
+  \frac{v_{hp}(s)}{R_{f}} & = - \frac{v_{in}(s)}{R_{in}} - \frac{v_{hp}(s)\alpha(s^2)}{R_{f}} - \frac{{-\beta}v_{hp}(s)\alpha(s)}{R_q} \\
+  \frac{v_{in}(s)}{R_{in}} & = - \frac{v_{hp}(s)}{R_{f}} - \frac{v_{hp}(s)\alpha(s^2)}{R_{f}} - \frac{{-\beta}v_{hp}(s)\alpha(s)}{R_q} \\
   H_{hp}(s) & = \frac{v_{hp}(s)}{v_{in}(s)} \\
-  \frac{v_{in}(s)}{R_{in}} & = - v_{hp}(s)(\frac{1}{R_{f}} + \frac{\alpha(s^2)}{R_{f}} + \frac{{\beta}\alpha(s)}{R_q}) \\
-  \frac{1}{R_{in}} & = - H_{hp}(s)(\frac{1}{R_{f}} + \frac{\alpha(s^2)}{R_{f}} + \frac{{\beta}\alpha(s)}{R_q}) \\
-  \frac{-1}{R_{in}} & = H_{hp}(s)(\frac{1}{R_{f}} + \frac{\alpha(s^2)}{R_{f}} + \frac{{\beta}\alpha(s)}{R_q}) \\
-  H_{hp}(s) & = \frac{-1/R_{in}}{\frac{1}{R_{f}} + \frac{\alpha(s^2)}{R_{f}} + \frac{{\beta}\alpha(s)}{R_q}} \\
-  & = \frac{-R_{f}/R_{in}}{1 + \frac{{\beta}R_{f}\alpha(s)}{R_q} + \alpha(s^2) } \\
+  \frac{v_{in}(s)}{R_{in}} & = - v_{hp}(s)(\frac{1}{R_{f}} + \frac{\alpha(s^2)}{R_{f}} + \frac{{-\beta}\alpha(s)}{R_q}) \\
+  \frac{1}{R_{in}} & = - H_{hp}(s)(\frac{1}{R_{f}} + \frac{\alpha(s^2)}{R_{f}} + \frac{{-\beta}\alpha(s)}{R_q}) \\
+  \frac{-1}{R_{in}} & = H_{hp}(s)(\frac{1}{R_{f}} + \frac{\alpha(s^2)}{R_{f}} + \frac{{-\beta}\alpha(s)}{R_q}) \\
+  H_{hp}(s) & = \frac{-1/R_{in}}{\frac{1}{R_{f}} + \frac{\alpha(s^2)}{R_{f}} + \frac{{-\beta}\alpha(s)}{R_q}} \\
+  & = \frac{-R_{f}/R_{in}}{1 + \frac{{-\beta}R_{f}\alpha(s)}{R_q} + \alpha(s^2) } \\
 \end{split}
 \end{equation*}
 
@@ -131,18 +131,18 @@ It is useful to note that $v_{bp}(s) = v_{hp}(s)\alpha(s)$, and $v_{lp}(s) = v_{
 \begin{split}
   H_{lp}(s) & = \frac{v_{lp}(s)}{v_{in}(s)} \\
             & = \frac{v_{hp}(s)}{v_{in}(s)}\alpha^2(s) \\
-            & = \frac{-R_{f}/R_{in}}{\frac{1}{\alpha^2(s)} + \frac{R_{f}\beta}{R_q\alpha(s)} + 1 } \\
-            & = \frac{-R_{f}/R_{in}}{\frac{1}{\alpha^2(s)} + \beta\frac{R_{f}}{R_q}\frac{1}{\alpha(s)} + 1 } \\
-            & = \frac{-R_{f}/R_{in}}{\frac{1}{{(-x\frac{1}{CsR_{i}})}^2} + (-y)VR_{res}\frac{R_{f}}{R_q}\frac{1}{-x\frac{1}{CsR_{i}}} + 1 } \\
-            & = \frac{-R_{f}/R_{in}}{\frac{1}{{\frac{1}{s^2}(x\frac{1}{CR_{i}})}^2} + yVR_{res}\frac{R_{f}}{R_q}\frac{1}{x\frac{1}{s}\frac{1}{CR_{i}}} + 1 } \\
-            & = \frac{-R_{f}/R_{in}}{\frac{s^2}{{(x\frac{1}{CR_{i}})}^2} + yVR_{res}\frac{R_{f}}{R_q}\frac{s}{x\frac{1}{CR_{i}}} + 1 } \\
+            & = \frac{-R_{f}/R_{in}}{\frac{1}{\alpha^2(s)} + \frac{R_{f}-\beta}{R_q\alpha(s)} + 1 } \\
+            & = \frac{-R_{f}/R_{in}}{\frac{1}{\alpha^2(s)} + -\beta\frac{R_{f}}{R_q}\frac{1}{\alpha(s)} + 1 } \\
+            & = \frac{-R_{f}/R_{in}}{\frac{1}{{(-x\frac{1}{CsR_{i}})}^2} + -\beta\frac{R_{f}}{R_q}\frac{1}{-x\frac{1}{CsR_{i}}} + 1 } \\
+            & = \frac{-R_{f}/R_{in}}{\frac{1}{{\frac{1}{s^2}(x\frac{1}{CR_{i}})}^2} + \beta\frac{R_{f}}{R_q}\frac{1}{x\frac{1}{s}\frac{1}{CR_{i}}} + 1 } \\
+            & = \frac{-R_{f}/R_{in}}{\frac{s^2}{{(x\frac{1}{CR_{i}})}^2} + \beta\frac{R_{f}}{R_q}\frac{s}{x\frac{1}{CR_{i}}} + 1 } \\
 \end{split}
 \end{equation*}
 
 At this point we'll also make the simplification that $R_q = R_{f}$, giving the final transfer function for the low-pass output.
 
 \begin{equation}
-  H_{lp}(s) = \frac{-R_{f}/R_{in}}{\frac{s^2}{{(x\frac{1}{CR_{i}})}^2} + yVR_{res}\frac{s}{x\frac{1}{CR_{i}}} + 1 }
+  H_{lp}(s) = \frac{-R_{f}/R_{in}}{\frac{s^2}{{(x\frac{1}{CR_{i}})}^2} + \beta\frac{s}{x\frac{1}{CR_{i}}} + 1 }
 \end{equation}
 
 \subsubsection{Calculating Gain, Cutoff and Resonance}
@@ -162,7 +162,7 @@ By comparing our transfer function with the standard one for a low-pass, we can 
 \begin{description}
   \item Pass-band gain, $-\frac{R_{f}}{R_{in}}$
   \item Cutoff frequency, $x\frac{1}{CR_{i}}$
-  \item Resonance, $\frac{1}{yVR_{res}}$
+  \item Resonance, $\frac{1}{\beta}$
 \end{description}
 
 \subsection{Calculating Cutoff Frequencies}
@@ -188,6 +188,49 @@ Given the calculation for frequency, and picking some standard values we can cal
 
 \subsection{Calculating Resonance}
 
-The resonance here is directly proportional to the gain of the resonance feedback stage. A value of around 0.5 is the best minimum, with higher values being more resonant. This means that a maximum gain of 2 is best for the stage, and the mimimum being close to 0.
+The resonance here is directly proportional to the gain of the resonance feedback stage, with lower gains meaining higher resonances. A resonance value of around 0.5 is a good minimum, with higher values being more resonant. If we aim for a resonance range of 0.5 to 20, then we can work out the resistor values, choosing a value of 100k for $VRq$ to give a starting point.
+
+\subsubsection{Maximum Resonance}
+
+\begin{equation*}
+\begin{split}
+  {\min \beta} & = \frac{R_{qf}}{R_{qmax}} \\
+  res          & = \frac{1}{\beta} \\
+  {\max res}   & = \frac{1}{\frac{R_{qf}}{R_{qmax}}} \\
+               & = \frac{R_{qmax}}{R_{qf}} \\
+  0.5          & = \frac{R_{qmax}}{R_{qf}} \\
+  R_{qf}       & = 2 R_{qmax} \\
+\end{split}
+\end{equation*}
+
+\subsubsection{Minimum Resonance}
+
+\begin{equation*}
+\begin{split}
+  {\max \beta} & = \frac{R_{qf}}{VR_{q} + R_{qmax}} \\
+  res          & = \frac{1}{\beta} \\
+  {\min res}   & = \frac{1}{\frac{R_{qf}}{VR_{q} + R_{qmax}}} \\
+               & = \frac{VR_{q} + R_{qmax}}{R_{qf}} \\
+               & = \frac{VR_{q} + R_{qmax}}{2R_{qmax}} \\
+  20           & = \frac{100k + R_{qmax}}{2R_{qmax}} \\
+  40           & = \frac{100k + R_{qmax}}{R_{qmax}} \\
+\end{split}
+\end{equation*}
+
+\subsubsection{Actual Values}
+
+If $R_{qmax}$ is 2k2, then $R_{qf}$ will need to be 4k7, giving a final resonance range of,
+
+\begin{equation*}
+\begin{split}
+  {\max res} & = \frac{VR_{q} + R_{qmax}}{R_{qf}} \\
+             & = \frac{100k + 2.2k}{4.7k} \\
+             & = 21.7 \\
+  {\min res} & = \frac{R_{qmax}}{R_{qf}} \\
+             & = \frac{2.2k}{4.7k} \\
+             & = 0.47 \\
+\end{split}
+\end{equation*}
+
 
 \end{document}
