@@ -190,13 +190,13 @@ Given the calculation for frequency, and picking some standard values we can cal
 
 The resonance here is directly proportional to the gain of the resonance feedback stage, with lower gains meaining higher resonances. A resonance value of around 0.5 is a good minimum, with higher values being more resonant. If we aim for a resonance range of 0.5 to 20, then we can work out the resistor values, choosing a value of 100k for $VRq$ to give a starting point.
 
-\subsubsection{Maximum Resonance}
+\subsubsection{Minimum Resonance}
 
 \begin{equation*}
 \begin{split}
-  {\min \beta} & = \frac{R_{qf}}{R_{qmax}} \\
+  {\max \beta} & = \frac{R_{qf}}{R_{qmax}} \\
   res          & = \frac{1}{\beta} \\
-  {\max res}   & = \frac{1}{\frac{R_{qf}}{R_{qmax}}} \\
+  {\min res}   & = \frac{1}{\frac{R_{qf}}{R_{qmax}}} \\
                & = \frac{R_{qmax}}{R_{qf}} \\
   0.5          & = \frac{R_{qmax}}{R_{qf}} \\
   R_{qf}       & = 2 R_{qmax} \\
@@ -214,6 +214,9 @@ The resonance here is directly proportional to the gain of the resonance feedbac
                & = \frac{VR_{q} + R_{qmax}}{2R_{qmax}} \\
   20           & = \frac{100k + R_{qmax}}{2R_{qmax}} \\
   40           & = \frac{100k + R_{qmax}}{R_{qmax}} \\
+  40 R_{qmax}  & = 100k + R_{qmax} \\
+  39 R_{qmax}  & = 100k \\
+  R_{qmax}     & = 2.5k \\
 \end{split}
 \end{equation*}
 
