@@ -1,12 +1,12 @@
 %TF.GenerationSoftware,KiCad,Pcbnew,7.0.2-0*%
-%TF.CreationDate,2023-07-19T20:21:10+01:00*%
+%TF.CreationDate,2023-07-19T20:41:47+01:00*%
 %TF.ProjectId,bcm-machina-noise,62636d2d-6d61-4636-9869-6e612d6e6f69,rev02*%
 %TF.SameCoordinates,Original*%
 %TF.FileFunction,Soldermask,Bot*%
 %TF.FilePolarity,Negative*%
 %FSLAX46Y46*%
 G04 Gerber Fmt 4.6, Leading zero omitted, Abs format (unit mm)*
-G04 Created by KiCad (PCBNEW 7.0.2-0) date 2023-07-19 20:21:10*
+G04 Created by KiCad (PCBNEW 7.0.2-0) date 2023-07-19 20:41:47*
 %MOMM*%
 %LPD*%
 G01*
