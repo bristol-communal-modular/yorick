@@ -3,15 +3,15 @@
     "GenerationSoftware": {
       "Vendor": "KiCad",
       "Application": "Pcbnew",
-      "Version": "7.0.5-0"
+      "Version": "7.0.2-0"
     },
-    "CreationDate": "2023-06-20T21:08:24+01:00"
+    "CreationDate": "2023-07-19T20:21:10+01:00"
   },
   "GeneralSpecs": {
     "ProjectId": {
       "Name": "bcm-machina-noise",
       "GUID": "62636d2d-6d61-4636-9869-6e612d6e6f69",
-      "Revision": "rev?"
+      "Revision": "rev02"
     },
     "Size": {
       "X": 125.272,
@@ -26,7 +26,7 @@
       "Layers": "Outer",
       "PadToPad": 0.0,
       "PadToTrack": 0.0,
-      "TrackToTrack": 0.254,
+      "TrackToTrack": 0.25,
       "MinLineWidth": 0.635,
       "TrackToRegion": 0.508,
       "RegionToRegion": 0.508
