@@ -5,9 +5,11 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <avr/pgmspace.h>
 #include <util/delay.h>
 
 #include "oscillator.h"
+#include "pitches.h"
 
 #define FREQ_IN_ADC 0
 #define FREQ_IN_MUX MUX0
@@ -34,9 +36,7 @@ void startADCConversion(uint8_t adc_channel) {
   ADCSRA |= _BV(ADSC);
 }
 
-const uint16_t PITCHES[16] = {
-  428, 454, 481, 509, 540, 572, 606, 642, 680, 720, 763, 809, 857, 908, 962, 1019
-};
+uint8_t octave = 48;
 
 volatile Oscillator osc1;
 
@@ -93,15 +93,16 @@ int main () {
 
   while (1) {
 
-    if (analog_values[FREQ_IN_ADC] > 400) {
+    //uint8_t lookup = analog_values[MOD_IN_ADC]>> 6;
+
+    uint8_t lookup = analog_values[FREQ_IN_ADC]>> 6;
+    osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[lookup + octave]));
+
+    if (lookup > 54) {
       PORTB |= _BV(LED_2_OUT_PIN);
     } else {
       PORTB &= ~_BV(LED_2_OUT_PIN);
     }
-
-    uint8_t lookup = analog_values[FREQ_IN_ADC]>> 6;
-    osc_set_pitch(osc1, PITCHES[lookup]);
-
   }
 
 }
@@ -131,7 +132,7 @@ ISR( TIM0_COMPA_vect ) {
   osc_update(osc1);
 
   if (analog_values[FREQ_IN_ADC] > 10) {
-    OCR1B = osc_8bit_value(osc1);
+    OCR1B = 255 - osc_8bit_value(osc1);
   } else {
     OCR1B = 128;
   }
