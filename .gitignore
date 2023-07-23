@@ -30,3 +30,5 @@ fp-info-cache
 
 # Zipped gerbers
 *.zip
+
+.DS_Store
