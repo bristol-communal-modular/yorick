@@ -7,6 +7,8 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
+#include "oscillator.h"
+
 #define FREQ_IN_ADC 0
 #define FREQ_IN_MUX MUX0
 #define MOD_IN_ADC 1
@@ -32,8 +34,11 @@ void startADCConversion(uint8_t adc_channel) {
   ADCSRA |= _BV(ADSC);
 }
 
-volatile uint16_t accumulator;
-uint16_t freq = 0;
+const uint16_t PITCHES[16] = {
+  428, 454, 481, 509, 540, 572, 606, 642, 680, 720, 763, 809, 857, 908, 962, 1019
+};
+
+volatile Oscillator osc1;
 
 int main () {
 
@@ -64,8 +69,8 @@ int main () {
 
   ADCSRA |= _BV(ADEN);               // Enable the ADC
   // ADC clock runs at main clock / 128
-  ADCSRA |= _BV(ADIE) | _BV(ADPS2) | _BV(ADPS1) | _BV(ADPS0);
-  //ADCSRA |= _BV(ADIE);               // Enable the conversion finish interrupt
+  ADCSRA |= _BV(ADPS2) | _BV(ADPS1) | _BV(ADPS0);
+  ADCSRA |= _BV(ADIE);               // Enable the conversion finish interrupt
   ADCSRB |= _BV(ADEN);               // Enable the ADC
 
   /* Setup Pin In/Outs */
@@ -84,6 +89,8 @@ int main () {
 
   startADCConversion(adc_read_channel);
 
+  osc_init(osc1);
+
   while (1) {
 
     if (analog_values[FREQ_IN_ADC] > 400) {
@@ -92,12 +99,8 @@ int main () {
       PORTB &= ~_BV(LED_2_OUT_PIN);
     }
 
-    if (analog_values[MOD_IN_ADC] > 400) {
-      PORTA |= _BV(LED_1_OUT_PIN);
-    } else {
-      PORTA &= ~_BV(LED_1_OUT_PIN);
-    }
-
+    uint8_t lookup = analog_values[FREQ_IN_ADC]>> 6;
+    osc_set_pitch(osc1, PITCHES[lookup]);
 
   }
 
@@ -125,11 +128,11 @@ ISR(ADC_vect) {
 
 ISR( TIM0_COMPA_vect ) {
 
-  uint16_t note = analog_values[FREQ_IN_ADC] + 20;
-
-  accumulator = accumulator + note;
+  osc_update(osc1);
 
   if (analog_values[FREQ_IN_ADC] > 10) {
-    OCR1B = (accumulator >> 8) & 0x80;
+    OCR1B = osc_8bit_value(osc1);
+  } else {
+    OCR1B = 128;
   }
 }
