@@ -8,8 +8,11 @@
 #include <avr/pgmspace.h>
 #include <util/delay.h>
 
+#include "controller.h"
 #include "oscillator.h"
 #include "pitches.h"
+#include "led_flasher.h"
+#include "edgedetector.h"
 
 #define FREQ_IN_ADC 0
 #define FREQ_IN_MUX MUX0
@@ -31,6 +34,7 @@
 uint8_t adc_read_channel = FREQ_IN_MUX;
 uint16_t analog_values[2];
 
+
 void startADCConversion(uint8_t adc_channel) {
   ADMUX  = _BV(adc_channel);
   ADCSRA |= _BV(ADSC);
@@ -39,6 +43,14 @@ void startADCConversion(uint8_t adc_channel) {
 uint8_t octave = 48;
 
 volatile Oscillator osc1;
+
+Controller controller;
+
+EdgeDetector button1;
+EdgeDetector button2;
+
+LEDFlasher led1;
+LEDFlasher led2;
 
 int main () {
 
@@ -91,18 +103,49 @@ int main () {
 
   osc_init(osc1);
 
+  edge_detector_init(button1, (PINA & _BV(BUTTON_1_IN_PIN)));
+  edge_detector_init(button2, (PINA & _BV(BUTTON_1_IN_PIN)));
+
+  flash_init(&led1);
+  flash_init(&led2);
+
+  controller_init(&controller);
+
   while (1) {
 
-    //uint8_t lookup = analog_values[MOD_IN_ADC]>> 6;
+    controller_set_current(&controller, analog_values[MOD_IN_ADC]);
 
-    uint8_t lookup = analog_values[FREQ_IN_ADC]>> 6;
-    osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[lookup + octave]));
+    edge_detector_update(button1, (PINA & _BV(BUTTON_1_IN_PIN)));
+    edge_detector_update(button2, (PINA & _BV(BUTTON_2_IN_PIN)));
+    flash_update(&led1);
+    flash_update(&led2);
 
-    if (lookup > 54) {
+    if (edge_detector_is_rising(button1)) {
+      controller_next_control(&controller);
+      flash_start(&led1, controller.current + 1, 5000);
+    }
+
+    if (edge_detector_is_rising(button2)) {
+      flash_start(&led2, controller_get_control(&controller, CONTROL_OCTAVE), 500);
+    }
+
+    if (led1.led_on) {
+      PORTA |= _BV(LED_1_OUT_PIN);
+    } else {
+      PORTA &= ~_BV(LED_1_OUT_PIN);
+    }
+
+    if (led2.led_on) {
       PORTB |= _BV(LED_2_OUT_PIN);
     } else {
       PORTB &= ~_BV(LED_2_OUT_PIN);
     }
+
+    //uint8_t lookup = analog_values[MOD_IN_ADC]>> 6;
+
+    uint8_t lookup = ((analog_values[FREQ_IN_ADC]>> 6) + controller_get_control(&controller, CONTROL_OCTAVE));
+    osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[lookup]));
+
   }
 
 }
