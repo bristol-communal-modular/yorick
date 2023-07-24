@@ -16,7 +16,7 @@ typedef struct Oscillator {
 
 #define osc_set_pitch(name, change) name.delta = change;
 
-#define osc_fm(name) (&name, change)->acc = name.acc + change;
+#define osc_fm(name, change) (&name)->acc = name.acc + change;
 
 #define osc_value(name) name.acc
 

@@ -13,6 +13,7 @@
 #include "pitches.h"
 #include "led_flasher.h"
 #include "edgedetector.h"
+#include "wavetables.h"
 
 #define FREQ_IN_ADC 0
 #define FREQ_IN_MUX MUX0
@@ -43,6 +44,7 @@ void startADCConversion(uint8_t adc_channel) {
 uint8_t octave = 48;
 
 volatile Oscillator osc1;
+volatile Oscillator modOsc;
 
 Controller controller;
 
@@ -122,7 +124,7 @@ int main () {
 
     if (edge_detector_is_rising(button1)) {
       controller_next_control(&controller);
-      flash_start(&led1, controller.current + 1, 5000);
+      flash_start(&led1, controller.current + 1, 2000);
     }
 
     if (edge_detector_is_rising(button2)) {
@@ -141,10 +143,11 @@ int main () {
       PORTB &= ~_BV(LED_2_OUT_PIN);
     }
 
-    //uint8_t lookup = analog_values[MOD_IN_ADC]>> 6;
-
     uint8_t lookup = ((analog_values[FREQ_IN_ADC]>> 6) + controller_get_control(&controller, CONTROL_OCTAVE));
+
     osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[lookup]));
+    osc_set_pitch(modOsc, pgm_read_word(&MIDI_NOTE_PITCHES[lookup]));
+    osc_fm(modOsc, controller_get_control(&controller, CONTROL_FM_FREQ));
 
   }
 
@@ -173,9 +176,14 @@ ISR(ADC_vect) {
 ISR( TIM0_COMPA_vect ) {
 
   osc_update(osc1);
+  osc_update(modOsc);
+
+  uint16_t offset = (osc_8bit_value(modOsc) * controller_get_control(&controller, CONTROL_FM_DEPTH)) >> 3;
+  osc_fm(osc1, offset);
+  uint8_t out = pgm_read_byte(&WT_SINE[osc_8bit_value(osc1)]);
 
   if (analog_values[FREQ_IN_ADC] > 10) {
-    OCR1B = 255 - osc_8bit_value(osc1);
+    OCR1B = out;
   } else {
     OCR1B = 128;
   }
