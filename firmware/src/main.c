@@ -23,11 +23,11 @@
 #define BUTTON_1_IN_PIN PA0
 #define BUTTON_2_IN_PIN PA3
 
-#define LED_1_OUT_PIN PA6
+#define LED_1_OUT_PIN PA7
 #define LED_2_OUT_PIN PB2
 
 #define OSC_OUT_PIN PA5
-#define LFO_OUT_PIN PA7
+#define LFO_OUT_PIN PA6
 
 #define OSC_OUT_PWM OCR1B
 #define LFO_OUT_PWM OCR0B
