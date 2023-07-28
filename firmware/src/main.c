@@ -45,6 +45,7 @@ uint8_t octave = 48;
 
 volatile Oscillator osc1;
 volatile Oscillator modOsc;
+volatile Oscillator lfo;
 
 Controller controller;
 
@@ -75,6 +76,7 @@ int main () {
   TCCR1B |= _BV(WGM12);               // Enable 8bit Fast PWM mode
   TCCR1A |= _BV(WGM10);
 
+  TCCR1A |= _BV(COM1A1);              // Enable LFO Out Pin PWM
   TCCR1A |= _BV(COM1B1);              // Enable OSC Out Pin PWM
   TCCR1B |= _BV(CS10);                // No PWM prescaler
 
@@ -90,8 +92,8 @@ int main () {
   /* Setup Pin In/Outs */
   DDRA |= _BV(LED_1_OUT_PIN);        // LED 1 pin output
   DDRB |= _BV(LED_2_OUT_PIN);        // LED 2 pin output
-  DDRA |= _BV(OSC_OUT_PIN);          // LED 1 pin output
-  DDRB |= _BV(LFO_OUT_PIN);          // LED 2 pin output
+  DDRA |= _BV(OSC_OUT_PIN);          // OSC pin output
+  DDRA |= _BV(LFO_OUT_PIN);          // LFO pin output
 
   DDRA &= ~_BV(BUTTON_1_IN_PIN);     // Button 1 pin input
   DDRA &= ~_BV(BUTTON_2_IN_PIN);     // Button 2 pin input
@@ -104,6 +106,8 @@ int main () {
   startADCConversion(adc_read_channel);
 
   osc_init(osc1);
+  osc_init(modOsc);
+  osc_init(lfo);
 
   edge_detector_init(button1, (PINA & _BV(BUTTON_1_IN_PIN)));
   edge_detector_init(button2, (PINA & _BV(BUTTON_1_IN_PIN)));
@@ -112,6 +116,8 @@ int main () {
   flash_init(&led2);
 
   controller_init(&controller);
+
+  osc_set_pitch(lfo, 10);
 
   while (1) {
 
@@ -147,7 +153,7 @@ int main () {
 
     osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[lookup]));
     osc_set_pitch(modOsc, pgm_read_word(&MIDI_NOTE_PITCHES[lookup]));
-    osc_fm(modOsc, controller_get_control(&controller, CONTROL_FM_FREQ));
+    osc_fm(modOsc, controller_get_control(&controller, CONTROL_FM_FREQ) >> 5);
 
   }
 
@@ -187,4 +193,8 @@ ISR( TIM0_COMPA_vect ) {
   } else {
     OCR1B = 128;
   }
+
+  osc_update(lfo);
+  uint8_t lfo_out = pgm_read_byte(&WT_SINE[osc_8bit_value(lfo)]);
+  OCR1A = lfo_out;
 }
