@@ -1,19 +1,15 @@
 #include <stdbool.h>
 
-typedef struct LEDFlasher {
-  bool running;
-  bool led_on;
-  int flashes_remaining;
-  int count;
-  int interval;
-} LEDFlasher;
+#include "led_flasher.h"
+#include "ticker.h"
 
-void flash_init(LEDFlasher *f) {
+void flash_init(LEDFlasher *f, Ticker *t) {
   f->running = false;
   f->led_on = false;
   f->flashes_remaining = 0;
-  f->count = 0;
   f->interval = 0;
+
+  f->ticker = t;
 }
 
 void flash_start(LEDFlasher *f, int flashes, int interval) {
@@ -21,14 +17,13 @@ void flash_start(LEDFlasher *f, int flashes, int interval) {
   f->led_on = true;
   f->running = true;
   f->interval = interval;
-  f->count = f->interval;
+  ticker_reset(f->ticker);
 }
 
 void flash_update(LEDFlasher *f) {
   if (!f->running) { return; }
 
-  f->count -= 1;
-  if (f->count > 0) { return; }
+  if (ticker_count(f->ticker) < f->interval) { return; }
 
   if (f->led_on) {
     f->flashes_remaining -= 1;
@@ -38,5 +33,5 @@ void flash_update(LEDFlasher *f) {
   }
 
   f->led_on = !f->led_on;
-  f->count = f->interval;
+  ticker_reset(f->ticker);
 }

@@ -12,6 +12,7 @@
 #include "oscillator.h"
 #include "pitches.h"
 #include "led_flasher.h"
+#include "ticker.h"
 #include "edgedetector.h"
 #include "wavetables.h"
 
@@ -54,6 +55,9 @@ EdgeDetector button2;
 
 LEDFlasher led1;
 LEDFlasher led2;
+
+volatile Ticker ticker1;
+volatile Ticker ticker2;
 
 int main () {
 
@@ -112,8 +116,8 @@ int main () {
   edge_detector_init(button1, (PINA & _BV(BUTTON_1_IN_PIN)));
   edge_detector_init(button2, (PINA & _BV(BUTTON_1_IN_PIN)));
 
-  flash_init(&led1);
-  flash_init(&led2);
+  flash_init(&led1, &ticker1);
+  flash_init(&led2, &ticker2);
 
   controller_init(&controller);
   controller_set_control(&controller, CONTROL_OCTAVE, 800);
@@ -181,6 +185,9 @@ ISR(ADC_vect) {
 }
 
 ISR( TIM0_COMPA_vect ) {
+
+  ticker_tick(&ticker1);
+  ticker_tick(&ticker2);
 
   osc_update(osc1);
   osc_update(modOsc);
