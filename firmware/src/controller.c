@@ -41,22 +41,34 @@ void controller_set_current(Controller *c, uint16_t value) {
   controller_set_control(c, c->current, value);
 }
 
-void controller_set_control(Controller *c, uint8_t control, uint16_t value) {
+void controller_set_control(Controller *c, ControlType control, uint16_t value) {
   switch(control) {
+    case CONTROL_TUNING:
+      // constrain octave to between 0 and 127
+      c->values[CONTROL_TUNING] = (value >> 4);
+      break;
     case CONTROL_FM_FREQ:
       c->values[CONTROL_FM_FREQ] = value;
       break;
     case CONTROL_FM_DEPTH:
       c->values[CONTROL_FM_DEPTH] = (value >> 2);
       break;
-    case CONTROL_OCTAVE:
-      // constrain octave to between 0 and 128
-      c->values[CONTROL_OCTAVE] = (value >> 4);
+    case CONTROL_ATTACK:
+      break;
+    case CONTROL_DECAY:
+      break;
+    case CONTROL_MOD_OUTPUT:
+      break;
+    case CONTROL_LFO_SPEED:
+      // constrain LFO speed to between 1 and 128
+      c->values[CONTROL_FM_FREQ] = (value >> 4) + 1;
+      break;
+    default:
       break;
   }
 }
 
-uint16_t controller_get_control(Controller *c, uint8_t control) {
+uint16_t controller_get_control(Controller *c, ControlType control) {
   if (control < 0 || control >= CONTROL_COUNT) { return 0; }
   return c->values[control];
 }
