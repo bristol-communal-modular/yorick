@@ -116,6 +116,7 @@ int main () {
   flash_init(&led2);
 
   controller_init(&controller);
+  controller_set_control(&controller, CONTROL_OCTAVE, 800);
 
   osc_set_pitch(lfo, 10);
 
@@ -153,7 +154,7 @@ int main () {
 
     osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[lookup]));
     osc_set_pitch(modOsc, pgm_read_word(&MIDI_NOTE_PITCHES[lookup]));
-    osc_fm(modOsc, controller_get_control(&controller, CONTROL_FM_FREQ) >> 5);
+    osc_fm(modOsc, controller_get_control(&controller, CONTROL_FM_FREQ));
 
   }
 

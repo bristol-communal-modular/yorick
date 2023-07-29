@@ -47,7 +47,7 @@ void controller_set_control(Controller *c, uint8_t control, uint16_t value) {
       c->values[CONTROL_FM_FREQ] = value;
       break;
     case CONTROL_FM_DEPTH:
-      c->values[CONTROL_FM_DEPTH] = value;
+      c->values[CONTROL_FM_DEPTH] = (value >> 2);
       break;
     case CONTROL_OCTAVE:
       // constrain octave to between 0 and 128
