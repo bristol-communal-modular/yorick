@@ -65,19 +65,15 @@ Working in the Laplace domain to make the analysis easier, we can state the foll
              & = -\frac{i_c(s)}{Cs} \\
              & = -\frac{v_{in}(s)}{R_{i}}\frac{1}{Cs} \\
              & = -\frac{v_{in}(s)}{CsR_{i}} \\
+  \frac{v_{out}(s)}{v_{in}(s)} & = -\frac{1}{CsR_{i}} \\
 \end{split}
 \end{equation*}
 
-In this case, the resistors $R_{i}$ are variable, which we can represent as $x$, being a value from 0 to 1. Using this,  we can take the above equation and turn it into a transfer function $\alpha(s)$, representing $\frac{v_{out}(s)}{v_{in}(s)}$.
+We can take the above equation and turn it into a transfer function $\alpha(s)$.
 
-\begin{equation*}
-\begin{split}
-  v_{out}(s) & = -\frac{v_{in}(s)}{CsxR_{i}} \\
-  \frac{v_{out}(s)}{v_{in}(s)} & = -\frac{1}{CsxR_{i}} \\
-  \alpha(s) & = -\frac{1}{CsxR_{i}} \\
-  \alpha(s) & = -x\frac{1}{CsR_{i}} \\
-\end{split}
-\end{equation*}
+\begin{equation}
+  \alpha(s) = -\frac{1}{CsR_{i}}
+\end{equation}
 
 \subsection{Filter Analysis}
 
@@ -133,16 +129,16 @@ It is useful to note that $v_{bp}(s) = v_{hp}(s)\alpha(s)$, and $v_{lp}(s) = v_{
             & = \frac{v_{hp}(s)}{v_{in}(s)}\alpha^2(s) \\
             & = \frac{-R_{f}/R_{in}}{\frac{1}{\alpha^2(s)} + \frac{R_{f}-\beta}{R_q\alpha(s)} + 1 } \\
             & = \frac{-R_{f}/R_{in}}{\frac{1}{\alpha^2(s)} + -\beta\frac{R_{f}}{R_q}\frac{1}{\alpha(s)} + 1 } \\
-            & = \frac{-R_{f}/R_{in}}{\frac{1}{{(-x\frac{1}{CsR_{i}})}^2} + -\beta\frac{R_{f}}{R_q}\frac{1}{-x\frac{1}{CsR_{i}}} + 1 } \\
-            & = \frac{-R_{f}/R_{in}}{\frac{1}{{\frac{1}{s^2}(x\frac{1}{CR_{i}})}^2} + \beta\frac{R_{f}}{R_q}\frac{1}{x\frac{1}{s}\frac{1}{CR_{i}}} + 1 } \\
-            & = \frac{-R_{f}/R_{in}}{\frac{s^2}{{(x\frac{1}{CR_{i}})}^2} + \beta\frac{R_{f}}{R_q}\frac{s}{x\frac{1}{CR_{i}}} + 1 } \\
+            & = \frac{-R_{f}/R_{in}}{\frac{1}{{(-\frac{1}{CsR_{i}})}^2} + -\beta\frac{R_{f}}{R_q}\frac{1}{-\frac{1}{CsR_{i}}} + 1 } \\
+            & = \frac{-R_{f}/R_{in}}{\frac{1}{{\frac{1}{(sCR_{i})^2}}} + \beta\frac{R_{f}}{R_q}\frac{1}{\frac{1}{sCR_{i}}} + 1 } \\
+            & = \frac{-R_{f}/R_{in}}{s^2(CR_{i})^2 + \beta\frac{R_{f}}{R_q}sCR_{i} + 1 } \\
 \end{split}
 \end{equation*}
 
 At this point we'll also make the simplification that $R_q = R_{f}$, giving the final transfer function for the low-pass output.
 
 \begin{equation}
-  H_{lp}(s) = \frac{-R_{f}/R_{in}}{\frac{s^2}{{(x\frac{1}{CR_{i}})}^2} + \beta\frac{s}{x\frac{1}{CR_{i}}} + 1 }
+  H_{lp}(s) = \frac{-R_{f}/R_{in}}{s^2(CR_{i})^2 + \beta sCR_{i} + 1 } \\
 \end{equation}
 
 \subsubsection{Calculating Gain, Cutoff and Resonance}
@@ -161,7 +157,7 @@ By comparing our transfer function with the standard one for a low-pass, we can 
 
 \begin{description}
   \item Pass-band gain, $-\frac{R_{f}}{R_{in}}$
-  \item Cutoff frequency, $x\frac{1}{CR_{i}}$
+  \item Cutoff frequency, $\frac{1}{2{\pi}T} \rightarrow x\frac{1}{2{\pi}CR_{i}}$
   \item Resonance, $\frac{1}{\beta}$
 \end{description}
 
@@ -170,67 +166,47 @@ By comparing our transfer function with the standard one for a low-pass, we can 
 Given the calculation for frequency, and picking some standard values we can calculate cutoff for different $i_{cv}$ values.
 
 \begin{description}
-  \item $R_i$ is between 100r and 100k
-  \item $C$ is 100nF
+  \item $R_i$ is between 47r and 10k
+  \item $C$ is 220nF
 \end{description}
 
 \begin{equation}
-  f = \frac{1}{CR_i}
+  f = \frac{1}{2{\pi}CR_i}
 \end{equation}
 
 \begin{description}
-  \item for $R_i$ of 100r $f = 100000Hz$
-  \item for $R_i$ of 1k   $f = 10000Hz$
-  \item for $R_i$ of 10k  $f = 1000Hz$
-  \item for $R_i$ of 50k  $f = 200Hz$
-  \item for $R_i$ of 100k $f = 100Hz$
+  \item for $R_i$ of 47r  $f = 15395Hz$
+  \item for $R_i$ of 1k   $f = 723Hz$
+  \item for $R_i$ of 5k   $f = 145Hz$
+  \item for $R_i$ of 10k  $f = 72Hz$
 \end{description}
 
 \subsection{Calculating Resonance}
 
-The resonance here is directly proportional to the gain of the resonance feedback stage, with lower gains meaining higher resonances. A resonance value of around 0.5 is a good minimum, with higher values being more resonant. If we aim for a resonance range of 0.5 to 20, then we can work out the resistor values, choosing a value of 100k for $VRq$ to give a starting point.
-
-\subsubsection{Minimum Resonance}
+The resonance here is directly proportional to the gain of the resonance feedback stage, with lower gains meaining higher resonances. A resonance value of around 0.5 is a good minimum, with higher values being more resonant.
 
 \begin{equation*}
 \begin{split}
-  {\max \beta} & = \frac{R_{qf}}{R_{qmax}} \\
-  res          & = \frac{1}{\beta} \\
-  {\min res}   & = \frac{1}{\frac{R_{qf}}{R_{qmax}}} \\
-               & = \frac{R_{qmax}}{R_{qf}} \\
-  0.5          & = \frac{R_{qmax}}{R_{qf}} \\
-  R_{qf}       & = 2 R_{qmax} \\
+  \beta & = \frac{R_{qf}}{VR_q + R_{qmin}} \\
+  res   & = \frac{1}{\beta} \\
+  res   & = \frac{VR_q + R_{qmin}}{R_{qf}} \\
+  {\min res} & = \frac{R_{qmin}}{R_{qf}} \\
+  {\max res} & = \frac{VR_q + R_{qmin}}{R_{qf}} \\
 \end{split}
 \end{equation*}
 
-\subsubsection{Minimum Resonance}
-
-\begin{equation*}
-\begin{split}
-  {\max \beta} & = \frac{R_{qf}}{VR_{q} + R_{qmax}} \\
-  res          & = \frac{1}{\beta} \\
-  {\min res}   & = \frac{1}{\frac{R_{qf}}{VR_{q} + R_{qmax}}} \\
-               & = \frac{VR_{q} + R_{qmax}}{R_{qf}} \\
-               & = \frac{VR_{q} + R_{qmax}}{2R_{qmax}} \\
-  20           & = \frac{100k + R_{qmax}}{2R_{qmax}} \\
-  40           & = \frac{100k + R_{qmax}}{R_{qmax}} \\
-  40 R_{qmax}  & = 100k + R_{qmax} \\
-  39 R_{qmax}  & = 100k \\
-  R_{qmax}     & = 2.5k \\
-\end{split}
-\end{equation*}
 
 \subsubsection{Actual Values}
 
-If $R_{qmax}$ is 2k2, then $R_{qf}$ will need to be 4k7, giving a final resonance range of,
+In our final design, $VR_{q}$ is 100k, $R_{qf}$ is 10k, and $R_{qmin}$ is 4k7, giving a final resonance range of,
 
 \begin{equation*}
 \begin{split}
-  {\max res} & = \frac{VR_{q} + R_{qmax}}{R_{qf}} \\
-             & = \frac{100k + 2.2k}{4.7k} \\
-             & = 21.7 \\
+  {\max res} & = \frac{VR_{q} + R_{qmin}}{R_{qf}} \\
+             & = \frac{100k + 4k7}{10k} \\
+             & = 10.47 \\
   {\min res} & = \frac{R_{qmax}}{R_{qf}} \\
-             & = \frac{2.2k}{4.7k} \\
+             & = \frac{4k7}{10k} \\
              & = 0.47 \\
 \end{split}
 \end{equation*}
