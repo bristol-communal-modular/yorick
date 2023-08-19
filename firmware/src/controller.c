@@ -10,6 +10,11 @@ void controller_init(Controller *c) {
   for (int i = 0; i < CONTROL_COUNT; i++) {
     c->values[i] = 0;
   }
+  c->freq = 0;
+  for (uint8_t i = 0; i < DEBOUNCE_SAMPLES; i++) {
+    c->freq_debounce_samples[i] = 0;
+  }
+  c->freq_debounce_count = 0;
 }
 
 void controller_lock(Controller *c, uint16_t previous) {
@@ -72,3 +77,33 @@ uint16_t controller_get_control(Controller *c, ControlType control) {
   if (control < 0 || control >= CONTROL_COUNT) { return 0; }
   return c->values[control];
 }
+
+void controller_set_freq(Controller *c, uint16_t value) {
+  // make sure input isn't zero
+  if (value < UNLOCK_THRESH) {
+    return;
+  }
+  uint8_t scaled_value = value >> 6;
+
+  c->freq_debounce_count += 1;
+  if (c->freq_debounce_count >= DEBOUNCE_SAMPLES) {
+    c->freq_debounce_count = 0;
+  }
+  c->freq_debounce_samples[c->freq_debounce_count] = value;
+
+  bool debounced = true;
+  for (uint8_t i = 1; i < DEBOUNCE_SAMPLES; i++) {
+    if (c->freq_debounce_samples[i] != c->freq_debounce_samples[i - 1]) {
+      debounced = false;
+      break;
+    }
+  }
+  if (debounced) {
+    c->freq = scaled_value;
+  }
+}
+
+uint16_t controller_get_freq(Controller *c) {
+  return c->freq;
+}
+
