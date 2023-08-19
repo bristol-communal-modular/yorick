@@ -3,16 +3,15 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define CONTROL_COUNT 7
+#define CONTROL_COUNT 6
 
 typedef enum {
   CONTROL_TUNING,
   CONTROL_FM_FREQ,
   CONTROL_FM_DEPTH,
-  CONTROL_ATTACK,
-  CONTROL_DECAY,
-  CONTROL_MOD_OUTPUT,
   CONTROL_LFO_SPEED,
+  CONTROL_ENVELOPE_ATTACK,
+  CONTROL_ENVELOPE_DECAY,
 } ControlType;
 
 #define UNLOCK_THRESH 50
