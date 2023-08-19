@@ -5,17 +5,22 @@
 typedef enum {
   ENVELOPE_STOPPED,
   ENVELOPE_RISING,
+  ENVELOPE_HOLDING,
   ENVELOPE_FALLING,
 } EnvelopeState;
 
-typedef struct Envelope {
+struct envelope_t {
   EnvelopeState state;
   uint16_t value;
   uint16_t attack;
   uint16_t decay;
-} Envelope;
+  uint8_t update_divider;
+  uint8_t update_counter;
+};
 
-void envelope_init(Envelope *e);
+typedef volatile struct envelope_t Envelope;
+
+void envelope_init(Envelope *e, uint8_t update_divider);
 
 void envelope_set_attack(Envelope *e, uint16_t attack);
 
