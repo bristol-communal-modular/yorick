@@ -4,21 +4,23 @@
 #include <stdbool.h>
 
 typedef struct Oscillator {
-  uint16_t acc;
-  uint16_t delta;
+  uint16_t phase;
+  uint16_t phase_delta;
+  uint16_t phase_offset;
 } Oscillator;
 
-#define osc_init(name) \
-  name.acc = 0;  \
-  name.delta = 0;
+#define osc_init(osc) \
+  osc.phase = 0;  \
+  osc.phase_delta = 0;  \
+  osc.phase_offset = 0;
 
-#define osc_update(name) (&name)->acc = name.acc + name.delta;
+#define osc_update(osc) osc.phase = osc.phase + osc.phase_delta + osc.phase_offset;
 
-#define osc_set_pitch(name, change) name.delta = change;
+#define osc_set_pitch(osc, delta) osc.phase_delta = delta;
 
-#define osc_fm(name, change) (&name)->acc = name.acc + change;
+// 0 to 1023 gives four octaves of range
+#define osc_set_phase_offset(osc, offset) osc.phase_offset = offset;
 
-#define osc_value(name) name.acc
+#define osc_value(osc) osc.phase
 
-#define osc_8bit_value(name) (name.acc >> 8)
-
+#define osc_8bit_value(osc) (osc.phase >> 8)

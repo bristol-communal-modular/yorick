@@ -52,20 +52,20 @@ void controller_set_control(Controller *c, ControlType control, uint16_t value) 
       // constrain octave to between 0 and 127
       c->values[CONTROL_TUNING] = (value >> 3);
       break;
-    case CONTROL_FM_FREQ:
-      c->values[CONTROL_FM_FREQ] = value;
+    case CONTROL_OSC_WAVE:
+      c->values[control] = (value >> 8);
       break;
-    case CONTROL_FM_DEPTH:
-      c->values[CONTROL_FM_DEPTH] = value;
+    case CONTROL_LFO_RATE:
+      c->values[CONTROL_LFO_RATE] = (value >> 4) + 1;
       break;
-    case CONTROL_LFO_SPEED:
-      c->values[CONTROL_LFO_SPEED] = (value >> 4) + 1;
+    case CONTROL_LFO_WAVE:
+      c->values[control] = (value >> 8);
       break;
     case CONTROL_ENVELOPE_ATTACK:
-      c->values[CONTROL_ENVELOPE_ATTACK] = value + 1;
+      c->values[control] = value + 1;
       break;
     case CONTROL_ENVELOPE_DECAY:
-      c->values[CONTROL_ENVELOPE_DECAY] = value + 1;
+      c->values[control] = value + 1;
       break;
     default:
       break;
