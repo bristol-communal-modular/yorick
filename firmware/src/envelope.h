@@ -28,6 +28,8 @@ void envelope_set_decay(Envelope *e, uint16_t decay);
 
 void envelope_start(Envelope *e);
 
+void envelope_release(Envelope *e);
+
 void envelope_tick(Envelope *e);
 
 uint8_t envelope_8bit_value(Envelope *e);
