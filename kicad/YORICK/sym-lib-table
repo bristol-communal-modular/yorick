@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "Yorick")(type "KiCad")(uri "${KIPRJMOD}/Yorick.kicad_sym")(options "")(descr ""))
+)
