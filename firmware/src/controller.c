@@ -55,11 +55,11 @@ void controller_set_control(Controller *c, ControlType control, uint16_t value) 
     case CONTROL_OSC_WAVE:
       c->values[control] = (value >> 8);
       break;
-    case CONTROL_LFO_RATE:
-      c->values[CONTROL_LFO_RATE] = (value >> 4) + 1;
-      break;
     case CONTROL_LFO_WAVE:
       c->values[control] = (value >> 8);
+      break;
+    case CONTROL_LFO_RATE:
+      c->values[CONTROL_LFO_RATE] = (value >> 4) + 1;
       break;
     case CONTROL_ENVELOPE_ATTACK:
       c->values[control] = value + 1;
