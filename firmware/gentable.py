@@ -4,48 +4,62 @@ import sys
 import math
 import random
 
+import argparse
 
-def sine():
-    delta = 360.0 / 256.0
 
-    for i in range(256):                                                                                                       
+def sine(args):
+    delta = 360.0 / args.samplecount
+    for i in range(args.samplecount):
         angle = i * delta
         rad = math.radians(angle)
         s = math.sin(rad)
         o = round((s * 127))
         print("  {}, // {}".format(o, i))
 
-def saw():
-    for i in range(256):                                                                                                       
+def saw(args):
+    for i in range(args.samplecount):
         o = i - 128
         print("  {}, // {}".format(o, i))
 
-def square():
-    delta = 360.0 / 256.0
-
-    for i in range(256):                                                                                                       
+def square(args):
+    delta = 360.0 / args.samplecount
+    for i in range(args.samplecount):
         if i < 128:
             o = -128
         else:
             o = 127
         print("  {}, // {}".format(o, i))
 
-def rand():
-    for i in range(256):                                                                                                       
-        o = round((random.random() * 256) - 128)
+def rand(args):
+    for i in range(args.samplecount):
+        o = round((random.random() * args.samplecount) - 128)
         print("  {}, // {}".format(o, i))
 
 
+def print_array_start(name, samplecount):
+    print("const int8_t {}[{}] PROGMEM = {{".format(name, samplecount))
+
 if __name__ == '__main__':
-    if len(sys.argv) > 1:
-        wavetype = sys.argv[1]
-    else:
-        wavetype = "sine"
-    if wavetype == "sine":
-        sine()
-    elif wavetype == "saw":
-        saw()
-    elif wavetype == "square":
-        square()
-    elif wavetype == "rand":
-        rand()
+    parser = argparse.ArgumentParser(
+                    prog='gentable.py',
+                    description='Creates the C code for the yorick synth wavetables')
+    parser.add_argument('wavetype', choices=[
+        'sine', 'saw', 'square', 'rand'
+    ], default='sine')
+    parser.add_argument('-s', '--samplecount', default=256, type=int)
+
+    args = parser.parse_args()
+
+    if args.wavetype == "sine":
+        print_array_start("WT_SINE", args.samplecount)
+        sine(args)
+    elif args.wavetype == "saw":
+        print_array_start("WT_SAW", args.samplecount)
+        saw(args)
+    elif args.wavetype == "square":
+        print_array_start("WT_SQUARE", args.samplecount)
+        square(args)
+    elif args.wavetype == "rand":
+        print_array_start("WT_RANDOM", args.samplecount)
+        rand(args)
+    print("};")
