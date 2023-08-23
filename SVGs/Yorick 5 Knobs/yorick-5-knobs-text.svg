@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 248.66 7.41">
+  <defs>
+    <style>
+      .cls-1 {
+        letter-spacing: -.02em;
+      }
+
+      .cls-2 {
+        letter-spacing: -.07em;
+      }
+
+      .cls-3 {
+        isolation: isolate;
+      }
+
+      .cls-4 {
+        font-family: Arial-BoldMT, Arial;
+        font-size: 6px;
+        font-weight: 700;
+      }
+    </style>
+  </defs>
+  <g class="cls-3">
+    <text class="cls-4" transform="translate(0 5.15)"><tspan x="0" y="0">BRIS</tspan><tspan class="cls-1" x="14.33" y="0">T</tspan><tspan x="17.89" y="0">O</tspan><tspan class="cls-1" x="22.56" y="0">L</tspan><tspan x="26.12" y="0" xml:space="preserve"> COMMUNA</tspan><tspan class="cls-1" x="59.78" y="0">L</tspan><tspan x="63.33" y="0" xml:space="preserve"> MODULAR</tspan></text>
+  </g>
+  <g class="cls-3">
+    <text class="cls-4" transform="translate(177.43 5.15)"><tspan x="0" y="0">YORICK PL</tspan><tspan class="cls-2" x="32.67" y="0">A</tspan><tspan x="36.56" y="0">TFORM v1.0</tspan></text>
+  </g>
+</svg>
