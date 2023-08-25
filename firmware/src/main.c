@@ -64,6 +64,8 @@ LEDFlasher led2;
 Ticker ticker1;
 Ticker ticker2;
 
+Ticker clock;
+
 const int8_t *osc_wavetable;
 const int8_t *lfo_wavetable;
 bool env_out;
@@ -257,6 +259,9 @@ ISR( TIM0_COMPA_vect ) {
 
   ticker_tick(&ticker1);
   ticker_tick(&ticker2);
+
+  ticker_tick(&clock);
+
   envelope_tick(&env);
 
   osc_update(lfo);
