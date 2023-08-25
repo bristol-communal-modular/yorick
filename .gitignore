@@ -34,3 +34,5 @@ fp-info-cache
 .DS_Store
 
 datasheets/
+
+firmware/tests
