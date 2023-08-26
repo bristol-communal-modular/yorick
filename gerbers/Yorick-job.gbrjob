@@ -5,17 +5,17 @@
       "Application": "Pcbnew",
       "Version": "7.0.2-0"
     },
-    "CreationDate": "2023-07-19T20:41:48+01:00"
+    "CreationDate": "2023-08-26T13:21:51+01:00"
   },
   "GeneralSpecs": {
     "ProjectId": {
-      "Name": "bcm-machina-noise",
-      "GUID": "62636d2d-6d61-4636-9869-6e612d6e6f69",
+      "Name": "Yorick",
+      "GUID": "596f7269-636b-42e6-9b69-6361645f7063",
       "Revision": "rev02"
     },
     "Size": {
-      "X": 125.272,
-      "Y": 78.028
+      "X": 124.0536,
+      "Y": 112.1148
     },
     "LayerNumber": 2,
     "BoardThickness": 1.6,
@@ -24,47 +24,47 @@
   "DesignRules": [
     {
       "Layers": "Outer",
-      "PadToPad": 0.2,
-      "PadToTrack": 0.2,
-      "TrackToTrack": 0.25,
+      "PadToPad": 0.2032,
+      "PadToTrack": 0.2032,
+      "TrackToTrack": 0.2032,
       "MinLineWidth": 0.635,
-      "TrackToRegion": 0.508,
-      "RegionToRegion": 0.508
+      "TrackToRegion": 0.5,
+      "RegionToRegion": 0.5
     }
   ],
   "FilesAttributes": [
     {
-      "Path": "bcm-machina-noise-F_Cu.gtl",
+      "Path": "Yorick-F_Cu.gtl",
       "FileFunction": "Copper,L1,Top",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "bcm-machina-noise-B_Cu.gbl",
+      "Path": "Yorick-B_Cu.gbl",
       "FileFunction": "Copper,L2,Bot",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "bcm-machina-noise-F_Silkscreen.gto",
+      "Path": "Yorick-F_Silkscreen.gto",
       "FileFunction": "Legend,Top",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "bcm-machina-noise-B_Silkscreen.gbo",
+      "Path": "Yorick-B_Silkscreen.gbo",
       "FileFunction": "Legend,Bot",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "bcm-machina-noise-F_Mask.gts",
+      "Path": "Yorick-F_Mask.gts",
       "FileFunction": "SolderMask,Top",
       "FilePolarity": "Negative"
     },
     {
-      "Path": "bcm-machina-noise-B_Mask.gbs",
+      "Path": "Yorick-B_Mask.gbs",
       "FileFunction": "SolderMask,Bot",
       "FilePolarity": "Negative"
     },
     {
-      "Path": "bcm-machina-noise-Edge_Cuts.gm1",
+      "Path": "Yorick-Edge_Cuts.gm1",
       "FileFunction": "Profile",
       "FilePolarity": "Positive"
     }
