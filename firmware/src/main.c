@@ -17,12 +17,13 @@
 #include "edgedetector.h"
 #include "wavetables.h"
 
-#define FREQ_IN_ADC 0
-#define FREQ_IN_MUX MUX0
-#define MOD_IN_ADC 1
-#define MOD_IN_MUX MUX1
 
-#define BUTTON_1_IN_PIN PA0
+
+#define FREQ_IN_MUX  0b00010
+#define MOD_1_IN_MUX 0b00001
+#define MOD_2_IN_MUX 0b00000
+
+#define BUTTON_1_IN_PIN PA4
 #define BUTTON_2_IN_PIN PA3
 
 #define LED_1_OUT_PIN PA7
@@ -38,11 +39,11 @@ uint8_t adc_read_channel = FREQ_IN_MUX;
 
 uint16_t volatile freq_adc_in;
 uint16_t volatile mod1_adc_in;
-//uint16_t volatile mod2_adc_in;
+uint16_t volatile mod2_adc_in;
 
 
 void startADCConversion(uint8_t adc_channel) {
-  ADMUX  = _BV(adc_channel);
+  ADMUX  = adc_channel;
   ADCSRA |= _BV(ADSC);
 }
 
@@ -146,7 +147,7 @@ int main () {
 
   freq_adc_in = 0;
   mod1_adc_in = 0;
-  //mod2_adc_in = 0;
+  mod2_adc_in = 0;
 
   env_out = false;
 
@@ -242,10 +243,14 @@ ISR(ADC_vect) {
   switch(adc_read_channel) {
     case FREQ_IN_MUX:
       freq_adc_in = adc_value;
-      adc_read_channel = MOD_IN_MUX;
+      adc_read_channel = MOD_1_IN_MUX;
       break;
-    case MOD_IN_MUX:
+    case MOD_1_IN_MUX:
       mod1_adc_in = adc_value;
+      adc_read_channel = MOD_2_IN_MUX;
+      break;
+    case MOD_2_IN_MUX:
+      mod2_adc_in = adc_value;
       adc_read_channel = FREQ_IN_MUX;
       break;
     default:
