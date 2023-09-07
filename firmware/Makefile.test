@@ -1,0 +1,26 @@
+COMPILE = clang -Wall -Os
+
+BUILD_DIR        = build
+HEADER_DIRS      = include
+
+INCLUDES         = $(addprefix -I, $(HEADER_DIRS))
+
+SOURCES          = $(wildcard src/*.c)
+TEST_SOURCES     = $(filter-out src/main.c, $(SOURCES)) $(wildcard test/*.c)
+OBJECTS          = $(addprefix $(BUILD_DIR)/, $(TEST_SOURCES:.c=.o))
+
+# symbolic targets:
+all:	tests
+
+$(BUILD_DIR)/%.o: %.c
+	$(COMPILE) -c $< -o $@ $(INCLUDES)
+
+.c.s:
+	$(COMPILE) -S $< -o $@
+
+clean:
+	rm -f tests $(OBJECTS)
+
+# file targets:
+tests: $(OBJECTS)
+	$(COMPILE) -o tests $(OBJECTS)

@@ -21,7 +21,7 @@ OBJECTS          = $(addprefix $(BUILD_DIR)/, $(SOURCES:.c=.o))
 all:	main.hex
 
 $(BUILD_DIR)/%.o: %.c
-	$(COMPILE) -c $< -o $@
+	$(COMPILE) -c $< -o $@ $(INCLUDES)
 
 .S.o:
 	$(COMPILE) -x assembler-with-cpp -c $< -o $@

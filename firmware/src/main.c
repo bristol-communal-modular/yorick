@@ -8,7 +8,6 @@
 #include <avr/pgmspace.h>
 #include <util/delay.h>
 
-#include "controller.h"
 #include "oscillator.h"
 #include "pitches.h"
 #include "led_flasher.h"
@@ -16,6 +15,7 @@
 #include "envelope.h"
 #include "edgedetector.h"
 #include "wavetables.h"
+#include "param_manager.h"
 
 
 
@@ -52,7 +52,7 @@ volatile Oscillator lfo;
 
 Envelope env;
 
-Controller controller;
+ParamManager param_manager;
 
 EdgeDetector button1;
 EdgeDetector button2;
@@ -70,6 +70,68 @@ Ticker clock;
 const int8_t *osc_wavetable;
 const int8_t *lfo_wavetable;
 bool env_out;
+
+void set_osc_wave(uint8_t value) {
+  switch (value) {
+    case 0:
+      osc_wavetable = WT_SINE;
+      break;
+    case 1:
+      osc_wavetable = WT_SAW;
+      break;
+    case 2:
+      osc_wavetable = WT_SQUARE;
+      break;
+    case 3:
+      osc_wavetable = WT_RANDOM;
+      break;
+  }
+}
+
+void set_lfo_wave(uint8_t value) {
+  switch (value) {
+    case 0:
+      osc_wavetable = WT_SINE;
+      break;
+    case 1:
+      osc_wavetable = WT_SAW;
+      break;
+    case 2:
+      env_out = true;
+      break;
+    case 3:
+      osc_wavetable = WT_RANDOM;
+      break;
+  }
+}
+
+void set_parameter(ParamType control, uint16_t value) {
+  switch(control) {
+    /*case PARAM_TUNING:*/
+      /*// constrain octave to between 0 and 127*/
+      /*c->values[PARAM_TUNING] = (value >> 3);*/
+      /*tmp = controller_get_freq(&controller) + controller_get_control(&controller, CONTROL_TUNING);*/
+      /*osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[freq_lookup]));*/
+      /*break;*/
+    case PARAM_OSC_WAVE:
+      set_osc_wave(value >> 8);
+      break;
+    case PARAM_LFO_WAVE:
+      set_lfo_wave(value >> 8);
+      break;
+    case PARAM_LFO_RATE:
+      osc_set_pitch(lfo, (value >> 4) + 1);
+      break;
+    case PARAM_ENVELOPE_ATTACK:
+      envelope_set_attack(&env, (value>>4) + 1);
+      break;
+    case PARAM_ENVELOPE_DECAY:
+      envelope_set_decay(&env, (value>>4) + 1);
+      break;
+    default:
+      break;
+  }
+}
 
 int main () {
 
@@ -134,16 +196,16 @@ int main () {
   flash_init(&led1, &ticker1);
   flash_init(&led2, &ticker2);
 
-  // Setup controller and set initial control values
+  // Setup param_manager and set initial control values
   // All need to be in the range 0 to 1023
-  // The controller is responsible for scaling and shifting them
-  controller_init(&controller);
-  controller_set_control(&controller, CONTROL_TUNING, 800);
-  controller_set_control(&controller, CONTROL_OSC_WAVE, 0);
-  controller_set_control(&controller, CONTROL_LFO_RATE, 100);
-  controller_set_control(&controller, CONTROL_LFO_WAVE, 0);
-  controller_set_control(&controller, CONTROL_ENVELOPE_ATTACK, 800);
-  controller_set_control(&controller, CONTROL_ENVELOPE_DECAY, 100);
+  // The param_manager is responsible for scaling and shifting them
+  param_manager_init(&param_manager);
+  set_parameter(PARAM_TUNING, 800);
+  set_parameter(PARAM_OSC_WAVE, 0);
+  set_parameter(PARAM_LFO_RATE, 100);
+  set_parameter(PARAM_LFO_WAVE, 0);
+  set_parameter(PARAM_ENVELOPE_ATTACK, 800);
+  set_parameter(PARAM_ENVELOPE_DECAY, 100);
 
   freq_adc_in = 0;
   mod1_adc_in = 0;
@@ -153,50 +215,19 @@ int main () {
 
   while (1) {
 
-    controller_set_current(&controller, mod1_adc_in);
-    controller_set_freq(&controller, freq_adc_in);
+    if (!param_manager_lock_check(&param_manager, 0, mod1_adc_in)) {
+      set_parameter(param_manager_current(&param_manager, 0), mod1_adc_in);
+    }
 
+    if (!param_manager_lock_check(&param_manager, 1, mod2_adc_in)) {
+      set_parameter(param_manager_current(&param_manager, 1), mod2_adc_in);
+    }
 
-    uint8_t freq_lookup = controller_get_freq(&controller) + controller_get_control(&controller, CONTROL_TUNING);
+    param_manager_set_freq(&param_manager, freq_adc_in);
+
+    uint8_t freq_lookup = param_manager_get_freq(&param_manager) + param_manager_get_control(&param_manager, PARAM_TUNING);
     osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[freq_lookup]));
 
-    switch (controller_get_control(&controller, CONTROL_OSC_WAVE)) {
-      case 0:
-        osc_wavetable = WT_SINE;
-        break;
-      case 1:
-        osc_wavetable = WT_SAW;
-        break;
-      case 2:
-        osc_wavetable = WT_SQUARE;
-        break;
-      case 3:
-        osc_wavetable = WT_RANDOM;
-        break;
-    }
-
-    switch (controller_get_control(&controller, CONTROL_LFO_WAVE)) {
-      case 0:
-        env_out = false;
-        lfo_wavetable = WT_SINE;
-        break;
-      case 1:
-        env_out = false;
-        lfo_wavetable = WT_SAW;
-        break;
-      case 2:
-        env_out = true;
-        break;
-      case 3:
-        env_out = false;
-        lfo_wavetable = WT_RANDOM;
-        break;
-    }
-
-    osc_set_pitch(lfo, controller_get_control(&controller, CONTROL_LFO_RATE));
-
-    envelope_set_attack(&env, controller_get_control(&controller, CONTROL_ENVELOPE_ATTACK));
-    envelope_set_decay(&env, controller_get_control(&controller, CONTROL_ENVELOPE_DECAY));
     edge_detector_update(keyboard, freq_adc_in > 10);
 
     if (edge_detector_is_rising(keyboard)) {
@@ -212,12 +243,12 @@ int main () {
     flash_update(&led2);
 
     if (edge_detector_is_rising(button1)) {
-      controller_next_control(&controller);
-      flash_start(&led1, controller.current + 1, 3000);
+      param_manager_next_bank(&param_manager);
+      flash_start(&led1, param_manager.bank + 1, 3000);
     }
 
     if (edge_detector_is_rising(button2)) {
-      flash_start(&led1, controller.current + 1, 3000);
+      flash_start(&led1, param_manager.bank + 1, 3000);
     }
 
     if (led1.led_on) {
