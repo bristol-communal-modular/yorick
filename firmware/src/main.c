@@ -41,6 +41,8 @@ uint16_t volatile freq_adc_in;
 uint16_t volatile mod1_adc_in;
 uint16_t volatile mod2_adc_in;
 
+uint16_t osc1_tuning;
+
 
 void startADCConversion(uint8_t adc_channel) {
   ADMUX  = adc_channel;
@@ -107,12 +109,10 @@ void set_lfo_wave(uint8_t value) {
 
 void set_parameter(ParamType control, uint16_t value) {
   switch(control) {
-    /*case PARAM_TUNING:*/
-      /*// constrain octave to between 0 and 127*/
-      /*c->values[PARAM_TUNING] = (value >> 3);*/
-      /*tmp = controller_get_freq(&controller) + controller_get_control(&controller, CONTROL_TUNING);*/
-      /*osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[freq_lookup]));*/
-      /*break;*/
+    case PARAM_TUNING:
+      // constrain octave to between 0 and 127
+      osc1_tuning = (value >> 3);
+      break;
     case PARAM_OSC_WAVE:
       set_osc_wave(value >> 8);
       break;
@@ -211,6 +211,9 @@ int main () {
   mod1_adc_in = 0;
   mod2_adc_in = 0;
 
+  uint8_t freq_lookup = 0;
+  bool osc1_freq_debounced = false;
+
   env_out = false;
 
   while (1) {
@@ -223,10 +226,11 @@ int main () {
       set_parameter(param_manager_current(&param_manager, 1), mod2_adc_in);
     }
 
-    param_manager_set_freq(&param_manager, freq_adc_in);
-
-    uint8_t freq_lookup = param_manager_get_freq(&param_manager) + param_manager_get_control(&param_manager, PARAM_TUNING);
-    osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[freq_lookup]));
+    osc1_freq_debounced = param_manager_set_freq(&param_manager, freq_adc_in);
+    if (osc1_freq_debounced) {
+      freq_lookup = param_manager_get_freq(&param_manager) + osc1_tuning;
+      osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[freq_lookup]));
+    }
 
     edge_detector_update(keyboard, freq_adc_in > 10);
 
