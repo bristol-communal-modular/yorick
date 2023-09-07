@@ -14,9 +14,7 @@ void param_manager_init(ParamManager *pm) {
 
   for (uint8_t i = 0; i < PARAM_POTS; i++) {
     pm->pot_change_locked[i] = true;
-  }
-  for (uint8_t i = 0; i < PARAM_COUNT; i++) {
-    pm->values[i] = 0;
+    pm->previous_pot_value[i] = 0;
   }
 
   pm->freq = 0;
@@ -41,13 +39,12 @@ void param_manager_next_bank(ParamManager *pm) {
 }
 
 bool param_manager_lock_check(ParamManager *pm, uint8_t pot, uint16_t value) {
-  ParamType param = param_map[pm->bank][pot];
   if (pm->pot_change_locked[pot]) {
     // don't check max value as the highest value we get through
     // from ADCs is 10bit
     if (value < UNLOCK_THRESH ||
-        (value > (pm->values[param] - UNLOCK_THRESH) &&
-        value < (pm->values[param] + UNLOCK_THRESH))
+        (value > (pm->previous_pot_value[pot] - UNLOCK_THRESH) &&
+        value < (pm->previous_pot_value[pot] + UNLOCK_THRESH))
      ) {
       // is locked
       return true;
@@ -55,7 +52,7 @@ bool param_manager_lock_check(ParamManager *pm, uint8_t pot, uint16_t value) {
     pm->pot_change_locked[pot] = false;
   }
 
-  pm->values[param] = value;
+  pm->previous_pot_value[pot] = value;
   // isn't locked
   return false;
 }
