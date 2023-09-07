@@ -93,16 +93,16 @@ void set_osc_wave(uint8_t value) {
 void set_lfo_wave(uint8_t value) {
   switch (value) {
     case 0:
-      osc_wavetable = WT_SINE;
+      lfo_wavetable = WT_SINE;
       break;
     case 1:
-      osc_wavetable = WT_SAW;
+      lfo_wavetable = WT_SAW;
       break;
     case 2:
       env_out = true;
       break;
     case 3:
-      osc_wavetable = WT_RANDOM;
+      lfo_wavetable = WT_RANDOM;
       break;
   }
 }
@@ -123,10 +123,10 @@ void set_parameter(ParamType control, uint16_t value) {
       osc_set_pitch(lfo, (value >> 4) + 1);
       break;
     case PARAM_ENVELOPE_ATTACK:
-      envelope_set_attack(&env, (value>>4) + 1);
+      envelope_set_attack(&env, (value>>3) + 1);
       break;
     case PARAM_ENVELOPE_DECAY:
-      envelope_set_decay(&env, (value>>4) + 1);
+      envelope_set_decay(&env, (value>>3) + 1);
       break;
     default:
       break;
@@ -204,8 +204,8 @@ int main () {
   set_parameter(PARAM_OSC_WAVE, 0);
   set_parameter(PARAM_LFO_RATE, 100);
   set_parameter(PARAM_LFO_WAVE, 0);
-  set_parameter(PARAM_ENVELOPE_ATTACK, 800);
-  set_parameter(PARAM_ENVELOPE_DECAY, 100);
+  set_parameter(PARAM_ENVELOPE_ATTACK, 1024);
+  set_parameter(PARAM_ENVELOPE_DECAY, 1024);
 
   freq_adc_in = 0;
   mod1_adc_in = 0;
