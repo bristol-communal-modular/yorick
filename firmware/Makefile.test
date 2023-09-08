@@ -18,6 +18,9 @@ $(BUILD_DIR)/%.o: %.c
 .c.s:
 	$(COMPILE) -S $< -o $@
 
+test: tests
+	./tests
+
 clean:
 	rm -f tests $(OBJECTS)
 

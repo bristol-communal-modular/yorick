@@ -1,6 +1,10 @@
+#include <stdio.h>
+
 #include "minunit.h"
 
 #include "param_manager.h"
+#include "led_flasher.h"
+#include "ticker.h"
 
 MU_TEST(param_manager_test_bank_change) {
     ParamManager pm;
@@ -61,8 +65,69 @@ MU_TEST_SUITE(param_manager_suite) {
     MU_RUN_TEST(param_manager_test_freq);
 }
 
+MU_TEST(led_flasher_create) {
+    Ticker ticker;
+    ticker_init(&ticker);
+    LEDFlasher flasher;
+    flash_init(&flasher, &ticker);
+
+    mu_check(!flasher.running);
+    mu_check(!flasher.led_on);
+}
+
+MU_TEST(led_flasher_run) {
+    Ticker ticker;
+    ticker_init(&ticker);
+    LEDFlasher flasher;
+    flash_init(&flasher, &ticker);
+
+    flash_start(&flasher, 2, 10);
+    mu_check(flasher.running);
+    mu_check(flasher.led_on);
+
+    ticker.count = 1000;
+    flash_update(&flasher);
+    ticker.count = 2000;
+    flash_update(&flasher);
+
+    ticker.count = 2500;
+    flash_update(&flasher);
+    mu_check(flasher.running);
+    mu_check(flasher.led_on);
+    mu_check(flasher.flashes_remaining == 2);
+
+    ticker.count = 2600;
+    flash_update(&flasher);
+    mu_check(flasher.running);
+    mu_check(!flasher.led_on);
+    mu_check(flasher.flashes_remaining == 1);
+
+    ticker.count = 5000;
+    flash_update(&flasher);
+    mu_check(flasher.running);
+    mu_check(!flasher.led_on);
+
+    ticker.count = 6000;
+    flash_update(&flasher);
+    mu_check(flasher.running);
+    mu_check(flasher.led_on);
+    mu_check(flasher.flashes_remaining == 1);
+
+    ticker.count = 8000;
+    flash_update(&flasher);
+    mu_check(!flasher.running);
+    mu_check(!flasher.led_on);
+    mu_check(flasher.flashes_remaining == 0);
+}
+
+MU_TEST_SUITE(led_flasher_suite) {
+    MU_RUN_TEST(led_flasher_create);
+    MU_RUN_TEST(led_flasher_run);
+}
+
 int main(int argc, char *argv[]) {
 	MU_RUN_SUITE(param_manager_suite);
+	MU_RUN_SUITE(led_flasher_suite);
 	MU_REPORT();
 	return MU_EXIT_CODE;
 }

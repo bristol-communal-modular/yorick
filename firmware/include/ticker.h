@@ -16,3 +16,5 @@ typedef struct Ticker {
   (ticker)->count = (ticker)->count + 1;
 
 #define ticker_count(ticker) (ticker)->count
+
+#define ticker_8bit_count(ticker) ((ticker)->count >> 8)

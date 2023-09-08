@@ -64,9 +64,6 @@ EdgeDetector volatile keyboard;
 LEDFlasher led1;
 LEDFlasher led2;
 
-Ticker ticker1;
-Ticker ticker2;
-
 Ticker clock;
 
 const int8_t *osc_wavetable;
@@ -193,8 +190,8 @@ int main () {
 
   edge_detector_init(keyboard, 0);
 
-  flash_init(&led1, &ticker1);
-  flash_init(&led2, &ticker2);
+  flash_init(&led1, &clock);
+  flash_init(&led2, &clock);
 
   // Setup param_manager and set initial control values
   // All need to be in the range 0 to 1023
@@ -248,11 +245,11 @@ int main () {
 
     if (edge_detector_is_rising(button1)) {
       param_manager_next_bank(&param_manager);
-      flash_start(&led1, param_manager.bank + 1, 3000);
+      flash_start(&led1, param_manager.bank + 1, 15);
     }
 
     if (edge_detector_is_rising(button2)) {
-      flash_start(&led1, param_manager.bank + 1, 3000);
+      flash_start(&led1, param_manager.bank + 1, 15);
     }
 
     if (led1.led_on) {
@@ -296,9 +293,6 @@ ISR(ADC_vect) {
 }
 
 ISR( TIM0_COMPA_vect ) {
-
-  ticker_tick(&ticker1);
-  ticker_tick(&ticker2);
 
   ticker_tick(&clock);
 
