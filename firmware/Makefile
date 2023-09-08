@@ -37,8 +37,12 @@ fuse:
 
 install: flash fuse
 
+runtests:
+	$(MAKE) -f Makefile.test test
+
 clean:
 	rm -f main.hex main.elf $(OBJECTS)
+	$(MAKE) -f Makefile.test clean
 
 # file targets:
 main.elf: $(OBJECTS)
