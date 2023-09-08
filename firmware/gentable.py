@@ -13,40 +13,41 @@ def sine(args):
         angle = i * delta
         rad = math.radians(angle)
         s = math.sin(rad)
-        o = round((s * 127))
+        o = round((s * 127)) + 128
         print("  {}, // {}".format(o, i))
+
 
 def saw(args):
     for i in range(args.samplecount):
-        o = i - 128
-        print("  {}, // {}".format(o, i))
+        print("  {}, // {}".format(i, i))
+
 
 def square(args):
     delta = 360.0 / args.samplecount
     for i in range(args.samplecount):
         if i < 128:
-            o = -128
+            o = 0
         else:
-            o = 127
+            o = 255
         print("  {}, // {}".format(o, i))
+
 
 def rand(args):
     for i in range(args.samplecount):
-        o = round((random.random() * args.samplecount) - 128)
+        o = round((random.random() * args.samplecount))
         print("  {}, // {}".format(o, i))
 
 
 def print_array_start(name, samplecount):
-    print("const int8_t {}[{}] PROGMEM = {{".format(name, samplecount))
+    print("const uint8_t {}[{}] PROGMEM = {{".format(name, samplecount))
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-                    prog='gentable.py',
-                    description='Creates the C code for the yorick synth wavetables')
-    parser.add_argument('wavetype', choices=[
-        'sine', 'saw', 'square', 'rand'
-    ], default='sine')
-    parser.add_argument('-s', '--samplecount', default=256, type=int)
+        prog="gentable.py", description="Creates the C code for the yorick synth wavetables"
+    )
+    parser.add_argument("wavetype", choices=["sine", "saw", "square", "rand"], default="sine")
+    parser.add_argument("-s", "--samplecount", default=256, type=int)
 
     args = parser.parse_args()
 

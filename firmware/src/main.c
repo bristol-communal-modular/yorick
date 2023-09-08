@@ -66,8 +66,8 @@ LEDFlasher led2;
 
 Ticker clock;
 
-const int8_t *osc_wavetable;
-const int8_t *lfo_wavetable;
+const uint8_t *osc_wavetable;
+const uint8_t *lfo_wavetable;
 bool env_out;
 
 void set_osc_wave(uint8_t value) {
@@ -299,24 +299,19 @@ ISR(ADC_vect) {
 ISR( TIM0_COMPA_vect ) {
 
   ticker_tick(&clock);
-
   envelope_tick(&env);
-
   osc_update(lfo);
   osc_update(osc1);
 
-  uint8_t osc_wave = (pgm_read_byte(&osc_wavetable[osc_8bit_value(osc1)]) + 128);
+  uint8_t osc_wave = pgm_read_byte(&osc_wavetable[osc_8bit_value(osc1)]);
 
   uint8_t envelope = envelope_8bit_value(&env);
 
-  uint8_t out = ((uint16_t)osc_wave * (uint16_t)envelope) >> 8;
-
-  OCR1B = out;
+  OCR1B = ((uint16_t)osc_wave * (uint16_t)envelope) >> 8;
 
   if (env_out) {
     OCR1A = envelope;
   } else {
-    uint8_t lfo_out = pgm_read_byte(&lfo_wavetable[osc_8bit_value(lfo)]);
-    OCR1A = lfo_out + 128;
+    OCR1A = pgm_read_byte(&lfo_wavetable[osc_8bit_value(lfo)]);
   }
 }
