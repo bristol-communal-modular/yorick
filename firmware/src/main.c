@@ -88,6 +88,7 @@ void set_osc_wave(uint8_t value) {
 }
 
 void set_lfo_wave(uint8_t value) {
+  env_out = false;
   switch (value) {
     case 0:
       lfo_wavetable = WT_SINE;
@@ -120,10 +121,10 @@ void set_parameter(ParamType control, uint16_t value) {
       osc_set_pitch(lfo, (value >> 4) + 1);
       break;
     case PARAM_ENVELOPE_ATTACK:
-      envelope_set_attack(&env, (value>>3) + 1);
+      envelope_set_attack(&env, (value>>3) + 10);
       break;
     case PARAM_ENVELOPE_DECAY:
-      envelope_set_decay(&env, (value>>3) + 1);
+      envelope_set_decay(&env, (value>>3) + 10);
       break;
     default:
       break;
@@ -210,6 +211,9 @@ int main () {
 
   uint8_t freq_lookup = 0;
   bool osc1_freq_debounced = false;
+
+  freq_lookup = param_manager_get_freq(&param_manager) + osc1_tuning;
+  osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[freq_lookup]));
 
   env_out = false;
 
