@@ -24,10 +24,6 @@ typedef struct ParamManager {
   uint16_t previous_pot_value[PARAM_POTS];
 
   uint8_t bank;
-
-  uint8_t freq;
-  uint8_t freq_debounce_samples[DEBOUNCE_SAMPLES];
-  uint8_t freq_debounce_count;
 } ParamManager;
 
 void param_manager_init(ParamManager *pm);
@@ -37,9 +33,5 @@ void param_manager_lock(ParamManager *pm);
 void param_manager_next_bank(ParamManager *pm);
 
 bool param_manager_lock_check(ParamManager *pm, uint8_t pot, uint16_t value);
-
-bool param_manager_set_freq(ParamManager *pm, uint16_t value);
-
-#define param_manager_get_freq(pm) (pm)->freq
 
 ParamType param_manager_current(ParamManager *pm, uint8_t pot);

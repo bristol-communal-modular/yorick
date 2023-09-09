@@ -24,6 +24,8 @@ typedef struct Sequencer {
   uint16_t prev_note_state;
   uint16_t note_length;
 
+  bool editable;
+
   uint8_t step_count;
   uint8_t current_step;
   uint16_t steps[SEQUENCER_MAX_STEPS];
@@ -34,6 +36,7 @@ typedef struct Sequencer {
 
 #define sequencer_clear(s) \
   (s)->running = false; \
+  (s)->editable = true; \
   (s)->step_count = 0;
 
 #define sequencer_set_step_length(s, value) \

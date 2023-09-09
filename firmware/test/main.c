@@ -3,6 +3,7 @@
 #include "minunit.h"
 
 #include "param_manager.h"
+#include "keyboard.h"
 #include "button.h"
 #include "sequencer.h"
 #include "led_flasher.h"
@@ -52,25 +53,47 @@ MU_TEST(param_manager_test_locks) {
     mu_check(pm.previous_pot_value[0] == 200);
 }
 
-MU_TEST(param_manager_test_freq) {
-    ParamManager pm;
-    param_manager_init(&pm);
-
-    bool freq_debounced;
-
-    for (int i = 0; i < (DEBOUNCE_SAMPLES - 1); i++) {
-        freq_debounced = param_manager_set_freq(&pm, 500);
-        mu_check(!freq_debounced);
-    }
-    freq_debounced = param_manager_set_freq(&pm, 500);
-    mu_check(freq_debounced);
-}
-
 MU_TEST_SUITE(param_manager_suite) {
     test_header("Param Manager tests\n");
     MU_RUN_TEST(param_manager_test_bank_change);
     MU_RUN_TEST(param_manager_test_locks);
-    MU_RUN_TEST(param_manager_test_freq);
+}
+
+MU_TEST(keyboard_test_debounce) {
+    Keyboard k;
+    keyboard_init(&k);
+
+    for (int i = 0; i < (KEYBOARD_DEBOUNCE_SAMPLES - 1); i++) {
+        keyboard_update(&k, 500);
+        mu_check(keyboard_unstable(&k));
+    }
+    keyboard_update(&k, 500);
+    mu_check(keyboard_stable(&k));
+    mu_check(keyboard_key_pressed(&k));
+
+    keyboard_update(&k, 100);
+    mu_check(!keyboard_stable(&k));
+    mu_check(keyboard_key_let_go(&k));
+}
+
+MU_TEST(keyboard_key_up) {
+    Keyboard k;
+    keyboard_init(&k);
+
+    for (int i = 0; i < 3; i++) {
+        keyboard_update(&k, 500);
+        mu_check(keyboard_unstable(&k));
+    }
+    for (int i = 0; i < 10; i++) {
+        keyboard_update(&k, 0);
+        mu_check(keyboard_unstable(&k));
+    }
+}
+
+MU_TEST_SUITE(keyboard_suite) {
+    test_header("Keyboard tests\n");
+    MU_RUN_TEST(keyboard_test_debounce);
+    MU_RUN_TEST(keyboard_key_up);
 }
 
 MU_TEST(led_flasher_create) {
@@ -316,6 +339,7 @@ MU_TEST_SUITE(sequencer_suite) {
 int main(int argc, char *argv[]) {
     test_header("Yorick tests\n");
     MU_RUN_SUITE(param_manager_suite);
+    MU_RUN_SUITE(keyboard_suite);
     MU_RUN_SUITE(led_flasher_suite);
     MU_RUN_SUITE(sequencer_suite);
     MU_RUN_SUITE(button_suite);

@@ -13,6 +13,7 @@ void sequencer_init(Sequencer *s, Ticker *t) {
   s->prev_note_state = SEQUENCER_NOTE_OFF;
   s->note_length = 80;
 
+  s->editable = true;
   s->step_count = 0;
   s->current_step = 0;
   for (uint8_t i = 0; i < SEQUENCER_MAX_STEPS; i++) {
@@ -21,6 +22,7 @@ void sequencer_init(Sequencer *s, Ticker *t) {
 }
 
 void sequencer_start(Sequencer *s) {
+  s->editable = false;
   s->running = true;
   s->step_delta = 0;
   s->last_tick = ticker_count(s->ticker);
@@ -79,9 +81,8 @@ void sequencer_tick(Sequencer *s) {
 }
 
 void sequencer_add_step(Sequencer *s, uint8_t note) {
-  if (s->step_count > (SEQUENCER_MAX_STEPS - 1)) {
-    return;
-  }
+  if (s->step_count > (SEQUENCER_MAX_STEPS - 1)) return;
+
   s->step_count += 1;
   s->steps[s->step_count] = note;
 }

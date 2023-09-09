@@ -8,13 +8,16 @@
 #include <avr/pgmspace.h>
 #include <util/delay.h>
 
+#include "yorick.h"
+
 #include "oscillator.h"
 #include "pitches.h"
 #include "led_flasher.h"
 #include "ticker.h"
+#include "sequencer.h"
 #include "button.h"
 #include "envelope.h"
-#include "edgedetector.h"
+#include "keyboard.h"
 #include "wavetables.h"
 #include "param_manager.h"
 
@@ -61,12 +64,14 @@ ParamManager param_manager;
 Button button1;
 Button button2;
 
-EdgeDetector volatile keyboard;
+Keyboard keyboard;
 
 LEDFlasher led1;
 LEDFlasher led2;
 
 Ticker clock;
+
+Sequencer sequencer;
 
 const uint8_t *osc_wavetable;
 const uint8_t *lfo_wavetable;
@@ -201,10 +206,12 @@ int main () {
   button_init(&button1, &clock);
   button_init(&button2, &clock);
 
-  edge_detector_init(keyboard, 0);
+  keyboard_init(&keyboard);
 
   flash_init(&led1, &clock);
   flash_init(&led2, &clock);
+
+  sequencer_init(&sequencer, &clock);
 
   // Setup param_manager and set initial control values
   // All need to be in the range 0 to 1023
@@ -222,50 +229,69 @@ int main () {
   mod2_adc_in = 0;
 
   uint8_t freq_lookup = 0;
-  bool osc1_freq_debounced = false;
 
-  freq_lookup = param_manager_get_freq(&param_manager) + osc1_tuning;
-  osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[freq_lookup]));
+  osc_set_pitch(osc1, 0);
 
   env_out = false;
 
+  YorickMode mode = YORICK_PLAY_MODE;
+  led1.led_on = true;
+
   while (1) {
 
-    if (!param_manager_lock_check(&param_manager, 0, mod1_adc_in)) {
-      set_parameter(param_manager_current(&param_manager, 0), mod1_adc_in);
-    }
-
-    if (!param_manager_lock_check(&param_manager, 1, mod2_adc_in)) {
-      set_parameter(param_manager_current(&param_manager, 1), mod2_adc_in);
-    }
-
-    osc1_freq_debounced = param_manager_set_freq(&param_manager, freq_adc_in);
-    if (osc1_freq_debounced) {
-      freq_lookup = param_manager_get_freq(&param_manager) + osc1_tuning;
-      osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[freq_lookup]));
-    }
-
-    edge_detector_update(keyboard, freq_adc_in > 10);
-
-    if (edge_detector_is_rising(keyboard)) {
-      envelope_start(&env);
-    }
-    if (edge_detector_is_falling(keyboard)) {
-      envelope_release(&env);
-    }
+    sequencer_tick(&sequencer);
 
     button_update(&button1, (PINA & _BV(BUTTON_1_IN_PIN)) ? BUTTON_UP : BUTTON_PRESSED);
     button_update(&button2, (PINA & _BV(BUTTON_2_IN_PIN)) ? BUTTON_UP : BUTTON_PRESSED);
+
+    keyboard_update(&keyboard, freq_adc_in);
+
     flash_update(&led1);
     flash_update(&led2);
 
     if (button_just_let_go(&button1)) {
-      param_manager_next_bank(&param_manager);
-      flash_start(&led1, param_manager.bank + 1, 15);
+      if (mode == YORICK_PLAY_MODE) {
+        mode = YORICK_SEQUENCER_MODE;
+        led1.led_on = false;
+      } else if (mode == YORICK_SEQUENCER_MODE) {
+        mode = YORICK_PLAY_MODE;
+        led1.led_on = true;
+      }
     }
 
-    if (button_just_let_go(&button2)) {
-      flash_start(&led1, param_manager.bank + 1, 15);
+    if (mode == YORICK_PLAY_MODE) {
+
+      if (!param_manager_lock_check(&param_manager, 0, mod1_adc_in)) {
+        set_parameter(param_manager_current(&param_manager, 0), mod1_adc_in);
+      }
+
+      if (!param_manager_lock_check(&param_manager, 1, mod2_adc_in)) {
+        set_parameter(param_manager_current(&param_manager, 1), mod2_adc_in);
+      }
+
+      if (keyboard_stable(&keyboard)) {
+        freq_lookup = keyboard_get_key(&keyboard) + osc1_tuning;
+        osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[freq_lookup]));
+      }
+
+      if (keyboard_stable(&keyboard)) {
+        envelope_start(&env);
+      }
+      if (keyboard_key_let_go(&keyboard)) {
+        envelope_release(&env);
+      }
+
+      if (button_just_let_go(&button2)) {
+        param_manager_next_bank(&param_manager);
+        flash_start(&led2, param_manager.bank + 1, 15);
+      }
+
+    } else if (mode == YORICK_SEQUENCER_MODE) {
+      if (keyboard_key_pressed(&keyboard)) {
+        if (sequencer.editable) {
+
+        }
+      }
     }
 
     if (led1.led_on) {
@@ -274,7 +300,7 @@ int main () {
       PORTA &= ~_BV(LED_1_OUT_PIN);
     }
 
-    if (env.state == ENVELOPE_STOPPED) {
+    if (led2.led_on) {
       PORTB |= _BV(LED_2_OUT_PIN);
     } else {
       PORTB &= ~_BV(LED_2_OUT_PIN);
