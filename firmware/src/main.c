@@ -19,6 +19,7 @@
 #include "param_manager.h"
 
 
+#define MAX_ADC_VALUE 1023
 
 #define FREQ_IN_MUX  0b00010
 #define MOD_1_IN_MUX 0b00001
@@ -71,6 +72,10 @@ const uint8_t *osc_wavetable;
 const uint8_t *lfo_wavetable;
 bool env_out;
 
+// takes the 0 to 1023 mod value and helps make a more logarithmic control
+#define ctrl_log_curve(value, bp, mult) \
+  (value < bp) ? value : (((value - bp) * mult) + bp)
+
 void set_osc_wave(uint8_t value) {
   switch (value) {
     case 0:
@@ -107,6 +112,7 @@ void set_lfo_wave(uint8_t value) {
 }
 
 void set_parameter(ParamType control, uint16_t value) {
+  uint16_t tmp;
   switch(control) {
     case PARAM_TUNING:
       // constrain octave to between 0 and 127
@@ -122,10 +128,14 @@ void set_parameter(ParamType control, uint16_t value) {
       osc_set_pitch(lfo, (value >> 4) + 1);
       break;
     case PARAM_ENVELOPE_ATTACK:
-      envelope_set_attack(&env, (value>>3) + 10);
+      tmp = MAX_ADC_VALUE - value; // reverse pot
+      tmp = ctrl_log_curve(tmp, 400, 5);
+      envelope_set_attack(&env, (tmp>>2) + 10);
       break;
     case PARAM_ENVELOPE_DECAY:
-      envelope_set_decay(&env, (value>>3) + 10);
+      tmp = MAX_ADC_VALUE - value; // reverse pot
+      tmp = ctrl_log_curve(tmp, 400, 5);
+      envelope_set_decay(&env, (tmp>>2) + 10);
       break;
     default:
       break;
@@ -203,8 +213,8 @@ int main () {
   set_parameter(PARAM_OSC_WAVE, 0);
   set_parameter(PARAM_LFO_RATE, 100);
   set_parameter(PARAM_LFO_WAVE, 0);
-  set_parameter(PARAM_ENVELOPE_ATTACK, 1024);
-  set_parameter(PARAM_ENVELOPE_DECAY, 1024);
+  set_parameter(PARAM_ENVELOPE_ATTACK, 100);
+  set_parameter(PARAM_ENVELOPE_DECAY, 300);
 
   freq_adc_in = 0;
   mod1_adc_in = 0;
