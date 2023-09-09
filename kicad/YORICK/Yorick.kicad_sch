@@ -2551,7 +2551,7 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 2f7568a7-824f-4d6a-badb-fd151dca8056)
   )
-  (text "Ideally should be 40k\nneed to work out what's\neasiest in the code"
+  (text "Ideally should be 30k\nneed to work out what's\neasiest in the code"
     (at 361.95 35.56 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 5bef4189-8ec9-49f1-a13b-ee007cd5a327)
@@ -5823,7 +5823,7 @@
     (property "Reference" "R37" (at 390.652 36.3947 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
-    (property "Value" "39k" (at 390.652 33.8578 0)
+    (property "Value" "33k" (at 390.652 33.8578 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal" (at 390.652 35.56 90)
