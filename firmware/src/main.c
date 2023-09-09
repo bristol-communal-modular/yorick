@@ -125,7 +125,8 @@ void set_parameter(ParamType control, uint16_t value) {
       set_lfo_wave(value >> 8);
       break;
     case PARAM_LFO_RATE:
-      osc_set_pitch(lfo, (value >> 4) + 1);
+      tmp = ctrl_log_curve(value, 400, 5);
+      osc_set_pitch(lfo, (tmp >> 4) + 1);
       break;
     case PARAM_ENVELOPE_ATTACK:
       tmp = MAX_ADC_VALUE - value; // reverse pot
