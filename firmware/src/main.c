@@ -12,6 +12,7 @@
 #include "pitches.h"
 #include "led_flasher.h"
 #include "ticker.h"
+#include "button.h"
 #include "envelope.h"
 #include "edgedetector.h"
 #include "wavetables.h"
@@ -56,8 +57,8 @@ Envelope env;
 
 ParamManager param_manager;
 
-EdgeDetector button1;
-EdgeDetector button2;
+Button button1;
+Button button2;
 
 EdgeDetector volatile keyboard;
 
@@ -186,8 +187,8 @@ int main () {
 
   envelope_init(&env, 20);
 
-  edge_detector_init(button1, (PINA & _BV(BUTTON_1_IN_PIN)));
-  edge_detector_init(button2, (PINA & _BV(BUTTON_1_IN_PIN)));
+  button_init(&button1, &clock);
+  button_init(&button2, &clock);
 
   edge_detector_init(keyboard, 0);
 
@@ -242,17 +243,17 @@ int main () {
       envelope_release(&env);
     }
 
-    edge_detector_update(button1, (PINA & _BV(BUTTON_1_IN_PIN)));
-    edge_detector_update(button2, (PINA & _BV(BUTTON_2_IN_PIN)));
+    button_update(&button1, (PINA & _BV(BUTTON_1_IN_PIN)) ? BUTTON_UP : BUTTON_PRESSED);
+    button_update(&button2, (PINA & _BV(BUTTON_2_IN_PIN)) ? BUTTON_UP : BUTTON_PRESSED);
     flash_update(&led1);
     flash_update(&led2);
 
-    if (edge_detector_is_rising(button1)) {
+    if (button_just_let_go(&button1)) {
       param_manager_next_bank(&param_manager);
       flash_start(&led1, param_manager.bank + 1, 15);
     }
 
-    if (edge_detector_is_rising(button2)) {
+    if (button_just_let_go(&button2)) {
       flash_start(&led1, param_manager.bank + 1, 15);
     }
 

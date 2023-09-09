@@ -3,6 +3,7 @@
 #include "minunit.h"
 
 #include "param_manager.h"
+#include "button.h"
 #include "sequencer.h"
 #include "led_flasher.h"
 #include "ticker.h"
@@ -131,6 +132,46 @@ MU_TEST_SUITE(led_flasher_suite) {
     test_header("LED Flasher tests\n");
     MU_RUN_TEST(led_flasher_create);
     MU_RUN_TEST(led_flasher_run);
+}
+
+MU_TEST(button_pressing) {
+    Button button;
+    Ticker t;
+    ticker_init(&t);
+    button_init(&button, &t);
+
+    mu_check(button.current_state == BUTTON_UP);
+    mu_check(button.previous_state == BUTTON_UP);
+
+    button_update(&button, BUTTON_PRESSED);
+    mu_check(button_just_pressed(&button));
+
+    ticker_set(&t, 1000);
+    button_update(&button, BUTTON_PRESSED);
+    mu_check(!button_just_pressed(&button));
+
+    ticker_set(&t, 7424); // 29 << 8
+    button_update(&button, BUTTON_PRESSED);
+    mu_assert_int_eq(29, button.time_pressed);
+    mu_check(!button_just_pressed(&button));
+
+    ticker_set(&t, 9000);
+    button_update(&button, BUTTON_PRESSED);
+    mu_assert_int_eq(35, button.time_pressed);
+    mu_check(button_is_held(&button));
+    mu_check(!button_just_pressed(&button));
+
+    ticker_set(&t, 9100);
+    button_update(&button, BUTTON_UP);
+    mu_assert_int_eq(0, button.time_pressed);
+    mu_check(!button_is_held(&button));
+    mu_check(!button_just_pressed(&button));
+    mu_check(button_just_let_go(&button));
+}
+
+MU_TEST_SUITE(button_suite) {
+    test_header("Button tests\n");
+    MU_RUN_TEST(button_pressing);
 }
 
 MU_TEST(sequencer_run) {
@@ -277,6 +318,7 @@ int main(int argc, char *argv[]) {
     MU_RUN_SUITE(param_manager_suite);
     MU_RUN_SUITE(led_flasher_suite);
     MU_RUN_SUITE(sequencer_suite);
+    MU_RUN_SUITE(button_suite);
     MU_REPORT();
     return MU_EXIT_CODE;
 }
