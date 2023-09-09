@@ -320,9 +320,5 @@ ISR( TIM0_COMPA_vect ) {
 
   OCR1B = ((uint16_t)osc_wave * (uint16_t)envelope) >> 8;
 
-  if (env_out) {
-    OCR1A = envelope;
-  } else {
-    OCR1A = pgm_read_byte(&lfo_wavetable[osc_8bit_value(lfo)]);
-  }
+  OCR1A = env_out ? envelope : pgm_read_byte(&lfo_wavetable[osc_8bit_value(lfo)]);
 }
