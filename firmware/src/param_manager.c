@@ -57,13 +57,43 @@ bool param_manager_lock_check(ParamManager *pm, uint8_t pot, uint16_t value) {
   return false;
 }
 
+// This is kind of ugly
+// it's compensating for the scaling of the keyboard voltages
+// being a bit off. Should be fixable in hardware.
+uint8_t param_manager_scale_freq(uint8_t value) {
+  if (value < 4) {
+    return 0;
+  } else if (value < 8) {
+    return 1;
+  } else if (value < 12) {
+    return 2;
+  } else if (value < 14) {
+    return 3;
+  } else if (value < 18) {
+    return 4;
+  } else if (value < 21) {
+    return 5;
+  } else if (value < 23) {
+    return 6;
+  } else if (value < 27) {
+    return 7;
+  } else if (value < 31) {
+    return 8;
+  } else if (value < 35) {
+    return 9;
+  } else if (value < 39) {
+    return 10;
+  } else {
+    return 11;
+  }
+}
 
 bool param_manager_set_freq(ParamManager *pm, uint16_t value) {
   // make sure input isn't zero
   if (value < UNLOCK_THRESH) {
     return false;
   }
-  uint8_t scaled_value = value >> 6;
+  value = value >> 4;
 
   pm->freq_debounce_count += 1;
   if (pm->freq_debounce_count >= DEBOUNCE_SAMPLES) {
@@ -79,7 +109,7 @@ bool param_manager_set_freq(ParamManager *pm, uint16_t value) {
     }
   }
   if (debounced) {
-    pm->freq = scaled_value;
+    pm->freq = param_manager_scale_freq(value);
   }
   return debounced;
 }
