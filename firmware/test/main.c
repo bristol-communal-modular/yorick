@@ -3,8 +3,14 @@
 #include "minunit.h"
 
 #include "param_manager.h"
+#include "sequencer.h"
 #include "led_flasher.h"
 #include "ticker.h"
+
+#define test_header(text) \
+    printf("\n\n"); \
+    printf("***********\n"); \
+    printf(text);
 
 MU_TEST(param_manager_test_bank_change) {
     ParamManager pm;
@@ -60,6 +66,7 @@ MU_TEST(param_manager_test_freq) {
 }
 
 MU_TEST_SUITE(param_manager_suite) {
+    test_header("Param Manager tests\n");
     MU_RUN_TEST(param_manager_test_bank_change);
     MU_RUN_TEST(param_manager_test_locks);
     MU_RUN_TEST(param_manager_test_freq);
@@ -121,13 +128,155 @@ MU_TEST(led_flasher_run) {
 }
 
 MU_TEST_SUITE(led_flasher_suite) {
+    test_header("LED Flasher tests\n");
     MU_RUN_TEST(led_flasher_create);
     MU_RUN_TEST(led_flasher_run);
 }
 
+MU_TEST(sequencer_run) {
+    Sequencer s;
+    Ticker t;
+    sequencer_init(&s, &t);
+    mu_check(!sequencer_is_running(&s));
+
+    sequencer_set_step_length(&s, 200);
+    sequencer_set_note_length(&s, 90);
+    sequencer_add_step(&s, 100);
+    sequencer_add_step(&s, 120);
+    sequencer_add_step(&s, 80);
+    sequencer_add_step(&s, 60);
+    mu_assert_int_eq(4, s.step_count);
+    mu_check(s.note_state == SEQUENCER_NOTE_OFF);
+
+    ticker_set(&t, 10);
+    sequencer_start(&s);
+    mu_check(sequencer_is_running(&s));
+    mu_check(s.note_state == SEQUENCER_NOTE_ON);
+    mu_check(sequencer_note_started(&s));
+    mu_assert_int_eq(0, s.current_step);
+
+    ticker_set(&t, 50);
+    sequencer_tick(&s);
+    mu_check(sequencer_is_running(&s));
+    mu_check(s.note_state == SEQUENCER_NOTE_ON);
+    mu_check(!sequencer_note_started(&s));
+    mu_assert_int_eq(0, s.current_step);
+
+    ticker_set(&t, 140);
+    sequencer_tick(&s);
+    mu_check(sequencer_is_running(&s));
+    mu_check(s.note_state == SEQUENCER_NOTE_OFF);
+    mu_check(sequencer_note_finished(&s));
+    mu_assert_int_eq(0, s.current_step);
+
+    for (int i = 1; i < 9; i++) {
+        ticker_increment(&t, 99);
+        sequencer_tick(&s);
+        mu_check(sequencer_is_running(&s));
+        mu_check(s.note_state == SEQUENCER_NOTE_ON);
+        mu_check(sequencer_note_started(&s));
+        mu_assert_int_eq(i % s.step_count, s.current_step);
+
+        ticker_increment(&t, 1);
+        sequencer_tick(&s);
+        mu_check(!sequencer_note_started(&s));
+
+        ticker_increment(&t, 99);
+        sequencer_tick(&s);
+        mu_check(sequencer_is_running(&s));
+        mu_check(s.note_state == SEQUENCER_NOTE_OFF);
+        mu_check(sequencer_note_finished(&s));
+        mu_assert_int_eq(i % s.step_count, s.current_step);
+
+        ticker_increment(&t, 1);
+        sequencer_tick(&s);
+        mu_check(!sequencer_note_finished(&s));
+    }
+}
+
+MU_TEST(sequencer_add_steps) {
+    Sequencer s;
+    Ticker t;
+    sequencer_init(&s, &t);
+
+    sequencer_set_step_length(&s, 200);
+    sequencer_set_note_length(&s, 90);
+    sequencer_add_step(&s, 100);
+    sequencer_add_step(&s, 120);
+    sequencer_add_step(&s, 80);
+    sequencer_add_step(&s, 60);
+
+    ticker_set(&t, 10);
+    sequencer_start(&s);
+
+    for (int i = 1; i < 10; i++) {
+        ticker_increment(&t, 100);
+        sequencer_tick(&s);
+
+        ticker_increment(&t, 100);
+        sequencer_tick(&s);
+        mu_assert_int_eq(i % s.step_count, s.current_step);
+    }
+
+    mu_assert_int_eq(9 % s.step_count, s.current_step);
+
+    sequencer_add_step(&s, 180);
+
+    sequencer_reset(&s);
+    mu_check(s.note_state == SEQUENCER_NOTE_ON);
+    mu_check(sequencer_note_started(&s));
+
+    sequencer_add_step(&s, 30);
+
+    ticker_increment(&t, 10);
+    sequencer_tick(&s);
+    mu_check(s.note_state == SEQUENCER_NOTE_ON);
+    mu_check(!sequencer_note_started(&s));
+    mu_assert_int_eq(0, s.current_step);
+
+    ticker_increment(&t, 100);
+    sequencer_tick(&s);
+    mu_check(s.note_state == SEQUENCER_NOTE_OFF);
+    mu_check(sequencer_note_finished(&s));
+    mu_assert_int_eq(0, s.current_step);
+
+    for (int i = 1; i < 7; i++) {
+        ticker_increment(&t, 99);
+        sequencer_tick(&s);
+        mu_check(sequencer_is_running(&s));
+        mu_check(s.note_state == SEQUENCER_NOTE_ON);
+        mu_check(sequencer_note_started(&s));
+        mu_assert_int_eq(i % s.step_count, s.current_step);
+
+        ticker_increment(&t, 1);
+        sequencer_tick(&s);
+        mu_check(!sequencer_note_started(&s));
+
+        ticker_increment(&t, 99);
+        sequencer_tick(&s);
+        mu_check(sequencer_is_running(&s));
+        mu_check(s.note_state == SEQUENCER_NOTE_OFF);
+        mu_check(sequencer_note_finished(&s));
+        mu_assert_int_eq(i % s.step_count, s.current_step);
+
+        ticker_increment(&t, 1);
+        sequencer_tick(&s);
+        mu_check(!sequencer_note_finished(&s));
+    }
+
+}
+
+MU_TEST_SUITE(sequencer_suite) {
+    test_header("Sequencer tests\n");
+    MU_RUN_TEST(sequencer_run);
+    MU_RUN_TEST(sequencer_add_steps);
+}
+
 int main(int argc, char *argv[]) {
-	MU_RUN_SUITE(param_manager_suite);
-	MU_RUN_SUITE(led_flasher_suite);
-	MU_REPORT();
-	return MU_EXIT_CODE;
+    test_header("Yorick tests\n");
+    MU_RUN_SUITE(param_manager_suite);
+    MU_RUN_SUITE(led_flasher_suite);
+    MU_RUN_SUITE(sequencer_suite);
+    MU_REPORT();
+    return MU_EXIT_CODE;
 }

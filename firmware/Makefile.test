@@ -26,4 +26,4 @@ clean:
 
 # file targets:
 tests: $(OBJECTS)
-	$(COMPILE) -o tests $(OBJECTS)
+	$(COMPILE) -lm -o tests $(OBJECTS)

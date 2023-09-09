@@ -9,6 +9,12 @@ typedef struct Ticker {
 #define ticker_init(ticker) \
   (ticker)->count = 0;
 
+#define ticker_set(ticker, value) \
+  (ticker)->count = value;
+
+#define ticker_increment(ticker, incr) \
+  (ticker)->count += incr;
+
 #define ticker_reset(ticker) \
   (ticker)->count = 0;
 
