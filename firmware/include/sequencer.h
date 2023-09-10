@@ -67,6 +67,12 @@ void sequencer_tick(Sequencer *s);
 
 void sequencer_add_step(Sequencer *s, uint8_t note);
 
+#define sequencer_current_step_value(s) \
+  (s)->steps[(s)->current_step]
+
+#define sequencer_get_step_value(s, value) \
+  (s)->steps[value]
+
 #define sequencer_note_started(s) \
   ((s)->note_state == SEQUENCER_NOTE_ON && \
    (s)->prev_note_state == SEQUENCER_NOTE_OFF)

@@ -35,7 +35,7 @@ uint8_t keyboard_scale_value(uint8_t value) {
     return 8;
   } else if (value < 35) {
     return 9;
-  } else if (value < 39) {
+  } else if (value < 38) {
     return 10;
   } else {
     return 11;

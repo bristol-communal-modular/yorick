@@ -64,16 +64,21 @@ MU_TEST(keyboard_test_debounce) {
     keyboard_init(&k);
 
     for (int i = 0; i < (KEYBOARD_DEBOUNCE_SAMPLES - 1); i++) {
-        keyboard_update(&k, 500);
+        keyboard_update(&k, 200);
         mu_check(keyboard_unstable(&k));
     }
-    keyboard_update(&k, 500);
+    keyboard_update(&k, 200);
     mu_check(keyboard_stable(&k));
     mu_check(keyboard_key_pressed(&k));
 
+    keyboard_update(&k, 200);
+    mu_check(keyboard_stable(&k));
+    mu_check(!keyboard_key_pressed(&k));
+    mu_assert_int_eq(3, keyboard_get_key(&k));
+
     keyboard_update(&k, 100);
     mu_check(!keyboard_stable(&k));
-    mu_check(keyboard_key_let_go(&k));
+    mu_check(keyboard_key_released(&k));
 }
 
 MU_TEST(keyboard_key_up) {
@@ -166,17 +171,41 @@ MU_TEST(button_pressing) {
     mu_check(button.current_state == BUTTON_UP);
     mu_check(button.previous_state == BUTTON_UP);
 
+    for (int i = 0; i < BUTTON_DEBOUNCE_SAMPLES - 1; i += 1) {
+        button_update(&button, BUTTON_PRESSED);
+        mu_check(!button_just_pressed(&button));
+    }
     button_update(&button, BUTTON_PRESSED);
+    mu_check(button.current_state == BUTTON_PRESSED);
+    mu_check(button.previous_state == BUTTON_UP);
     mu_check(button_just_pressed(&button));
 
-    ticker_set(&t, 1000);
-    button_update(&button, BUTTON_PRESSED);
-    mu_check(!button_just_pressed(&button));
+    for (int i = 0; i < (BUTTON_DEBOUNCE_SAMPLES - 1); i += 1) {
+        button_update(&button, BUTTON_UP);
+        mu_check(!button_just_released(&button));
+    }
+    button_update(&button, BUTTON_UP);
+    mu_check(button.current_state == BUTTON_UP);
+    mu_check(button.previous_state == BUTTON_PRESSED);
+    mu_check(button_just_released(&button));
+}
+
+MU_TEST(button_long_hold) {
+    Button button;
+    Ticker t;
+    ticker_init(&t);
+    button_init(&button, &t);
+
+    for (int i = 0; i < BUTTON_DEBOUNCE_SAMPLES; i += 1) {
+        button_update(&button, BUTTON_PRESSED);
+    }
+    mu_check(button_just_pressed(&button));
 
     ticker_set(&t, 7424); // 29 << 8
     button_update(&button, BUTTON_PRESSED);
     mu_assert_int_eq(29, button.time_pressed);
     mu_check(!button_just_pressed(&button));
+    mu_check(!button_is_held(&button));
 
     ticker_set(&t, 9000);
     button_update(&button, BUTTON_PRESSED);
@@ -186,15 +215,54 @@ MU_TEST(button_pressing) {
 
     ticker_set(&t, 9100);
     button_update(&button, BUTTON_UP);
+    // still held until button up is debounced
+    mu_check(button_is_held(&button));
+    for (int i = 0; i < (BUTTON_DEBOUNCE_SAMPLES - 1); i += 1) {
+        button_update(&button, BUTTON_UP);
+    }
+
     mu_assert_int_eq(0, button.time_pressed);
     mu_check(!button_is_held(&button));
     mu_check(!button_just_pressed(&button));
-    mu_check(button_just_let_go(&button));
+    mu_check(button_just_released(&button));
+}
+
+MU_TEST(button_long_hold_reset) {
+    Button button;
+    Ticker t;
+    ticker_init(&t);
+    button_init(&button, &t);
+
+    for (int i = 0; i < BUTTON_DEBOUNCE_SAMPLES; i += 1) {
+        button_update(&button, BUTTON_PRESSED);
+    }
+    mu_check(button_just_pressed(&button));
+
+    ticker_set(&t, 7424); // 29 << 8
+    button_update(&button, BUTTON_PRESSED);
+    mu_assert_int_eq(29, button.time_pressed);
+    mu_check(!button_just_pressed(&button));
+    mu_check(!button_is_held(&button));
+
+    ticker_set(&t, 9000);
+    button_update(&button, BUTTON_PRESSED);
+    mu_assert_int_eq(35, button.time_pressed);
+    mu_check(button_is_held(&button));
+    mu_check(!button_just_pressed(&button));
+
+    button_reset(&button);
+
+    mu_check(!button_is_held(&button));
+    mu_check(!button_just_pressed(&button));
+    mu_check(!button_just_released(&button));
+
 }
 
 MU_TEST_SUITE(button_suite) {
     test_header("Button tests\n");
     MU_RUN_TEST(button_pressing);
+    MU_RUN_TEST(button_long_hold);
+    MU_RUN_TEST(button_long_hold_reset);
 }
 
 MU_TEST(sequencer_run) {
@@ -205,11 +273,23 @@ MU_TEST(sequencer_run) {
 
     sequencer_set_step_length(&s, 200);
     sequencer_set_note_length(&s, 90);
-    sequencer_add_step(&s, 100);
-    sequencer_add_step(&s, 120);
-    sequencer_add_step(&s, 80);
-    sequencer_add_step(&s, 60);
+
+    sequencer_add_step(&s, 0);
+    mu_assert_int_eq(0, sequencer_get_step_value(&s, 0));
+    mu_assert_int_eq(1, s.step_count);
+
+    sequencer_add_step(&s, 1);
+    mu_assert_int_eq(1, sequencer_get_step_value(&s, 1));
+    mu_assert_int_eq(2, s.step_count);
+
+    sequencer_add_step(&s, 2);
+    mu_assert_int_eq(2, sequencer_get_step_value(&s, 2));
+    mu_assert_int_eq(3, s.step_count);
+
+    sequencer_add_step(&s, 3);
+    mu_assert_int_eq(3, sequencer_get_step_value(&s, 3));
     mu_assert_int_eq(4, s.step_count);
+
     mu_check(s.note_state == SEQUENCER_NOTE_OFF);
 
     ticker_set(&t, 10);
@@ -218,6 +298,7 @@ MU_TEST(sequencer_run) {
     mu_check(s.note_state == SEQUENCER_NOTE_ON);
     mu_check(sequencer_note_started(&s));
     mu_assert_int_eq(0, s.current_step);
+    mu_assert_int_eq(0, sequencer_current_step_value(&s));
 
     ticker_set(&t, 50);
     sequencer_tick(&s);
@@ -225,6 +306,7 @@ MU_TEST(sequencer_run) {
     mu_check(s.note_state == SEQUENCER_NOTE_ON);
     mu_check(!sequencer_note_started(&s));
     mu_assert_int_eq(0, s.current_step);
+    mu_assert_int_eq(0, sequencer_current_step_value(&s));
 
     ticker_set(&t, 140);
     sequencer_tick(&s);
@@ -232,6 +314,7 @@ MU_TEST(sequencer_run) {
     mu_check(s.note_state == SEQUENCER_NOTE_OFF);
     mu_check(sequencer_note_finished(&s));
     mu_assert_int_eq(0, s.current_step);
+    mu_assert_int_eq(0, sequencer_current_step_value(&s));
 
     for (int i = 1; i < 9; i++) {
         ticker_increment(&t, 99);
@@ -240,6 +323,7 @@ MU_TEST(sequencer_run) {
         mu_check(s.note_state == SEQUENCER_NOTE_ON);
         mu_check(sequencer_note_started(&s));
         mu_assert_int_eq(i % s.step_count, s.current_step);
+        mu_assert_int_eq(i % s.step_count, sequencer_current_step_value(&s));
 
         ticker_increment(&t, 1);
         sequencer_tick(&s);

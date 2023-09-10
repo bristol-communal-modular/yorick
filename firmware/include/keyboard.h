@@ -34,5 +34,5 @@ void keyboard_update(Keyboard *k, uint16_t value);
 #define keyboard_key_pressed(k) \
   ((k)->previous_state == KEYBOARD_UNSTABLE && (k)->current_state == KEYBOARD_STABLE)
 
-#define keyboard_key_let_go(k) \
+#define keyboard_key_released(k) \
   ((k)->previous_state == KEYBOARD_STABLE && (k)->current_state == KEYBOARD_UNSTABLE)

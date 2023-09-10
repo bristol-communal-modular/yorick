@@ -212,6 +212,8 @@ int main () {
   flash_init(&led2, &clock);
 
   sequencer_init(&sequencer, &clock);
+  sequencer_set_step_length(&sequencer, 5000);
+  sequencer_set_note_length(&sequencer, 3000);
 
   // Setup param_manager and set initial control values
   // All need to be in the range 0 to 1023
@@ -239,23 +241,41 @@ int main () {
 
   while (1) {
 
-    sequencer_tick(&sequencer);
-
-    button_update(&button1, (PINA & _BV(BUTTON_1_IN_PIN)) ? BUTTON_UP : BUTTON_PRESSED);
-    button_update(&button2, (PINA & _BV(BUTTON_2_IN_PIN)) ? BUTTON_UP : BUTTON_PRESSED);
+    button_update(
+      &button1,
+      (PINA & _BV(BUTTON_1_IN_PIN)) ? BUTTON_UP : BUTTON_PRESSED
+    );
+    button_update(
+      &button2,
+      (PINA & _BV(BUTTON_2_IN_PIN)) ? BUTTON_UP : BUTTON_PRESSED
+    );
 
     keyboard_update(&keyboard, freq_adc_in);
 
     flash_update(&led1);
     flash_update(&led2);
 
-    if (button_just_let_go(&button1)) {
+    if (button_just_released(&button1)) {
       if (mode == YORICK_PLAY_MODE) {
         mode = YORICK_SEQUENCER_MODE;
         led1.led_on = false;
       } else if (mode == YORICK_SEQUENCER_MODE) {
         mode = YORICK_PLAY_MODE;
         led1.led_on = true;
+      }
+    }
+
+    if (sequencer.running) {
+      sequencer_tick(&sequencer);
+      freq_lookup = sequencer_current_step_value(&sequencer) + osc1_tuning + keyboard_get_key(&keyboard);
+      osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[freq_lookup]));
+
+      if (sequencer_note_started(&sequencer)) {
+        flash_start(&led2, 1, 5);
+        envelope_start(&env);
+      }
+      if (sequencer_note_finished(&sequencer)) {
+        envelope_release(&env);
       }
     }
 
@@ -269,29 +289,51 @@ int main () {
         set_parameter(param_manager_current(&param_manager, 1), mod2_adc_in);
       }
 
-      if (keyboard_stable(&keyboard)) {
-        freq_lookup = keyboard_get_key(&keyboard) + osc1_tuning;
-        osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[freq_lookup]));
-      }
-
-      if (keyboard_stable(&keyboard)) {
-        envelope_start(&env);
-      }
-      if (keyboard_key_let_go(&keyboard)) {
-        envelope_release(&env);
-      }
-
-      if (button_just_let_go(&button2)) {
+      if (button_just_released(&button2)) {
         param_manager_next_bank(&param_manager);
         flash_start(&led2, param_manager.bank + 1, 15);
       }
 
-    } else if (mode == YORICK_SEQUENCER_MODE) {
-      if (keyboard_key_pressed(&keyboard)) {
-        if (sequencer.editable) {
+      if (!sequencer.running) {
+        if (keyboard_stable(&keyboard)) {
+          freq_lookup = keyboard_get_key(&keyboard) + osc1_tuning;
+          osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[freq_lookup]));
+        }
 
+        if (keyboard_stable(&keyboard)) {
+          envelope_start(&env);
+        }
+
+        if (keyboard_key_released(&keyboard)) {
+          envelope_release(&env);
         }
       }
+
+    } else if (mode == YORICK_SEQUENCER_MODE) {
+
+      if (button_is_held(&button2)) {
+        sequencer_clear(&sequencer);
+        flash_start(&led2, 10, 2);
+        button_reset(&button2);
+      }
+
+      if (button_just_released(&button2)) {
+        if (sequencer.running) {
+          sequencer_stop(&sequencer);
+          envelope_release(&env);
+        } else if (sequencer.step_count > 0) {
+          flash_start(&led1, 1, 2);
+          sequencer_start(&sequencer);
+        }
+      }
+
+      if (sequencer.editable) {
+        if (keyboard_key_pressed(&keyboard)) {
+          flash_start(&led2, 1, 3);
+          sequencer_add_step(&sequencer, keyboard_get_key(&keyboard));
+        }
+      }
+
     }
 
     if (led1.led_on) {
