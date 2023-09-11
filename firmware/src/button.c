@@ -45,7 +45,7 @@ void button_update(Button *b, ButtonState new_state) {
     return;
   }
 
-  if (button_just_let_go(b)) {
+  if (button_just_released(b)) {
     b->time_pressed = 0;
     return;
   }
