@@ -11,37 +11,6 @@ void keyboard_init(Keyboard *k) {
   k->key_debounce_count = 0;
 }
 
-// This is kind of ugly
-// it's compensating for the scaling of the keyboard voltages
-// being a bit off. Should be fixable in hardware.
-uint8_t keyboard_scale_value(uint8_t value) {
-  if (value < 4) {
-    return 0;
-  } else if (value < 8) {
-    return 1;
-  } else if (value < 12) {
-    return 2;
-  } else if (value < 14) {
-    return 3;
-  } else if (value < 18) {
-    return 4;
-  } else if (value < 21) {
-    return 5;
-  } else if (value < 23) {
-    return 6;
-  } else if (value < 27) {
-    return 7;
-  } else if (value < 31) {
-    return 8;
-  } else if (value < 35) {
-    return 9;
-  } else if (value < 38) {
-    return 10;
-  } else {
-    return 11;
-  }
-}
-
 void keyboard_update(Keyboard *k, uint16_t value) {
   k->previous_state = k->current_state;
 
@@ -67,7 +36,7 @@ void keyboard_update(Keyboard *k, uint16_t value) {
   }
 
   if (debounced) {
-    k->key = keyboard_scale_value(value);
+    k->key = value >> 2;
     k->current_state = KEYBOARD_STABLE;
   } else {
     k->current_state = KEYBOARD_UNSTABLE;
