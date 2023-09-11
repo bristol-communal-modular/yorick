@@ -16,6 +16,7 @@
 #include "ticker.h"
 #include "sequencer.h"
 #include "button.h"
+#include "control_pot.h"
 #include "envelope.h"
 #include "keyboard.h"
 #include "wavetables.h"
@@ -60,6 +61,9 @@ volatile Oscillator lfo;
 Envelope env;
 
 ParamManager param_manager;
+
+ControlPot pot1;
+ControlPot pot2;
 
 Button button1;
 Button button2;
@@ -203,6 +207,9 @@ int main () {
 
   envelope_init(&env, 20);
 
+  control_pot_init(&pot1);
+  control_pot_init(&pot2);
+
   button_init(&button1, &clock);
   button_init(&button2, &clock);
 
@@ -252,6 +259,9 @@ int main () {
 
     keyboard_update(&keyboard, freq_adc_in);
 
+    control_pot_update(&pot1, mod1_adc_in);
+    control_pot_update(&pot2, mod2_adc_in);
+
     flash_update(&led1);
     flash_update(&led2);
 
@@ -281,16 +291,18 @@ int main () {
 
     if (mode == YORICK_PLAY_MODE) {
 
-      if (!param_manager_lock_check(&param_manager, 0, mod1_adc_in)) {
-        set_parameter(param_manager_current(&param_manager, 0), mod1_adc_in);
+      if (!control_pot_is_locked(&pot1)) {
+        set_parameter(param_manager_current(&param_manager, 0), control_pot_value(&pot1));
       }
 
-      if (!param_manager_lock_check(&param_manager, 1, mod2_adc_in)) {
-        set_parameter(param_manager_current(&param_manager, 1), mod2_adc_in);
+      if (!control_pot_is_locked(&pot2)) {
+        set_parameter(param_manager_current(&param_manager, 1), control_pot_value(&pot2));
       }
 
       if (button_just_released(&button2)) {
         param_manager_next_bank(&param_manager);
+        control_pot_lock(&pot1);
+        control_pot_lock(&pot2);
         flash_start(&led2, param_manager.bank + 1, 15);
       }
 

@@ -3,6 +3,7 @@
 #include "minunit.h"
 
 #include "param_manager.h"
+#include "control_pot.h"
 #include "keyboard.h"
 #include "button.h"
 #include "sequencer.h"
@@ -17,46 +18,52 @@
 MU_TEST(param_manager_test_bank_change) {
     ParamManager pm;
     param_manager_init(&pm);
-    mu_check(pm.bank == 0);
+    mu_assert_int_eq(0, pm.bank);
     param_manager_next_bank(&pm);
-    mu_check(pm.bank == 1);
+    mu_assert_int_eq(1, pm.bank);
     param_manager_next_bank(&pm);
-    mu_check(pm.bank == 2);
-}
-
-MU_TEST(param_manager_test_locks) {
-    ParamManager pm;
-    param_manager_init(&pm);
-
-    ParamType first = param_manager_current(&pm, 0);
-    mu_check(pm.pot_change_locked[first]);
-    mu_check(pm.previous_pot_value[first] == 0);
-
-    bool locked;
-
-    locked = param_manager_lock_check(&pm, 0, 10);
-    mu_check(locked);
-    mu_check(pm.previous_pot_value[0] == 0);
-    locked = param_manager_lock_check(&pm, 0, 100);
-    mu_check(!locked);
-    mu_check(pm.previous_pot_value[first] == 100);
-
-    param_manager_next_bank(&pm);
-    mu_check(pm.previous_pot_value[0] == 100);
-    mu_check(pm.pot_change_locked[0]);
-
-    locked = param_manager_lock_check(&pm, 0, 110);
-    mu_check(locked);
-    mu_check(pm.previous_pot_value[0] == 100);
-    locked = param_manager_lock_check(&pm, 0, 200);
-    mu_check(!locked);
-    mu_check(pm.previous_pot_value[0] == 200);
+    mu_assert_int_eq(2, pm.bank);
 }
 
 MU_TEST_SUITE(param_manager_suite) {
     test_header("Param Manager tests\n");
     MU_RUN_TEST(param_manager_test_bank_change);
-    MU_RUN_TEST(param_manager_test_locks);
+}
+
+MU_TEST(control_pot_test_locks) {
+    ControlPot cp;
+    control_pot_init(&cp);
+
+    mu_check(cp.locked);
+    mu_assert_int_eq(0, cp.value);
+
+    control_pot_update(&cp, 10);
+    mu_check(cp.locked);
+    mu_assert_int_eq(0, cp.value);
+
+    control_pot_update(&cp, 100);
+    mu_check(!cp.locked);
+    mu_assert_int_eq(100, cp.value);
+
+    control_pot_update(&cp, 101);
+    mu_check(!cp.locked);
+    mu_assert_int_eq(101, cp.value);
+
+    control_pot_lock(&cp);
+
+    control_pot_update(&cp, 102);
+    mu_check(cp.locked);
+    mu_assert_int_eq(101, cp.value);
+
+    control_pot_update(&cp, 202);
+    mu_check(!cp.locked);
+    mu_assert_int_eq(202, cp.value);
+
+}
+
+MU_TEST_SUITE(control_pot_suite) {
+    test_header("Control Pot tests\n");
+    MU_RUN_TEST(control_pot_test_locks);
 }
 
 MU_TEST(keyboard_test_debounce) {
@@ -423,6 +430,7 @@ MU_TEST_SUITE(sequencer_suite) {
 int main(int argc, char *argv[]) {
     test_header("Yorick tests\n");
     MU_RUN_SUITE(param_manager_suite);
+    MU_RUN_SUITE(control_pot_suite);
     MU_RUN_SUITE(keyboard_suite);
     MU_RUN_SUITE(led_flasher_suite);
     MU_RUN_SUITE(sequencer_suite);
