@@ -5525,7 +5525,7 @@
     (property "Reference" "R22" (at 152.908 182.0453 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
-    (property "Value" "100k" (at 152.908 184.5822 0)
+    (property "Value" "1m" (at 152.908 184.5822 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal" (at 152.908 182.88 90)
