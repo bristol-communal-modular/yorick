@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 #define KEYBOARD_DEBOUNCE_SAMPLES 6
-#define KEYBOARD_MIN_VALUE 50
+#define KEYBOARD_MIN_VALUE 16
 
 typedef enum {
   KEYBOARD_STABLE,

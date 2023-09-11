@@ -5,6 +5,7 @@
 
 void control_pot_init(ControlPot *cp) {
   cp->locked = true;
+  cp->changed = false;
   cp->value = 0;
 }
 
@@ -22,6 +23,11 @@ void control_pot_update(ControlPot *cp, uint16_t new_value) {
     cp->locked = false;
   }
 
-  cp->value = new_value;
+  if (new_value != cp->value) {
+    cp->value = new_value;
+    cp->changed = true;
+  } else {
+    cp->changed = false;
+  }
 }
 

@@ -19,7 +19,7 @@ void keyboard_update(Keyboard *k, uint16_t value) {
     k->current_state = KEYBOARD_UNSTABLE;
     return;
   }
-  value = value >> 4;
+  value = value >> 6;
 
   k->key_debounce_count += 1;
   if (k->key_debounce_count >= KEYBOARD_DEBOUNCE_SAMPLES) {
@@ -36,7 +36,7 @@ void keyboard_update(Keyboard *k, uint16_t value) {
   }
 
   if (debounced) {
-    k->key = value >> 2;
+    k->key = value;
     k->current_state = KEYBOARD_STABLE;
   } else {
     k->current_state = KEYBOARD_UNSTABLE;
