@@ -39,11 +39,9 @@ typedef struct Sequencer {
   (s)->editable = true; \
   (s)->step_count = 0;
 
-#define sequencer_set_step_length(s, value) \
-  (s)->ticks_per_step = value;
+void sequencer_set_step_length(Sequencer *s, uint16_t value);
 
-#define sequencer_set_note_length(s, value) \
-  (s)->note_length = value;
+void sequencer_set_note_length(Sequencer *s, uint16_t value);
 
 void sequencer_init(Sequencer *s, Ticker *ticker);
 

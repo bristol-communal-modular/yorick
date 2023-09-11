@@ -81,6 +81,15 @@ void sequencer_tick(Sequencer *s) {
   }
 }
 
+void sequencer_set_step_length(Sequencer *s, uint16_t value) {
+  uint16_t inverted = (1<<10) - value;
+  s->ticks_per_step = 500 + (inverted << 4);
+}
+
+void sequencer_set_note_length(Sequencer *s, uint16_t value) {
+  s->note_length = (s->ticks_per_step >> 8) * (value >> 2);
+}
+
 void sequencer_add_step(Sequencer *s, uint8_t note) {
   if (s->step_count >= SEQUENCER_MAX_STEPS) return;
 

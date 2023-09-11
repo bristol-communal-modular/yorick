@@ -219,8 +219,8 @@ int main () {
   flash_init(&led2, &clock);
 
   sequencer_init(&sequencer, &clock);
-  sequencer_set_step_length(&sequencer, 5000);
-  sequencer_set_note_length(&sequencer, 3000);
+  sequencer_set_step_length(&sequencer, 400);
+  sequencer_set_note_length(&sequencer, 400);
 
   // Setup param_manager and set initial control values
   // All need to be in the range 0 to 1023
@@ -266,6 +266,8 @@ int main () {
     flash_update(&led2);
 
     if (button_just_released(&button1)) {
+      control_pot_lock(&pot1);
+      control_pot_lock(&pot2);
       if (mode == YORICK_PLAY_MODE) {
         mode = YORICK_SEQUENCER_MODE;
         led1.led_on = false;
@@ -322,6 +324,15 @@ int main () {
       }
 
     } else if (mode == YORICK_SEQUENCER_MODE) {
+
+      if (!control_pot_is_locked(&pot1)) {
+        sequencer_set_step_length(&sequencer, control_pot_value(&pot1));
+      }
+
+      if (!control_pot_is_locked(&pot2)) {
+        sequencer_set_note_length(&sequencer, control_pot_value(&pot2));
+      }
+
 
       if (button_is_held(&button2)) {
         sequencer_clear(&sequencer);
