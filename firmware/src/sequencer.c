@@ -6,7 +6,7 @@ void sequencer_init(Sequencer *s, Ticker *t) {
 
   s->last_tick = 0;
   s->step_delta = 0;
-  s->ticks_per_step = 100;
+  s->ticks_per_step = 0;
   s->ticker = t;
 
   s->note_state = SEQUENCER_NOTE_OFF;
@@ -84,12 +84,12 @@ void sequencer_tick(Sequencer *s) {
 
 void sequencer_set_step_length(Sequencer *s, uint16_t value) {
   s->ticks_per_step = 500 + (value << 4);
-  s->note_ticks = (s->ticks_per_step >> 8) * (uint16_t)s->note_length;
+  s->note_ticks = (s->ticks_per_step >> 8) * (s->note_length >> 2);
 }
 
-void sequencer_set_note_length(Sequencer *s, uint8_t value) {
+void sequencer_set_note_length(Sequencer *s, uint16_t value) {
   s->note_length = value;
-  s->note_ticks = (s->ticks_per_step >> 8) * (uint16_t)value;
+  s->note_ticks = (s->ticks_per_step >> 8) * (s->note_length >> 2);
 }
 
 void sequencer_add_step(Sequencer *s, uint8_t note) {

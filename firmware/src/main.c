@@ -331,7 +331,7 @@ int main () {
 
       if (!control_pot_is_locked(&pot2) && control_pot_changed(&pot2)) {
         // change control pot value to be uint8
-        sequencer_set_note_length(&sequencer, (uint8_t)control_pot_value(&pot2) >> 2);
+        sequencer_set_note_length(&sequencer, control_pot_value(&pot2));
       }
 
 

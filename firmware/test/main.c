@@ -279,7 +279,7 @@ MU_TEST(sequencer_run) {
     mu_check(!sequencer_is_running(&s));
 
     sequencer_set_step_length(&s, 200);
-    sequencer_set_note_length(&s, 90);
+    sequencer_set_note_length(&s, 550);
 
     sequencer_add_step(&s, 0);
     mu_assert_int_eq(0, sequencer_get_step_value(&s, 0));
