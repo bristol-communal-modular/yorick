@@ -283,7 +283,7 @@ int main () {
       osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[freq_lookup]));
 
       if (sequencer_note_started(&sequencer)) {
-        flash_start(&led2, 1, 5);
+        flash_start(&led1, 5, 1);
         envelope_start(&env);
       }
       if (sequencer_note_finished(&sequencer)) {
@@ -353,7 +353,7 @@ int main () {
 
       if (sequencer.editable) {
         if (keyboard_key_pressed(&keyboard)) {
-          flash_start(&led2, 1, 3);
+          flash_start(&led1, 1, 3);
           sequencer_add_step(&sequencer, keyboard_get_key(&keyboard));
         }
       }
