@@ -22,7 +22,8 @@ typedef struct Sequencer {
 
   uint16_t note_state;
   uint16_t prev_note_state;
-  uint16_t note_length;
+  uint8_t note_length;
+  uint16_t note_ticks;
 
   bool editable;
 
@@ -41,7 +42,7 @@ typedef struct Sequencer {
 
 void sequencer_set_step_length(Sequencer *s, uint16_t value);
 
-void sequencer_set_note_length(Sequencer *s, uint16_t value);
+void sequencer_set_note_length(Sequencer *s, uint8_t value);
 
 void sequencer_init(Sequencer *s, Ticker *ticker);
 

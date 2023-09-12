@@ -11,7 +11,8 @@ void sequencer_init(Sequencer *s, Ticker *t) {
 
   s->note_state = SEQUENCER_NOTE_OFF;
   s->prev_note_state = SEQUENCER_NOTE_OFF;
-  s->note_length = 80;
+  s->note_length = 0;
+  s->note_ticks = 0;
 
   s->editable = true;
   s->step_count = 0;
@@ -75,19 +76,20 @@ void sequencer_tick(Sequencer *s) {
     sequencer_start_note(s);
     sequencer_next_step(s);
   } else if (s->note_state == SEQUENCER_NOTE_ON) {
-    if (s->step_delta < s->note_length) return;
+    if (s->step_delta < s->note_ticks) return;
 
     sequencer_stop_note(s);
   }
 }
 
 void sequencer_set_step_length(Sequencer *s, uint16_t value) {
-  uint16_t inverted = (1<<10) - value;
-  s->ticks_per_step = 500 + (inverted << 4);
+  s->ticks_per_step = 500 + (value << 4);
+  s->note_ticks = (s->ticks_per_step >> 8) * (uint16_t)s->note_length;
 }
 
-void sequencer_set_note_length(Sequencer *s, uint16_t value) {
-  s->note_length = (s->ticks_per_step >> 8) * (value >> 2);
+void sequencer_set_note_length(Sequencer *s, uint8_t value) {
+  s->note_length = value;
+  s->note_ticks = (s->ticks_per_step >> 8) * (uint16_t)value;
 }
 
 void sequencer_add_step(Sequencer *s, uint8_t note) {
