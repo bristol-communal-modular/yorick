@@ -6,6 +6,8 @@ Programming the Yorick is currently done using avr-gcc, avrdude, and make, via t
 
 The easiest way to get this all setup on MacOS is to get [Homebrew](https://brew.sh/) setup, and then install avr-gcc and avrdude through that.
 
+You'll need to install the osx-cross brew tap first though from <https://github.com/osx-cross/homebrew-avr>.
+
 ```
 brew install avr-gcc avrdude
 ```
