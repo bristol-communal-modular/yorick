@@ -219,8 +219,8 @@ int main () {
   led_control_init(&led2, &clock);
 
   sequencer_init(&sequencer, &clock);
-  sequencer_set_step_length(&sequencer, 400);
-  sequencer_set_note_length(&sequencer, 400);
+  sequencer_set_step_length(&sequencer, 300);
+  sequencer_set_note_length(&sequencer, 300);
 
   // Setup param_manager and set initial control values
   // All need to be in the range 0 to 1023

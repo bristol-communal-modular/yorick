@@ -83,7 +83,8 @@ void sequencer_tick(Sequencer *s) {
 }
 
 void sequencer_set_step_length(Sequencer *s, uint16_t value) {
-  s->ticks_per_step = 500 + (value << 4);
+  uint16_t logish = (value < 800) ? value : (((value - 800) * 4) + 800);
+  s->ticks_per_step = 1000 + (logish << 3);
   s->note_ticks = (s->ticks_per_step >> 8) * (s->note_length >> 2);
 }
 
