@@ -18,13 +18,9 @@ void led_control_init(LEDControl *led, Ticker *t) {
 void led_control_flash_start(LEDControl *led, uint8_t flashes, uint8_t interval) {
   led->flashing = true;
 
-  if (led->state == LED_STATE_ON) {
-    led->state = LED_STATE_OFF;
-  } else {
-    led->state = LED_STATE_ON;
-  }
-  // twice as many changes as flashes
-  led->changes_remaining = flashes << 1;
+  led_control_toggle(led);
+  // twice as many changes as flashes minus this initial one
+  led->changes_remaining = (flashes << 1) - 1;
   led->interval = interval;
   led->delta = interval;
   led->last_tick = ticker_8bit_count(led->ticker);

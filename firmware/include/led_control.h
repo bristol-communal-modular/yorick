@@ -29,3 +29,13 @@ void led_control_flash_start(LEDControl *led, uint8_t flashes, uint8_t interval)
 void led_control_update(LEDControl *led);
 
 #define led_control_set_state(led, new_state) (led)->state = new_state
+
+#define led_control_toggle(led) (led)->state = ((led)->state == LED_STATE_ON) ? LED_STATE_OFF : LED_STATE_ON
+
+#define led_control_turn_on(led) (led)->state = LED_STATE_ON
+
+#define led_control_turn_off(led) (led)->state = LED_STATE_OFF
+
+#define led_control_is_on(led) (led)->state == LED_STATE_ON
+
+#define led_control_is_off(led) (led)->state == LED_STATE_OFF

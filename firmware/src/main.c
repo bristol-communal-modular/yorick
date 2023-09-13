@@ -250,7 +250,7 @@ int main () {
   env_out = false;
 
   YorickMode mode = YORICK_PLAY_MODE;
-  led1.led_on = true;
+  led_control_turn_on(&led1);
 
   while (1) {
 
@@ -276,10 +276,10 @@ int main () {
       control_pot_lock(&pot2);
       if (mode == YORICK_PLAY_MODE) {
         mode = YORICK_SEQUENCER_MODE;
-        led1.led_on = false;
+        led_control_turn_off(&led1);
       } else if (mode == YORICK_SEQUENCER_MODE) {
         mode = YORICK_PLAY_MODE;
-        led1.led_on = true;
+        led_control_turn_on(&led1);
       }
     }
 
@@ -288,7 +288,7 @@ int main () {
       osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[freq_lookup]));
 
       if (sequencer_note_started(&sequencer)) {
-        led_control_flash_start(&led1, 5, 1);
+        led_control_flash_start(&led1, 1, 2);
         envelope_start(&volume_env);
         envelope_start(&filter_env);
       }
@@ -364,7 +364,6 @@ int main () {
           envelope_release(&volume_env);
           envelope_release(&filter_env);
         } else if (sequencer.step_count > 0) {
-          led_control_flash_start(&led1, 1, 2);
           sequencer_start(&sequencer);
           keyboard_reset_key(&keyboard);
         }
@@ -388,13 +387,13 @@ int main () {
 
     }
 
-    if (led1.led_on) {
+    if (led_control_is_on(&led1)) {
       PORTA |= _BV(LED_1_OUT_PIN);
     } else {
       PORTA &= ~_BV(LED_1_OUT_PIN);
     }
 
-    if (led2.led_on) {
+    if (led_control_is_on(&led2)) {
       PORTB |= _BV(LED_2_OUT_PIN);
     } else {
       PORTB &= ~_BV(LED_2_OUT_PIN);
