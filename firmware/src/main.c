@@ -58,7 +58,8 @@ void startADCConversion(uint8_t adc_channel) {
 volatile Oscillator osc1;
 volatile Oscillator lfo;
 
-Envelope env;
+Envelope volume_env;
+Envelope filter_env;
 
 ParamManager param_manager;
 
@@ -136,16 +137,20 @@ void set_parameter(ParamType control, uint16_t value) {
     case PARAM_LFO_RATE:
       tmp = ctrl_log_curve(value, 400, 10);
       osc_set_pitch(lfo, (tmp >> 4) + 1);
+      tmp = MAX_ADC_VALUE - value; // reverse pot
+      tmp = ctrl_log_curve(tmp, 400, 5);
+      envelope_set_decay(&filter_env, (tmp>>2) + 10);
       break;
     case PARAM_ENVELOPE_ATTACK:
       tmp = MAX_ADC_VALUE - value; // reverse pot
       tmp = ctrl_log_curve(tmp, 400, 5);
-      envelope_set_attack(&env, (tmp>>2) + 10);
+      envelope_set_attack(&volume_env, (tmp>>2) + 10);
+      envelope_set_attack(&filter_env, (tmp>>2) + 10);
       break;
     case PARAM_ENVELOPE_DECAY:
       tmp = MAX_ADC_VALUE - value; // reverse pot
       tmp = ctrl_log_curve(tmp, 400, 5);
-      envelope_set_decay(&env, (tmp>>2) + 10);
+      envelope_set_decay(&volume_env, (tmp>>2) + 10);
       break;
     default:
       break;
@@ -205,7 +210,8 @@ int main () {
   osc_init(osc1);
   osc_init(lfo);
 
-  envelope_init(&env, 20);
+  envelope_init(&volume_env, 20);
+  envelope_init(&filter_env, 20);
 
   control_pot_init(&pot1);
   control_pot_init(&pot2);
@@ -283,10 +289,12 @@ int main () {
 
       if (sequencer_note_started(&sequencer)) {
         led_control_flash_start(&led1, 5, 1);
-        envelope_start(&env);
+        envelope_start(&volume_env);
+        envelope_start(&filter_env);
       }
       if (sequencer_note_finished(&sequencer)) {
-        envelope_release(&env);
+        envelope_release(&volume_env);
+        envelope_release(&filter_env);
       }
       // make sure to tick after checking for started notes
       // otherwise it's possible to miss the first note when
@@ -320,11 +328,13 @@ int main () {
         }
 
         if (keyboard_key_pressed(&keyboard)) {
-          envelope_start(&env);
+          envelope_start(&volume_env);
+          envelope_start(&filter_env);
         }
 
         if (keyboard_key_released(&keyboard)) {
-          envelope_release(&env);
+          envelope_release(&volume_env);
+          envelope_release(&filter_env);
         }
       }
 
@@ -344,13 +354,15 @@ int main () {
         sequencer_clear(&sequencer);
         led_control_flash_start(&led2, 10, 2);
         button_reset(&button2);
-        envelope_release(&env);
+        envelope_release(&volume_env);
+        envelope_release(&filter_env);
       }
 
       if (button_just_released(&button2)) {
         if (sequencer.running) {
           sequencer_stop(&sequencer);
-          envelope_release(&env);
+          envelope_release(&volume_env);
+          envelope_release(&filter_env);
         } else if (sequencer.step_count > 0) {
           led_control_flash_start(&led1, 1, 2);
           sequencer_start(&sequencer);
@@ -364,11 +376,13 @@ int main () {
           sequencer_add_step(&sequencer, keyboard_get_key(&keyboard));
           freq_lookup = keyboard_get_key(&keyboard) + osc1_tuning;
           osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[freq_lookup]));
-          envelope_start(&env);
+          envelope_start(&volume_env);
+          envelope_start(&filter_env);
         }
 
         if (keyboard_key_released(&keyboard)) {
-          envelope_release(&env);
+          envelope_release(&volume_env);
+          envelope_release(&filter_env);
         }
       }
 
@@ -417,15 +431,20 @@ ISR(ADC_vect) {
 ISR( TIM0_COMPA_vect ) {
 
   ticker_tick(&clock);
-  envelope_tick(&env);
-  osc_update(lfo);
+  envelope_tick(&volume_env);
   osc_update(osc1);
 
   uint8_t osc_wave = pgm_read_byte(&osc_wavetable[osc_8bit_value(osc1)]);
 
-  uint8_t envelope = envelope_8bit_value(&env);
+  uint8_t ve = envelope_8bit_value(&volume_env);
 
-  OCR1B = ((uint16_t)osc_wave * (uint16_t)envelope) >> 8;
+  OCR1B = ((uint16_t)osc_wave * (uint16_t)ve) >> 8;
 
-  OCR1A = env_out ? envelope : pgm_read_byte(&lfo_wavetable[osc_8bit_value(lfo)]);
+  if (env_out) {
+    envelope_tick(&filter_env);
+    OCR1A = envelope_8bit_value(&filter_env);
+  } else {
+    osc_update(lfo);
+    OCR1A = pgm_read_byte(&lfo_wavetable[osc_8bit_value(lfo)]);
+  }
 }
