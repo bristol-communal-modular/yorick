@@ -309,7 +309,9 @@ int main () {
       }
 
       if (!sequencer.running) {
-        if (keyboard_key_pressed(&keyboard)) {
+        // Check if stable, not if_pressed here otherwise changes
+        // to osc1_tuning won't be heard as the key is held
+        if (keyboard_stable(&keyboard)) {
           freq_lookup = keyboard_get_key(&keyboard) + osc1_tuning;
           osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[freq_lookup]));
         }
