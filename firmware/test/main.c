@@ -114,8 +114,8 @@ MU_TEST(led_control_create) {
     LEDControl led;
     led_control_init(&led, &ticker);
 
-    mu_check(!led.running);
-    mu_check(!led.led_on);
+    mu_check(!led.flashing);
+    mu_check(led.state == LED_STATE_OFF);
 }
 
 MU_TEST(led_control_flash) {
@@ -125,8 +125,8 @@ MU_TEST(led_control_flash) {
     led_control_init(&led, &ticker);
 
     led_control_flash_start(&led, 2, 10);
-    mu_check(led.running);
-    mu_check(led.led_on);
+    mu_check(led.flashing);
+    mu_check(led.state == LED_STATE_ON);
 
     ticker_increment(&ticker, 1000);
     led_control_update(&led);
@@ -135,32 +135,33 @@ MU_TEST(led_control_flash) {
 
     ticker_increment(&ticker, 500);
     led_control_update(&led);
-    mu_check(led.running);
-    mu_check(led.led_on);
-    mu_check(led.flashes_remaining == 2);
+    mu_check(led.flashing);
+    mu_check(led.state == LED_STATE_ON);
+    mu_assert_int_eq(4, led.changes_remaining);
 
     ticker_increment(&ticker, 100);
     led_control_update(&led);
-    mu_check(led.running);
-    mu_check(!led.led_on);
-    mu_check(led.flashes_remaining == 1);
+    mu_check(led.flashing);
+    mu_check(led.state == LED_STATE_OFF);
+    mu_assert_int_eq(3, led.changes_remaining);
 
-    ticker_increment(&ticker, 2400);
+    ticker_increment(&ticker, 2600);
     led_control_update(&led);
-    mu_check(led.running);
-    mu_check(!led.led_on);
+    mu_check(led.flashing);
+    mu_check(led.state == LED_STATE_ON);
+    mu_assert_int_eq(2, led.changes_remaining);
 
-    ticker_increment(&ticker, 1000);
+    ticker_increment(&ticker, 2600);
     led_control_update(&led);
-    mu_check(led.running);
-    mu_check(led.led_on);
-    mu_check(led.flashes_remaining == 1);
+    mu_check(led.flashing);
+    mu_check(led.state == LED_STATE_OFF);
+    mu_assert_int_eq(1, led.changes_remaining);
 
-    ticker_increment(&ticker, 2000);
+    ticker_increment(&ticker, 2600);
     led_control_update(&led);
-    mu_check(!led.running);
-    mu_check(!led.led_on);
-    mu_check(led.flashes_remaining == 0);
+    mu_check(!led.flashing);
+    mu_check(led.state == LED_STATE_ON);
+    mu_assert_int_eq(0, led.changes_remaining);
 }
 
 MU_TEST_SUITE(led_control_suite) {
