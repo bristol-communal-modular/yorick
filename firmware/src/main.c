@@ -278,7 +278,6 @@ int main () {
     }
 
     if (sequencer.running) {
-      sequencer_tick(&sequencer);
       freq_lookup = sequencer_current_step_value(&sequencer) + osc1_tuning + keyboard_get_key(&keyboard);
       osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[freq_lookup]));
 
@@ -289,6 +288,10 @@ int main () {
       if (sequencer_note_finished(&sequencer)) {
         envelope_release(&env);
       }
+      // make sure to tick after checking for started notes
+      // otherwise it's possible to miss the first note when
+      // the sequencer is just started
+      sequencer_tick(&sequencer);
     }
 
     if (mode == YORICK_PLAY_MODE) {
