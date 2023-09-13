@@ -3,55 +3,55 @@
 #include "led_control.h"
 #include "ticker.h"
 
-void led_control_init(LEDControl *f, Ticker *t) {
-  f->running = false;
-  f->led_on = false;
-  f->flashes_remaining = 0;
-  f->interval = 0;
-  f->delta = 0;
-  f->last_tick = 0;
+void led_control_init(LEDControl *led, Ticker *t) {
+  led->running = false;
+  led->led_on = false;
+  led->flashes_remaining = 0;
+  led->interval = 0;
+  led->delta = 0;
+  led->last_tick = 0;
 
-  f->ticker = t;
+  led->ticker = t;
 }
 
-void led_control_flash_start(LEDControl *f, uint8_t flashes, uint8_t interval) {
-  f->flashes_remaining = flashes;
-  f->led_on = true;
-  f->running = true;
-  f->interval = interval;
-  f->delta = interval;
-  f->last_tick = ticker_8bit_count(f->ticker);
+void led_control_flash_start(LEDControl *led, uint8_t flashes, uint8_t interval) {
+  led->flashes_remaining = flashes;
+  led->led_on = true;
+  led->running = true;
+  led->interval = interval;
+  led->delta = interval;
+  led->last_tick = ticker_8bit_count(led->ticker);
 }
 
-void led_control_update(LEDControl *f) {
-  if (!f->running) { return; }
+void led_control_update(LEDControl *led) {
+  if (!led->running) { return; }
 
-  uint8_t now = ticker_8bit_count(f->ticker);
+  uint8_t now = ticker_8bit_count(led->ticker);
   uint8_t passed;
-  if (now < f->last_tick) {
+  if (now < led->last_tick) {
     // ticker count has overflowed
-    passed = (UINT8_MAX - f->last_tick) + now;
+    passed = (UINT8_MAX - led->last_tick) + now;
   } else {
-    passed = (now - f->last_tick);
+    passed = (now - led->last_tick);
   }
 
-  if (passed < f->delta) {
+  if (passed < led->delta) {
     // still counting down
-    f->delta = f->delta - passed;
-    f->last_tick = now;
+    led->delta = led->delta - passed;
+    led->last_tick = now;
     return;
   }
-  uint8_t diff = passed - f->delta;
-  f->delta = f->interval - diff;
+  uint8_t diff = passed - led->delta;
+  led->delta = led->interval - diff;
 
-  f->last_tick = now - diff;
+  led->last_tick = now - diff;
 
-  if (f->led_on) {
-    f->flashes_remaining -= 1;
-    if (f->flashes_remaining < 1) {
-      f->running = false;
+  if (led->led_on) {
+    led->flashes_remaining -= 1;
+    if (led->flashes_remaining < 1) {
+      led->running = false;
     }
   }
 
-  f->led_on = !f->led_on;
+  led->led_on = !led->led_on;
 }

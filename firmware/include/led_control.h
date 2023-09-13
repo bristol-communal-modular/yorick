@@ -13,8 +13,8 @@ typedef struct LEDControl {
   Ticker *ticker;
 } LEDControl;
 
-void led_control_init(LEDControl *f, Ticker *t);
+void led_control_init(LEDControl *led, Ticker *t);
 
-void led_control_flash_start(LEDControl *f, uint8_t flashes, uint8_t interval);
+void led_control_flash_start(LEDControl *led, uint8_t flashes, uint8_t interval);
 
-void led_control_update(LEDControl *f);
+void led_control_update(LEDControl *led);
