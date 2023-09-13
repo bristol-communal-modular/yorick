@@ -1,9 +1,9 @@
 #include <stdbool.h>
 
-#include "led_flasher.h"
+#include "led_control.h"
 #include "ticker.h"
 
-void flash_init(LEDFlasher *f, Ticker *t) {
+void led_control_init(LEDControl *f, Ticker *t) {
   f->running = false;
   f->led_on = false;
   f->flashes_remaining = 0;
@@ -14,7 +14,7 @@ void flash_init(LEDFlasher *f, Ticker *t) {
   f->ticker = t;
 }
 
-void flash_start(LEDFlasher *f, uint8_t flashes, uint8_t interval) {
+void led_control_flash_start(LEDControl *f, uint8_t flashes, uint8_t interval) {
   f->flashes_remaining = flashes;
   f->led_on = true;
   f->running = true;
@@ -23,7 +23,7 @@ void flash_start(LEDFlasher *f, uint8_t flashes, uint8_t interval) {
   f->last_tick = ticker_8bit_count(f->ticker);
 }
 
-void flash_update(LEDFlasher *f) {
+void led_control_update(LEDControl *f) {
   if (!f->running) { return; }
 
   uint8_t now = ticker_8bit_count(f->ticker);

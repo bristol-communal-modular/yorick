@@ -12,7 +12,7 @@
 
 #include "oscillator.h"
 #include "pitches.h"
-#include "led_flasher.h"
+#include "led_control.h"
 #include "ticker.h"
 #include "sequencer.h"
 #include "button.h"
@@ -70,8 +70,8 @@ Button button2;
 
 Keyboard keyboard;
 
-LEDFlasher led1;
-LEDFlasher led2;
+LEDControl led1;
+LEDControl led2;
 
 Ticker clock;
 
@@ -215,8 +215,8 @@ int main () {
 
   keyboard_init(&keyboard);
 
-  flash_init(&led1, &clock);
-  flash_init(&led2, &clock);
+  led_control_init(&led1, &clock);
+  led_control_init(&led2, &clock);
 
   sequencer_init(&sequencer, &clock);
   sequencer_set_step_length(&sequencer, 400);
@@ -262,8 +262,8 @@ int main () {
     control_pot_update(&pot1, (mod1_adc_in >> 1) << 1);
     control_pot_update(&pot2, (mod2_adc_in >> 1) << 1);
 
-    flash_update(&led1);
-    flash_update(&led2);
+    led_control_update(&led1);
+    led_control_update(&led2);
 
     if (button_just_released(&button1)) {
       control_pot_lock(&pot1);
@@ -283,7 +283,7 @@ int main () {
       osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[freq_lookup]));
 
       if (sequencer_note_started(&sequencer)) {
-        flash_start(&led1, 5, 1);
+        led_control_flash_start(&led1, 5, 1);
         envelope_start(&env);
       }
       if (sequencer_note_finished(&sequencer)) {
@@ -305,7 +305,7 @@ int main () {
         param_manager_next_bank(&param_manager);
         control_pot_lock(&pot1);
         control_pot_lock(&pot2);
-        flash_start(&led2, param_manager.bank + 1, 15);
+        led_control_flash_start(&led2, param_manager.bank + 1, 15);
       }
 
       if (!sequencer.running) {
@@ -337,7 +337,7 @@ int main () {
 
       if (button_is_held(&button2)) {
         sequencer_clear(&sequencer);
-        flash_start(&led2, 10, 2);
+        led_control_flash_start(&led2, 10, 2);
         button_reset(&button2);
       }
 
@@ -346,14 +346,14 @@ int main () {
           sequencer_stop(&sequencer);
           envelope_release(&env);
         } else if (sequencer.step_count > 0) {
-          flash_start(&led1, 1, 2);
+          led_control_flash_start(&led1, 1, 2);
           sequencer_start(&sequencer);
         }
       }
 
       if (sequencer.editable) {
         if (keyboard_key_pressed(&keyboard)) {
-          flash_start(&led1, 1, 3);
+          led_control_flash_start(&led1, 1, 3);
           sequencer_add_step(&sequencer, keyboard_get_key(&keyboard));
         }
       }

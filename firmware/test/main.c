@@ -7,7 +7,7 @@
 #include "keyboard.h"
 #include "button.h"
 #include "sequencer.h"
-#include "led_flasher.h"
+#include "led_control.h"
 #include "ticker.h"
 
 #define test_header(text) \
@@ -108,65 +108,65 @@ MU_TEST_SUITE(keyboard_suite) {
     MU_RUN_TEST(keyboard_key_up);
 }
 
-MU_TEST(led_flasher_create) {
+MU_TEST(led_control_create) {
     Ticker ticker;
     ticker_init(&ticker);
-    LEDFlasher flasher;
-    flash_init(&flasher, &ticker);
+    LEDControl led;
+    led_control_init(&led, &ticker);
 
-    mu_check(!flasher.running);
-    mu_check(!flasher.led_on);
+    mu_check(!led.running);
+    mu_check(!led.led_on);
 }
 
-MU_TEST(led_flasher_run) {
+MU_TEST(led_control_flash) {
     Ticker ticker;
     ticker_init(&ticker);
-    LEDFlasher flasher;
-    flash_init(&flasher, &ticker);
+    LEDControl led;
+    led_control_init(&led, &ticker);
 
-    flash_start(&flasher, 2, 10);
-    mu_check(flasher.running);
-    mu_check(flasher.led_on);
+    led_control_flash_start(&led, 2, 10);
+    mu_check(led.running);
+    mu_check(led.led_on);
 
-    ticker.count = 1000;
-    flash_update(&flasher);
-    ticker.count = 2000;
-    flash_update(&flasher);
+    ticker_increment(&ticker, 1000);
+    led_control_update(&led);
+    ticker_increment(&ticker, 1000);
+    led_control_update(&led);
 
-    ticker.count = 2500;
-    flash_update(&flasher);
-    mu_check(flasher.running);
-    mu_check(flasher.led_on);
-    mu_check(flasher.flashes_remaining == 2);
+    ticker_increment(&ticker, 500);
+    led_control_update(&led);
+    mu_check(led.running);
+    mu_check(led.led_on);
+    mu_check(led.flashes_remaining == 2);
 
-    ticker.count = 2600;
-    flash_update(&flasher);
-    mu_check(flasher.running);
-    mu_check(!flasher.led_on);
-    mu_check(flasher.flashes_remaining == 1);
+    ticker_increment(&ticker, 100);
+    led_control_update(&led);
+    mu_check(led.running);
+    mu_check(!led.led_on);
+    mu_check(led.flashes_remaining == 1);
 
-    ticker.count = 5000;
-    flash_update(&flasher);
-    mu_check(flasher.running);
-    mu_check(!flasher.led_on);
+    ticker_increment(&ticker, 2400);
+    led_control_update(&led);
+    mu_check(led.running);
+    mu_check(!led.led_on);
 
-    ticker.count = 6000;
-    flash_update(&flasher);
-    mu_check(flasher.running);
-    mu_check(flasher.led_on);
-    mu_check(flasher.flashes_remaining == 1);
+    ticker_increment(&ticker, 1000);
+    led_control_update(&led);
+    mu_check(led.running);
+    mu_check(led.led_on);
+    mu_check(led.flashes_remaining == 1);
 
-    ticker.count = 8000;
-    flash_update(&flasher);
-    mu_check(!flasher.running);
-    mu_check(!flasher.led_on);
-    mu_check(flasher.flashes_remaining == 0);
+    ticker_increment(&ticker, 2000);
+    led_control_update(&led);
+    mu_check(!led.running);
+    mu_check(!led.led_on);
+    mu_check(led.flashes_remaining == 0);
 }
 
-MU_TEST_SUITE(led_flasher_suite) {
-    test_header("LED Flasher tests\n");
-    MU_RUN_TEST(led_flasher_create);
-    MU_RUN_TEST(led_flasher_run);
+MU_TEST_SUITE(led_control_suite) {
+    test_header("LED Control tests\n");
+    MU_RUN_TEST(led_control_create);
+    MU_RUN_TEST(led_control_flash);
 }
 
 MU_TEST(button_pressing) {
@@ -432,7 +432,7 @@ int main(int argc, char *argv[]) {
     MU_RUN_SUITE(param_manager_suite);
     MU_RUN_SUITE(control_pot_suite);
     MU_RUN_SUITE(keyboard_suite);
-    MU_RUN_SUITE(led_flasher_suite);
+    MU_RUN_SUITE(led_control_suite);
     MU_RUN_SUITE(sequencer_suite);
     MU_RUN_SUITE(button_suite);
     MU_REPORT();
