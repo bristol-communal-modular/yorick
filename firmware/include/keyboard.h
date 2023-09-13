@@ -27,6 +27,8 @@ void keyboard_update(Keyboard *k, uint16_t value);
 
 #define keyboard_get_key(k) (k)->key
 
+#define keyboard_reset_key(k) (k)->key = 0;
+
 #define keyboard_stable(k) ((k)->current_state == KEYBOARD_STABLE)
 
 #define keyboard_unstable(k) ((k)->current_state == KEYBOARD_UNSTABLE)

@@ -309,12 +309,12 @@ int main () {
       }
 
       if (!sequencer.running) {
-        if (keyboard_stable(&keyboard)) {
+        if (keyboard_key_pressed(&keyboard)) {
           freq_lookup = keyboard_get_key(&keyboard) + osc1_tuning;
           osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[freq_lookup]));
         }
 
-        if (keyboard_stable(&keyboard)) {
+        if (keyboard_key_pressed(&keyboard)) {
           envelope_start(&env);
         }
 
@@ -339,6 +339,7 @@ int main () {
         sequencer_clear(&sequencer);
         led_control_flash_start(&led2, 10, 2);
         button_reset(&button2);
+        envelope_release(&env);
       }
 
       if (button_just_released(&button2)) {
@@ -348,6 +349,7 @@ int main () {
         } else if (sequencer.step_count > 0) {
           led_control_flash_start(&led1, 1, 2);
           sequencer_start(&sequencer);
+          keyboard_reset_key(&keyboard);
         }
       }
 
@@ -355,6 +357,13 @@ int main () {
         if (keyboard_key_pressed(&keyboard)) {
           led_control_flash_start(&led1, 1, 3);
           sequencer_add_step(&sequencer, keyboard_get_key(&keyboard));
+          freq_lookup = keyboard_get_key(&keyboard) + osc1_tuning;
+          osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[freq_lookup]));
+          envelope_start(&env);
+        }
+
+        if (keyboard_key_released(&keyboard)) {
+          envelope_release(&env);
         }
       }
 
