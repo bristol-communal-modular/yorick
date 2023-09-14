@@ -71,13 +71,11 @@ void sequencer_tick(Sequencer *s) {
 
   if (s->note_state == SEQUENCER_NOTE_OFF) {
     if (s->step_delta < s->ticks_per_step) return;
-
     s->step_delta -= s->ticks_per_step;
     sequencer_start_note(s);
     sequencer_next_step(s);
   } else if (s->note_state == SEQUENCER_NOTE_ON) {
     if (s->step_delta < s->note_ticks) return;
-
     sequencer_stop_note(s);
   }
 }

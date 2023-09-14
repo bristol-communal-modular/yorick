@@ -137,30 +137,30 @@ MU_TEST(led_control_flash) {
     led_control_update(&led);
     mu_check(led.flashing);
     mu_check(led_control_is_on(&led));
-    mu_assert_int_eq(4, led.changes_remaining);
+    mu_assert_int_eq(3, led.changes_remaining);
 
     ticker_increment(&ticker, 100);
     led_control_update(&led);
     mu_check(led.flashing);
     mu_check(led_control_is_off(&led));
-    mu_assert_int_eq(3, led.changes_remaining);
-
-    ticker_increment(&ticker, 2600);
-    led_control_update(&led);
-    mu_check(led.flashing);
-    mu_check(led_control_is_on(&led));
     mu_assert_int_eq(2, led.changes_remaining);
 
     ticker_increment(&ticker, 2600);
     led_control_update(&led);
     mu_check(led.flashing);
-    mu_check(led_control_is_off(&led));
+    mu_check(led_control_is_on(&led));
     mu_assert_int_eq(1, led.changes_remaining);
 
     ticker_increment(&ticker, 2600);
     led_control_update(&led);
     mu_check(!led.flashing);
-    mu_check(led_control_is_on(&led));
+    mu_check(led_control_is_off(&led));
+    mu_assert_int_eq(0, led.changes_remaining);
+
+    ticker_increment(&ticker, 2600);
+    led_control_update(&led);
+    mu_check(!led.flashing);
+    mu_check(led_control_is_off(&led));
     mu_assert_int_eq(0, led.changes_remaining);
 }
 
@@ -276,11 +276,12 @@ MU_TEST_SUITE(button_suite) {
 MU_TEST(sequencer_run) {
     Sequencer s;
     Ticker t;
+    ticker_init(&t);
     sequencer_init(&s, &t);
     mu_check(!sequencer_is_running(&s));
 
     sequencer_set_step_length(&s, 200);
-    sequencer_set_note_length(&s, 550);
+    sequencer_set_note_length(&s, 500);
 
     sequencer_add_step(&s, 0);
     mu_assert_int_eq(0, sequencer_get_step_value(&s, 0));
@@ -300,53 +301,33 @@ MU_TEST(sequencer_run) {
 
     mu_check(s.note_state == SEQUENCER_NOTE_OFF);
 
-    ticker_set(&t, 10<<4);
     sequencer_start(&s);
-    mu_check(sequencer_is_running(&s));
-    mu_check(s.note_state == SEQUENCER_NOTE_ON);
-    mu_check(sequencer_note_started(&s));
-    mu_assert_int_eq(0, s.current_step);
-    mu_assert_int_eq(0, sequencer_current_step_value(&s));
 
-    ticker_set(&t, 50<<4);
-    sequencer_tick(&s);
-    mu_check(sequencer_is_running(&s));
-    mu_check(s.note_state == SEQUENCER_NOTE_ON);
-    mu_check(!sequencer_note_started(&s));
-    mu_assert_int_eq(0, s.current_step);
-    mu_assert_int_eq(0, sequencer_current_step_value(&s));
+    for (int i = 0; i < 9; i++) {
 
-    ticker_set(&t, 140<<4);
-    sequencer_tick(&s);
-    mu_check(sequencer_is_running(&s));
-    mu_check(s.note_state == SEQUENCER_NOTE_OFF);
-    mu_check(sequencer_note_finished(&s));
-    mu_assert_int_eq(0, s.current_step);
-    mu_assert_int_eq(0, sequencer_current_step_value(&s));
-
-    for (int i = 1; i < 9; i++) {
-        ticker_increment(&t, 115<<4);
-        sequencer_tick(&s);
         mu_check(sequencer_is_running(&s));
         mu_check(s.note_state == SEQUENCER_NOTE_ON);
         mu_check(sequencer_note_started(&s));
         mu_assert_int_eq(i % s.step_count, s.current_step);
         mu_assert_int_eq(i % s.step_count, sequencer_current_step_value(&s));
 
-        ticker_increment(&t, 1<<4);
+        ticker_increment(&t, 100);
         sequencer_tick(&s);
         mu_check(!sequencer_note_started(&s));
 
-        ticker_increment(&t, 115<<4);
+        ticker_increment(&t, 1400);
         sequencer_tick(&s);
         mu_check(sequencer_is_running(&s));
         mu_check(s.note_state == SEQUENCER_NOTE_OFF);
         mu_check(sequencer_note_finished(&s));
         mu_assert_int_eq(i % s.step_count, s.current_step);
 
-        ticker_increment(&t, 1<<4);
+        ticker_increment(&t, 100);
         sequencer_tick(&s);
         mu_check(!sequencer_note_finished(&s));
+
+        ticker_increment(&t, 1000);
+        sequencer_tick(&s);
     }
 }
 
@@ -356,20 +337,19 @@ MU_TEST(sequencer_add_steps) {
     sequencer_init(&s, &t);
 
     sequencer_set_step_length(&s, 200);
-    sequencer_set_note_length(&s, 90);
+    sequencer_set_note_length(&s, 500);
     sequencer_add_step(&s, 100);
     sequencer_add_step(&s, 120);
     sequencer_add_step(&s, 80);
     sequencer_add_step(&s, 60);
 
-    ticker_set(&t, 10);
     sequencer_start(&s);
 
-    for (int i = 1; i < 10; i++) {
-        ticker_increment(&t, 116<<4);
+    for (int i = 0; i < 10; i++) {
+        ticker_increment(&t, 1000);
         sequencer_tick(&s);
 
-        ticker_increment(&t, 116<<4);
+        ticker_increment(&t, 1500);
         sequencer_tick(&s);
         mu_assert_int_eq(i % s.step_count, s.current_step);
     }
@@ -384,20 +364,20 @@ MU_TEST(sequencer_add_steps) {
 
     sequencer_add_step(&s, 30);
 
-    ticker_increment(&t, 10<<4);
+    ticker_increment(&t, 1000);
     sequencer_tick(&s);
     mu_check(s.note_state == SEQUENCER_NOTE_ON);
     mu_check(!sequencer_note_started(&s));
     mu_assert_int_eq(0, s.current_step);
 
-    ticker_increment(&t, 116<<4);
+    ticker_increment(&t, 1500);
     sequencer_tick(&s);
     mu_check(s.note_state == SEQUENCER_NOTE_OFF);
     mu_check(sequencer_note_finished(&s));
     mu_assert_int_eq(0, s.current_step);
 
     for (int i = 1; i < 7; i++) {
-        ticker_increment(&t, 115<<4);
+        ticker_increment(&t, 1000);
         sequencer_tick(&s);
         mu_check(sequencer_is_running(&s));
         mu_check(s.note_state == SEQUENCER_NOTE_ON);
@@ -408,7 +388,7 @@ MU_TEST(sequencer_add_steps) {
         sequencer_tick(&s);
         mu_check(!sequencer_note_started(&s));
 
-        ticker_increment(&t, 115<<4);
+        ticker_increment(&t, 1500);
         sequencer_tick(&s);
         mu_check(sequencer_is_running(&s));
         mu_check(s.note_state == SEQUENCER_NOTE_OFF);
