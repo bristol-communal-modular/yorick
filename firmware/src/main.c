@@ -81,6 +81,8 @@ Sequencer sequencer;
 const uint8_t *osc_wavetable;
 const uint8_t *lfo_wavetable;
 bool env_out;
+bool noise_lfo;
+uint8_t lfo_divider;
 
 // takes the 0 to 1023 mod value and helps make a more logarithmic control
 #define ctrl_log_curve(value, bp, mult) \
@@ -105,6 +107,7 @@ void set_osc_wave(uint8_t value) {
 
 void set_lfo_wave(uint8_t value) {
   env_out = false;
+  noise_lfo = false;
   switch (value) {
     case 0:
       lfo_wavetable = WT_SINE;
@@ -117,6 +120,7 @@ void set_lfo_wave(uint8_t value) {
       break;
     case 3:
       lfo_wavetable = WT_RANDOM;
+      noise_lfo = true;
       break;
   }
 }
@@ -248,6 +252,8 @@ int main () {
   osc_set_pitch(osc1, 0);
 
   env_out = false;
+  noise_lfo = false;
+  lfo_divider = 0;
 
   YorickMode mode = YORICK_PLAY_MODE;
   led_control_turn_on(&led1);
@@ -443,7 +449,14 @@ ISR( TIM0_COMPA_vect ) {
     envelope_tick(&filter_env);
     OCR1A = envelope_8bit_value(&filter_env);
   } else {
-    osc_update(lfo);
+    lfo_divider++;
+    if (noise_lfo) {
+      if (lfo_divider == 0) {
+        osc_update(lfo);
+      }
+    } else {
+      osc_update(lfo);
+    }
     OCR1A = pgm_read_byte(&lfo_wavetable[osc_8bit_value(lfo)]);
   }
 }
