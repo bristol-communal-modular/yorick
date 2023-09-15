@@ -9,8 +9,8 @@ void sequencer_init(Sequencer *s, Ticker *t) {
   s->ticks_per_step = 0;
   s->ticker = t;
 
-  s->note_state = SEQUENCER_NOTE_OFF;
-  s->prev_note_state = SEQUENCER_NOTE_OFF;
+  s->note_state = SEQUENCER_NOTE_STATE_OFF;
+  s->prev_note_state = SEQUENCER_NOTE_STATE_OFF;
   s->note_length = 0;
   s->note_ticks = 0;
 
@@ -19,6 +19,7 @@ void sequencer_init(Sequencer *s, Ticker *t) {
   s->current_step = 0;
   for (uint8_t i = 0; i < SEQUENCER_MAX_STEPS; i++) {
     s->steps[i] = 0;
+    s->step_types[i] = SEQUENCER_NOTE_TYPE_TRIG;
   }
 }
 
@@ -46,16 +47,16 @@ void sequencer_next_step(Sequencer *s) {
 }
 
 void sequencer_start_note(Sequencer *s) {
-  if (s->note_state == SEQUENCER_NOTE_OFF) {
-    s->note_state = SEQUENCER_NOTE_ON;
-    s->prev_note_state = SEQUENCER_NOTE_OFF;
+  if (s->note_state == SEQUENCER_NOTE_STATE_OFF) {
+    s->note_state = SEQUENCER_NOTE_STATE_ON;
+    s->prev_note_state = SEQUENCER_NOTE_STATE_OFF;
   }
 }
 
 void sequencer_stop_note(Sequencer *s) {
-  if (s->note_state == SEQUENCER_NOTE_ON) {
-    s->note_state = SEQUENCER_NOTE_OFF;
-    s->prev_note_state = SEQUENCER_NOTE_ON;
+  if (s->note_state == SEQUENCER_NOTE_STATE_ON) {
+    s->note_state = SEQUENCER_NOTE_STATE_OFF;
+    s->prev_note_state = SEQUENCER_NOTE_STATE_ON;
   }
 }
 
@@ -69,12 +70,12 @@ void sequencer_tick(Sequencer *s) {
 
   sequencer_update_prev_note_state(s);
 
-  if (s->note_state == SEQUENCER_NOTE_OFF) {
+  if (s->note_state == SEQUENCER_NOTE_STATE_OFF) {
     if (s->step_delta < s->ticks_per_step) return;
     s->step_delta -= s->ticks_per_step;
     sequencer_start_note(s);
     sequencer_next_step(s);
-  } else if (s->note_state == SEQUENCER_NOTE_ON) {
+  } else if (s->note_state == SEQUENCER_NOTE_STATE_ON) {
     if (s->step_delta < s->note_ticks) return;
     sequencer_stop_note(s);
   }
@@ -91,9 +92,10 @@ void sequencer_set_note_length(Sequencer *s, uint16_t value) {
   s->note_ticks = (s->ticks_per_step >> 8) * (s->note_length >> 2);
 }
 
-void sequencer_add_step(Sequencer *s, uint8_t note) {
+void sequencer_add_step(Sequencer *s, uint8_t note, SequencerNoteType note_type) {
   if (s->step_count >= SEQUENCER_MAX_STEPS) return;
 
   s->steps[s->step_count] = note;
+  s->step_types[s->step_count] = note_type;
   s->step_count += 1;
 }

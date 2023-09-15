@@ -350,10 +350,12 @@ int main () {
         sequencer_set_step_length(&sequencer, (1<<10) - control_pot_value(&pot1));
       }
 
+      /*
       if (!control_pot_is_locked(&pot2) && control_pot_changed(&pot2)) {
         // change control pot value to be uint8
         sequencer_set_note_length(&sequencer, control_pot_value(&pot2));
       }
+      */
 
 
       if (button_is_held(&button2)) {
@@ -378,7 +380,13 @@ int main () {
       if (sequencer.editable) {
         if (keyboard_key_pressed(&keyboard)) {
           led_control_flash_start(&led1, 1, 3);
-          sequencer_add_step(&sequencer, keyboard_get_key(&keyboard));
+          if (!control_pot_is_locked(&pot2) && control_pot_value(&pot2) > 700) {
+            sequencer_add_rest_step(&sequencer, keyboard_get_key(&keyboard));
+          } else if (!control_pot_is_locked(&pot2) && control_pot_value(&pot2) > 300) {
+            sequencer_add_hold_step(&sequencer, keyboard_get_key(&keyboard));
+          } else {
+            sequencer_add_trig_step(&sequencer, keyboard_get_key(&keyboard));
+          }
           freq_lookup = keyboard_get_key(&keyboard) + osc1_tuning;
           osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[freq_lookup]));
           envelope_start(&volume_env);

@@ -8,9 +8,15 @@
 #define SEQUENCER_MAX_STEPS 16
 
 typedef enum {
-  SEQUENCER_NOTE_ON,
-  SEQUENCER_NOTE_OFF,
+  SEQUENCER_NOTE_STATE_ON,
+  SEQUENCER_NOTE_STATE_OFF,
 } SequencerNoteState;
+
+typedef enum {
+  SEQUENCER_NOTE_TYPE_TRIG,
+  SEQUENCER_NOTE_TYPE_HOLD,
+  SEQUENCER_NOTE_TYPE_REST,
+} SequencerNoteType;
 
 typedef struct Sequencer {
   bool running;
@@ -30,6 +36,7 @@ typedef struct Sequencer {
   uint8_t step_count;
   uint8_t current_step;
   uint16_t steps[SEQUENCER_MAX_STEPS];
+  SequencerNoteType step_types[SEQUENCER_MAX_STEPS];
 
 } Sequencer;
 
@@ -64,21 +71,30 @@ void sequencer_stop_note(Sequencer *s);
 
 void sequencer_tick(Sequencer *s);
 
-void sequencer_add_step(Sequencer *s, uint8_t note);
+void sequencer_add_step(Sequencer *s, uint8_t note, SequencerNoteType note_type);
+
+#define sequencer_add_trig_step(s, n) sequencer_add_step(s, n, SEQUENCER_NOTE_TYPE_TRIG)
+#define sequencer_add_hold_step(s, n) sequencer_add_step(s, n, SEQUENCER_NOTE_TYPE_HOLD)
+#define sequencer_add_rest_step(s, n) sequencer_add_step(s, n, SEQUENCER_NOTE_TYPE_REST)
 
 #define sequencer_current_step_value(s) \
   (s)->steps[(s)->current_step]
+
+#define sequencer_current_step_type(s) \
+  (s)->step_types[(s)->current_step]
 
 #define sequencer_get_step_value(s, value) \
   (s)->steps[value]
 
 #define sequencer_note_started(s) \
-  ((s)->note_state == SEQUENCER_NOTE_ON && \
-   (s)->prev_note_state == SEQUENCER_NOTE_OFF)
+  ((s)->note_state == SEQUENCER_NOTE_STATE_ON && \
+   (s)->prev_note_state == SEQUENCER_NOTE_STATE_OFF && \
+   ((s)->step_types[(s)->current_step] != SEQUENCER_NOTE_TYPE_REST))
 
 #define sequencer_note_finished(s) \
-  ((s)->note_state == SEQUENCER_NOTE_OFF && \
-   (s)->prev_note_state == SEQUENCER_NOTE_ON)
+  ((s)->note_state == SEQUENCER_NOTE_STATE_OFF && \
+   (s)->prev_note_state == SEQUENCER_NOTE_STATE_ON && \
+   ((s)->step_types[(s)->current_step] != SEQUENCER_NOTE_TYPE_HOLD))
 
 #define sequencer_update_prev_note_state(s) \
   (s)->prev_note_state = (s)->note_state
