@@ -37,25 +37,36 @@ MU_TEST(control_pot_test_locks) {
     mu_check(cp.locked);
     mu_assert_int_eq(0, cp.value);
 
-    control_pot_update(&cp, 10);
-    mu_check(cp.locked);
-    mu_assert_int_eq(0, cp.value);
+    for (uint8_t i = 0; i < CONTROL_POT_FILTER_SAMPLES; i++) {
+      control_pot_update(&cp, 10);
+    }
 
-    control_pot_update(&cp, 100);
+    mu_check(cp.locked);
+    mu_assert_int_eq(10, cp.value);
+
+    for (uint8_t i = 0; i < CONTROL_POT_FILTER_SAMPLES; i++) {
+      control_pot_update(&cp, 100);
+    }
     mu_check(!cp.locked);
     mu_assert_int_eq(100, cp.value);
 
-    control_pot_update(&cp, 101);
+    for (uint8_t i = 0; i < CONTROL_POT_FILTER_SAMPLES; i++) {
+      control_pot_update(&cp, 101);
+    }
     mu_check(!cp.locked);
     mu_assert_int_eq(101, cp.value);
 
     control_pot_lock(&cp);
 
-    control_pot_update(&cp, 102);
+    for (uint8_t i = 0; i < CONTROL_POT_FILTER_SAMPLES; i++) {
+      control_pot_update(&cp, 102);
+    }
     mu_check(cp.locked);
-    mu_assert_int_eq(101, cp.value);
+    mu_assert_int_eq(102, cp.value);
 
-    control_pot_update(&cp, 202);
+    for (uint8_t i = 0; i < CONTROL_POT_FILTER_SAMPLES; i++) {
+      control_pot_update(&cp, 202);
+    }
     mu_check(!cp.locked);
     mu_assert_int_eq(202, cp.value);
 
