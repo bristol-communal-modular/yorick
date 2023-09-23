@@ -163,7 +163,7 @@ void set_parameter(ParamType control, uint16_t value) {
 
 int main () {
 
-  cli();                              // Disable inerrupts during setup
+  disable_interrupts;
 
   /* Timer 0 Setup */
   // Timer0 gets setup to call the TIM_OVF interrupt at a 20kHz frequency
@@ -207,7 +207,7 @@ int main () {
   PORTA |= _BV(BUTTON_1_IN_PIN);     // Button 1 pin pull up resistor
   PORTA |= _BV(BUTTON_2_IN_PIN);     // Button 2 pin pull up resistor
 
-  sei();            
+  enable_interrupts;
 
   startADCConversion(adc_read_channel);
 
@@ -274,8 +274,10 @@ int main () {
     control_pot_update(&pot1, mod1_adc_in);
     control_pot_update(&pot2, mod2_adc_in);
 
+    disable_interrupts;
     led_control_update(&led1);
     led_control_update(&led2);
+    enable_interrupts;
 
     if (button_just_released(&button1)) {
       control_pot_lock(&pot1);
@@ -290,8 +292,10 @@ int main () {
     }
 
     if (sequencer.running) {
+      disable_interrupts;
       freq_lookup = sequencer_current_step_value(&sequencer) + osc1_tuning + keyboard_get_key(&keyboard);
       osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[freq_lookup]));
+      enable_interrupts;
 
       if (sequencer_note_started(&sequencer)) {
         led_control_flash_start(&led1, 1, 2);
@@ -305,17 +309,23 @@ int main () {
       // make sure to tick after checking for started notes
       // otherwise it's possible to miss the first note when
       // the sequencer is just started
+      disable_interrupts;
       sequencer_tick(&sequencer);
+      enable_interrupts;
     }
 
     if (mode == YORICK_PLAY_MODE) {
 
       if (!control_pot_is_locked(&pot1)) {
+        disable_interrupts;
         set_parameter(param_manager_current(&param_manager, 0), control_pot_value(&pot1));
+        enable_interrupts;
       }
 
       if (!control_pot_is_locked(&pot2)) {
+        disable_interrupts;
         set_parameter(param_manager_current(&param_manager, 1), control_pot_value(&pot2));
+        enable_interrupts;
       }
 
       if (button_just_released(&button2)) {

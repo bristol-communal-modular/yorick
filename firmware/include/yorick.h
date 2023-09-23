@@ -4,3 +4,6 @@ typedef enum {
   YORICK_PLAY_MODE,
 } YorickMode;
 
+#define disable_interrupts cli()
+
+#define enable_interrupts sei()
