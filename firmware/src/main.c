@@ -271,8 +271,8 @@ int main () {
 
     keyboard_update(&keyboard, freq_adc_in);
 
-    control_pot_update(&pot1, (mod1_adc_in >> 1) << 1);
-    control_pot_update(&pot2, (mod2_adc_in >> 1) << 1);
+    control_pot_update(&pot1, mod1_adc_in);
+    control_pot_update(&pot2, mod2_adc_in);
 
     led_control_update(&led1);
     led_control_update(&led2);
@@ -310,11 +310,11 @@ int main () {
 
     if (mode == YORICK_PLAY_MODE) {
 
-      if (!control_pot_is_locked(&pot1) && control_pot_changed(&pot1)) {
+      if (!control_pot_is_locked(&pot1)) {
         set_parameter(param_manager_current(&param_manager, 0), control_pot_value(&pot1));
       }
 
-      if (!control_pot_is_locked(&pot2) && control_pot_changed(&pot2)) {
+      if (!control_pot_is_locked(&pot2)) {
         set_parameter(param_manager_current(&param_manager, 1), control_pot_value(&pot2));
       }
 
@@ -346,12 +346,12 @@ int main () {
 
     } else if (mode == YORICK_SEQUENCER_MODE) {
 
-      if (!control_pot_is_locked(&pot1) && control_pot_changed(&pot1)) {
+      if (!control_pot_is_locked(&pot1)) {
         sequencer_set_step_length(&sequencer, (1<<10) - control_pot_value(&pot1));
       }
 
       /*
-      if (!control_pot_is_locked(&pot2) && control_pot_changed(&pot2)) {
+      if (!control_pot_is_locked(&pot2)) {
         // change control pot value to be uint8
         sequencer_set_note_length(&sequencer, control_pot_value(&pot2));
       }
