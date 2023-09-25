@@ -26,8 +26,8 @@ typedef struct Sequencer {
 
   Ticker *ticker;
 
-  uint16_t note_state;
-  uint16_t prev_note_state;
+  SequencerNoteState note_state;
+  SequencerNoteState prev_note_state;
   uint16_t note_length;
   uint16_t note_ticks;
 
@@ -35,7 +35,7 @@ typedef struct Sequencer {
 
   uint8_t step_count;
   uint8_t current_step;
-  uint16_t steps[SEQUENCER_MAX_STEPS];
+  uint8_t steps[SEQUENCER_MAX_STEPS];
   SequencerNoteType step_types[SEQUENCER_MAX_STEPS];
 
 } Sequencer;

@@ -47,7 +47,7 @@ uint16_t volatile freq_adc_in;
 uint16_t volatile mod1_adc_in;
 uint16_t volatile mod2_adc_in;
 
-uint16_t osc1_tuning;
+uint8_t osc_tuning;
 
 
 void startADCConversion(uint8_t adc_channel) {
@@ -130,7 +130,7 @@ void set_parameter(ParamType control, uint16_t value) {
   switch(control) {
     case PARAM_TUNING:
       // constrain octave to between 0 and 127
-      osc1_tuning = (value >> 3);
+      osc_tuning = (value >> 3);
       break;
     case PARAM_OSC_WAVE:
       set_osc_wave(value >> 8);
@@ -293,7 +293,7 @@ int main () {
 
     if (sequencer.running) {
       disable_interrupts;
-      freq_lookup = sequencer_current_step_value(&sequencer) + osc1_tuning + keyboard_get_key(&keyboard);
+      freq_lookup = sequencer_current_step_value(&sequencer) + osc_tuning + keyboard_get_key(&keyboard);
       osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[freq_lookup]));
       enable_interrupts;
 
@@ -337,9 +337,9 @@ int main () {
 
       if (!sequencer.running) {
         // Check if stable, not if_pressed here otherwise changes
-        // to osc1_tuning won't be heard as the key is held
+        // to osc_tuning won't be heard as the key is held
         if (keyboard_stable(&keyboard)) {
-          freq_lookup = keyboard_get_key(&keyboard) + osc1_tuning;
+          freq_lookup = keyboard_get_key(&keyboard) + osc_tuning;
           osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[freq_lookup]));
         }
 
@@ -397,7 +397,7 @@ int main () {
           } else {
             sequencer_add_trig_step(&sequencer, keyboard_get_key(&keyboard));
           }
-          freq_lookup = keyboard_get_key(&keyboard) + osc1_tuning;
+          freq_lookup = keyboard_get_key(&keyboard) + osc_tuning;
           osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[freq_lookup]));
           envelope_start(&volume_env);
           envelope_start(&filter_env);
