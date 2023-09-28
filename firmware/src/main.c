@@ -248,6 +248,8 @@ int main () {
   mod2_adc_in = 0;
 
   uint8_t freq_lookup = 0;
+  uint8_t transpose = 0;
+  osc_tuning = 0;
 
   osc_set_pitch(osc1, 0);
 
@@ -293,7 +295,7 @@ int main () {
 
     if (sequencer.running) {
       disable_interrupts;
-      freq_lookup = sequencer_current_step_value(&sequencer) + osc_tuning + keyboard_get_key(&keyboard);
+      freq_lookup = sequencer_current_step_value(&sequencer) + osc_tuning + transpose;
       osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[freq_lookup]));
       enable_interrupts;
 
@@ -352,6 +354,10 @@ int main () {
           envelope_release(&volume_env);
           envelope_release(&filter_env);
         }
+      } else {
+        if (keyboard_key_pressed(&keyboard)) {
+          transpose = keyboard_get_key(&keyboard);
+        }
       }
 
     } else if (mode == YORICK_SEQUENCER_MODE) {
@@ -371,6 +377,7 @@ int main () {
       if (button_is_held(&button2)) {
         sequencer_clear(&sequencer);
         led_control_flash_start(&led2, 10, 2);
+        transpose = 0;
         button_reset(&button2);
         envelope_release(&volume_env);
         envelope_release(&filter_env);

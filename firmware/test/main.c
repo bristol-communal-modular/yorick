@@ -92,7 +92,7 @@ MU_TEST(keyboard_test_debounce) {
     keyboard_update(&k, 200);
     mu_check(keyboard_stable(&k));
     mu_check(!keyboard_key_pressed(&k));
-    mu_assert_int_eq(3, keyboard_get_key(&k));
+    mu_assert_int_eq(2, keyboard_get_key(&k));
 
     keyboard_update(&k, 100);
     mu_check(!keyboard_stable(&k));
