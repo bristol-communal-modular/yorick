@@ -14746,7 +14746,7 @@
   (gr_text "0v" (at 87.63 40.132) (layer "F.SilkS") (tstamp 793cb131-d80f-4373-a173-9358eff77b10)
     (effects (font (size 1 1) (thickness 0.15)) (justify left bottom))
   )
-  (gr_text "YORICK PLATFORM v1.0" (at 117.2144 38.231708) (layer "F.SilkS") (tstamp 8793b5f1-99ad-4ad3-96d0-033ee208f5ca)
+  (gr_text "YORICK PLATFORM v1.1" (at 117.2144 38.231708) (layer "F.SilkS") (tstamp 8793b5f1-99ad-4ad3-96d0-033ee208f5ca)
     (effects (font (size 1.5 1.5) (thickness 0.15)) (justify left bottom))
   )
   (gr_text "+v" (at 86.106 49.784) (layer "F.SilkS") (tstamp a7511b99-ad9a-4c9c-950e-0227d6b6397f)
