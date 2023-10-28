@@ -348,7 +348,7 @@ int main () {
           osc_set_pitch(osc1, pgm_read_word(&MIDI_NOTE_PITCHES[freq_lookup]));
         }
 
-        if (keyboard_key_pressed(&keyboard)) {
+        if (keyboard_stable(&keyboard) && keyboard_key_pressed(&keyboard)) {
           envelope_start(&volume_env);
           envelope_start(&filter_env);
         }
@@ -358,7 +358,7 @@ int main () {
           envelope_release(&filter_env);
         }
       } else {
-        if (keyboard_key_pressed(&keyboard)) {
+        if (keyboard_stable(&keyboard) && keyboard_key_pressed(&keyboard)) {
           transpose = keyboard_get_key(&keyboard);
         }
       }
@@ -399,7 +399,7 @@ int main () {
       }
 
       if (sequencer.editable) {
-        if (keyboard_key_pressed(&keyboard)) {
+        if (keyboard_stable(&keyboard) && keyboard_key_pressed(&keyboard)) {
           led_control_flash_start(&led1, 1, 3);
           if (!control_pot_is_locked(&pot2) && control_pot_value(&pot2) > 700) {
             sequencer_add_rest_step(&sequencer, keyboard_get_key(&keyboard));

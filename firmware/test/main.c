@@ -92,31 +92,21 @@ MU_TEST(keyboard_test_debounce) {
     keyboard_update(&k, 200);
     mu_check(keyboard_stable(&k));
     mu_check(!keyboard_key_pressed(&k));
-    mu_assert_int_eq(2, keyboard_get_key(&k));
+    mu_assert_int_eq(3, keyboard_get_key(&k));
 
-    keyboard_update(&k, 100);
-    mu_check(!keyboard_stable(&k));
-    mu_check(keyboard_key_released(&k));
-}
-
-MU_TEST(keyboard_key_up) {
-    Keyboard k;
-    keyboard_init(&k);
-
-    for (int i = 0; i < 3; i++) {
-        keyboard_update(&k, 500);
-        mu_check(keyboard_unstable(&k));
-    }
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < (KEYBOARD_DEBOUNCE_SAMPLES - 1); i++) {
         keyboard_update(&k, 0);
         mu_check(keyboard_unstable(&k));
+        mu_check(!keyboard_key_released(&k));
     }
+    keyboard_update(&k, 0);
+    mu_check(keyboard_stable(&k));
+    mu_check(keyboard_key_released(&k));
 }
 
 MU_TEST_SUITE(keyboard_suite) {
     test_header("Keyboard tests\n");
     MU_RUN_TEST(keyboard_test_debounce);
-    MU_RUN_TEST(keyboard_key_up);
 }
 
 MU_TEST(led_control_create) {

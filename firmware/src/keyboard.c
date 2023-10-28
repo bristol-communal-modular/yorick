@@ -1,8 +1,11 @@
 #include "keyboard.h"
 
 void keyboard_init(Keyboard *k) {
-  k->current_state = KEYBOARD_UNSTABLE;
-  k->previous_state = KEYBOARD_UNSTABLE;
+  k->current_stable_state = KEYBOARD_UNSTABLE;
+  k->previous_stable_state = KEYBOARD_UNSTABLE;
+
+  k->current_pressed_state = KEYBOARD_NOT_PRESSED;
+  k->previous_pressed_state = KEYBOARD_NOT_PRESSED;
 
   k->key = 0;
   for (uint8_t i = 0; i < KEYBOARD_DEBOUNCE_SAMPLES; i++) {
@@ -12,24 +15,16 @@ void keyboard_init(Keyboard *k) {
 }
 
 void keyboard_update(Keyboard *k, uint16_t value) {
-  k->previous_state = k->current_state;
+  k->previous_stable_state = k->current_stable_state;
+  k->previous_pressed_state = k->current_pressed_state;
 
-  // make sure input isn't zero
-  if (value < KEYBOARD_MIN_VALUE) {
-    k->current_state = KEYBOARD_UNSTABLE;
-    for (uint8_t i = 1; i < KEYBOARD_DEBOUNCE_SAMPLES; i++) {
-      k->key_debounce_samples[i] = 0;
-    }
-    return;
-  }
-  // kind of fudging this
-  value = ((value + 3) >> 6) - 1;
+  uint8_t scaled_value = (value) >> 6;
 
   k->key_debounce_count += 1;
   if (k->key_debounce_count >= KEYBOARD_DEBOUNCE_SAMPLES) {
     k->key_debounce_count = 0;
   }
-  k->key_debounce_samples[k->key_debounce_count] = value;
+  k->key_debounce_samples[k->key_debounce_count] = scaled_value;
 
   bool debounced = true;
   for (uint8_t i = 1; i < KEYBOARD_DEBOUNCE_SAMPLES; i++) {
@@ -39,11 +34,18 @@ void keyboard_update(Keyboard *k, uint16_t value) {
     }
   }
 
-  if (debounced) {
-    k->key = value;
-    k->current_state = KEYBOARD_STABLE;
+  if (!debounced) {
+    k->current_stable_state = KEYBOARD_UNSTABLE;
+    return;
+  }
+
+  k->current_stable_state = KEYBOARD_STABLE;
+
+  if (scaled_value > 0) {
+    k->key = scaled_value;
+    k->current_pressed_state = KEYBOARD_PRESSED;
   } else {
-    k->current_state = KEYBOARD_UNSTABLE;
+    k->current_pressed_state = KEYBOARD_NOT_PRESSED;
   }
 }
 
