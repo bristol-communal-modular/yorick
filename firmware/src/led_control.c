@@ -4,6 +4,7 @@
 #include "ticker.h"
 
 void led_control_init(LEDControl *led, Ticker *t) {
+  led->base_state = LED_STATE_OFF;
   led->state = LED_STATE_OFF;
 
   led->flashing = false;
@@ -18,7 +19,8 @@ void led_control_init(LEDControl *led, Ticker *t) {
 void led_control_flash_start(LEDControl *led, uint8_t flashes, uint8_t interval) {
   led->flashing = true;
 
-  led_control_toggle(led);
+  led->state = led_control_flash_state(led);
+
   // twice as many changes as flashes minus this initial one
   led->changes_remaining = (flashes << 1) - 1;
   led->interval = interval;
@@ -43,7 +45,7 @@ void led_control_update(LEDControl *led) {
 
   led->last_tick = now - diff;
 
-  if (led->state == LED_STATE_ON) {
+  if (led_control_is_on(led)) {
     led->state = LED_STATE_OFF;
   } else {
     led->state = LED_STATE_ON;
@@ -54,3 +56,18 @@ void led_control_update(LEDControl *led) {
     led->flashing = false;
   }
 }
+
+void led_control_invert_flashing(LEDControl *led) {
+  if (led->base_state == LED_STATE_OFF) {
+    led->base_state = LED_STATE_ON;
+  } else {
+    led->base_state = LED_STATE_OFF;
+  }
+
+  if (led->state == LED_STATE_OFF) {
+    led->state = LED_STATE_ON;
+  } else {
+    led->state = LED_STATE_OFF;
+  }
+}
+

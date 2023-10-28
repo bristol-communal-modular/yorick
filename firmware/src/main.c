@@ -286,9 +286,11 @@ int main () {
       control_pot_lock(&pot2);
       if (mode == YORICK_PLAY_MODE) {
         mode = YORICK_SEQUENCER_MODE;
+        led_control_set_base_off(&led1);
         led_control_turn_off(&led1);
       } else if (mode == YORICK_SEQUENCER_MODE) {
         mode = YORICK_PLAY_MODE;
+        led_control_set_base_on(&led1);
         led_control_turn_on(&led1);
       }
     }
@@ -334,6 +336,7 @@ int main () {
         param_manager_next_bank(&param_manager);
         control_pot_lock(&pot1);
         control_pot_lock(&pot2);
+        led_control_reset(&led2);
         led_control_flash_start(&led2, param_manager.bank + 1, 15);
       }
 
@@ -376,6 +379,7 @@ int main () {
 
       if (button_is_held(&button2)) {
         sequencer_clear(&sequencer);
+        led_control_reset(&led2);
         led_control_flash_start(&led2, 10, 2);
         transpose = 0;
         button_reset(&button2);
