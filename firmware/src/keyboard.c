@@ -17,8 +17,12 @@ void keyboard_update(Keyboard *k, uint16_t value) {
   // make sure input isn't zero
   if (value < KEYBOARD_MIN_VALUE) {
     k->current_state = KEYBOARD_UNSTABLE;
+    for (uint8_t i = 1; i < KEYBOARD_DEBOUNCE_SAMPLES; i++) {
+      k->key_debounce_samples[i] = 0;
+    }
     return;
   }
+  // kind of fudging this
   value = ((value + 3) >> 6) - 1;
 
   k->key_debounce_count += 1;

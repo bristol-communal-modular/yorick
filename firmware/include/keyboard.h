@@ -3,8 +3,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define KEYBOARD_DEBOUNCE_SAMPLES 6
-#define KEYBOARD_MIN_VALUE 10
+#define KEYBOARD_DEBOUNCE_SAMPLES 10
+#define KEYBOARD_MIN_VALUE 30
 
 typedef enum {
   KEYBOARD_STABLE,
