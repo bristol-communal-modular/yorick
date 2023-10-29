@@ -41,6 +41,8 @@
 #define OSC_OUT_PWM OCR1B
 #define LFO_OUT_PWM OCR0B
 
+#define TRANSPOSE_ROOT_NOTE 6
+
 uint8_t adc_read_channel = FREQ_IN_MUX;
 
 uint16_t volatile freq_adc_in;
@@ -359,7 +361,7 @@ int main () {
         }
       } else {
         if (keyboard_stable(&keyboard) && keyboard_key_pressed(&keyboard)) {
-          transpose = keyboard_get_key(&keyboard);
+          transpose = (keyboard_get_key(&keyboard) - TRANSPOSE_ROOT_NOTE);
         }
       }
 
