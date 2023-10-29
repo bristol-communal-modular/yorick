@@ -18,10 +18,11 @@ typedef enum {
 
 typedef struct Keyboard {
   KeyboardStableState current_stable_state;
-  KeyboardStableState previous_stable_state;
 
   KeyboardPressedState current_pressed_state;
   KeyboardPressedState previous_pressed_state;
+
+  uint16_t filtered_value;
 
   uint8_t key;
   uint8_t key_debounce_samples[KEYBOARD_DEBOUNCE_SAMPLES];

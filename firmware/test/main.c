@@ -81,7 +81,9 @@ MU_TEST(keyboard_test_debounce) {
     Keyboard k;
     keyboard_init(&k);
 
-    for (int i = 0; i < (KEYBOARD_DEBOUNCE_SAMPLES - 1); i++) {
+    // extra 3 samples here is to account for
+    // the IIR filter on the input values
+    for (int i = 0; i < KEYBOARD_DEBOUNCE_SAMPLES + 3; i++) {
         keyboard_update(&k, 200);
         mu_check(keyboard_unstable(&k));
     }
@@ -94,7 +96,7 @@ MU_TEST(keyboard_test_debounce) {
     mu_check(!keyboard_key_pressed(&k));
     mu_assert_int_eq(3, keyboard_get_key(&k));
 
-    for (int i = 0; i < (KEYBOARD_DEBOUNCE_SAMPLES - 1); i++) {
+    for (int i = 0; i < KEYBOARD_DEBOUNCE_SAMPLES; i++) {
         keyboard_update(&k, 0);
         mu_check(keyboard_unstable(&k));
         mu_check(!keyboard_key_released(&k));
