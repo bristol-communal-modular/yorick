@@ -5,9 +5,10 @@
   (paper "A3")
 
   (title_block
+    (rev "rev1.1")
     (comment 2 "creativecommons.org/licenses/by/4.0/")
     (comment 3 "License: CC BY 4.0")
-    (comment 4 "Author: Guy John")
+    (comment 4 "Author: Bristol Communal Modular")
   )
 
   (lib_symbols
@@ -4924,7 +4925,7 @@
     (property "Reference" "Q1" (at 251.46 82.55 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "Q_NJFET_DSG" (at 257.81 85.09 90)
+    (property "Value" "J113" (at 256.54 82.55 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Rumblesan_Standard_Parts:TO-92_Inline_Wide" (at 250.19 81.28 0)
@@ -5825,7 +5826,7 @@
     (property "Reference" "Q2" (at 299.72 82.55 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "Q_NJFET_DSG" (at 306.07 85.09 90)
+    (property "Value" "J113" (at 304.8 82.55 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Rumblesan_Standard_Parts:TO-92_Inline_Wide" (at 298.45 81.28 0)

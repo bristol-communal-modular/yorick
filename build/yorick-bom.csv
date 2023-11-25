@@ -1,28 +1,23 @@
-"Reference","Value","Footprint","Part","Power","Spec","Tolerance","Voltage","Qty"
-"C1, C2","220nF","Capacitor_THT:C_Rect_L7.0mm_W3.5mm_P5.00mm","","","film","5%","","2"
-"C3, C6-C8","100nF","Capacitor_THT:C_Rect_L7.0mm_W3.5mm_P5.00mm","","","ceramic X7R","5%","","4"
-"C4, C5, C10","10uF","Capacitor_THT:CP_Radial_D5.0mm_P2.00mm","","","electrolytic","20%","50v","3"
-"C9, C11","100pF","Capacitor_THT:C_Rect_L7.0mm_W3.5mm_P5.00mm","","","ceramic X7R","5%","","2"
-"D1, D2","LED","LED_THT:LED_D5.0mm","","","","","","2"
-"H1-H4","MountingHole","MountingHole:MountingHole_2.2mm_M2_DIN965","","","","","","4"
-"J1","Conn_01x12","Yorick:TEETH","","","","","","1"
-"J2","AVR-ISP-6","Connector_PinHeader_2.54mm:PinHeader_2x03_P2.54mm_Vertical","","","","","","1"
-"J3, J5","AudioJack2_SwitchT","Connector_Audio:Jack_3.5mm_QingPu_WQP-PJ398SM_Vertical_CircularHoles","","","","","","2"
-"J4","USB_B_Micro","Yorick:AMPHENOL_10103593-0001LF-Power","","","","","","1"
-"Q1, Q2","Q_NJFET_DSG","Rumblesan_Standard_Parts:TO-92_Inline_Wide","","","","","","2"
-"R1-R12, R15, R18, R26, R27, R29","10k","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal","","0.5W","metal film","1%","","17"
-"R13, R14, R17, R19, R24, R28","100k","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal","","0.5W","metal film","1%","","6"
-"R16, R25","18r","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal","","0.5W","metal film","1%","","2"
-"R20, R21","2k2","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal","","0.5W","metal film","1%","","2"
-"R22","1m","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal","","0.5W","metal film","1%","","1"
-"R37","33k","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal","","0.5W","metal film","1%","","1"
-"RV1-RV3","100kB","Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical","","","","","","3"
-"RV4","10kB","Potentiometer_THT:Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical","","","","","","1"
-"RV5","100kA","Potentiometer_THT:Potentiometer_Alpha_RD901F-40-00D_Single_Vertical","","","","","","1"
-"SW1, SW2","SW_Push","Button_Switch_THT:SW_PUSH_6mm","Omron B3F-1070 Extended","","","","","2"
-"TP1","OSC Test Point","TestPoint:TestPoint_Loop_D2.50mm_Drill1.0mm_LowProfile","","","","","","1"
-"TP2","LFO Test Point","TestPoint:TestPoint_Loop_D2.50mm_Drill1.0mm_LowProfile","","","","","","1"
-"TP3","Freq In Test Point","TestPoint:TestPoint_Loop_D2.50mm_Drill1.0mm_LowProfile","","","","","","1"
-"U1","4069","Package_DIP:DIP-14_W7.62mm","","","","","","1"
-"U2","MCP602","Package_DIP:DIP-8_W7.62mm","","","","","","1"
-"U3","ATtiny84V-10P","Package_DIP:DIP-14_W7.62mm","","","","","","1"
+References,Value,Footprint,Quantity,Spec,Tolerance,Voltage,Power
+R1 R2 R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R15 R18 R26 R27 R29,10k,R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal,17,metal film,1%,,0.5W
+R13 R14 R17 R19 R24 R28,100k,R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal,6,metal film,1%,,0.5W
+R16 R25,18r,R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal,2,metal film,1%,,0.5W
+R20 R21,2k2,R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal,2,metal film,1%,,0.5W
+R22,1m,R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal,1,metal film,1%,,0.5W
+R37,33k,R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal,1,metal film,1%,,0.5W
+C3 C6 C7 C8,100nF,C_Rect_L7.0mm_W3.5mm_P5.00mm,4,ceramic X7R,5%,,
+C4 C5 C10,10uF,CP_Radial_D5.0mm_P2.00mm,3,electrolytic,20%,50v,
+C1 C2,220nF,C_Rect_L7.0mm_W3.5mm_P5.00mm,2,film,5%,,
+C9 C11,100pF,C_Rect_L7.0mm_W3.5mm_P5.00mm,2,ceramic X7R,5%,,
+D1 D2,LED,LED_D5.0mm,2,,,,
+U1,4069,DIP-14_W7.62mm,1,,,,
+U2,MCP602,DIP-8_W7.62mm,1,,,,
+U3,ATtiny84V-10P,DIP-14_W7.62mm,1,,,,
+SW1 SW2,SW_Push,SW_PUSH_6mm,2,,,,
+Q1 Q2,J113,TO-92_Inline_Wide,2,,,,
+J3 J5,AudioJack2_SwitchT,Jack_3.5mm_QingPu_WQP-PJ398SM,2,,,,
+J2,AVR-ISP-6,PinHeader_2x03_P2.54mm_Vertical,1,,,,
+J4,USB_B_Micro,AMPHENOL_10103593-0001LF-Power,1,,,,
+RV1 RV2 RV3,100kB,Potentiometer_Alpha_RD901F-40-00D_Single_Vertical,3,,,,
+RV4,10kB,Potentiometer_Alpha_RD902F-40-00D_Dual_Vertical,1,,,,
+RV5,100kA,Potentiometer_Alpha_RD901F-40-00D_Single_Vertical,1,,,,

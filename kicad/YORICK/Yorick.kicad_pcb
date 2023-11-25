@@ -7,7 +7,7 @@
   (paper "A4")
   (title_block
     (date "2023-07-19")
-    (rev "rev02")
+    (rev "rev1.1")
     (comment 2 "creativecommons.org/licenses/by/4.0")
     (comment 3 "License: CC BY 4.0")
     (comment 4 "Author: Bristol Communal Modular")
@@ -389,7 +389,7 @@
         (effects (font (size 1 1) (thickness 0.15)))
       (tstamp f547aced-7d8e-4d9a-9859-ee74c5bbbea0)
     )
-    (fp_text value "Q_NJFET_DSG" (at 2.54 2.79) (layer "F.Fab") hide
+    (fp_text value "J113" (at 2.54 2.79) (layer "F.Fab") hide
         (effects (font (size 1 1) (thickness 0.15)))
       (tstamp ba5fa704-5bf8-4043-921c-89b331ef4790)
     )
@@ -3168,7 +3168,7 @@
         (effects (font (size 1 1) (thickness 0.15)))
       (tstamp a580dfb9-28ef-44f1-9c94-f2ea381d3849)
     )
-    (fp_text value "Q_NJFET_DSG" (at 2.54 2.79) (layer "F.Fab") hide
+    (fp_text value "J113" (at 2.54 2.79) (layer "F.Fab") hide
         (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 9f072c75-1b9e-449c-bbde-268a953aceff)
     )
@@ -7253,7 +7253,7 @@
     (property "Sheetname" "")
     (property "ki_description" "Hex inverter")
     (property "ki_keywords" "CMOS NOT")
-    (path "/b181550a-807c-4e64-b50b-2ae21f868d78")
+    (path "/f94ed33d-9592-4c5d-ad9b-dc536cab8e9c")
     (attr through_hole)
     (fp_text reference "U1" (at -1.8288 3.0988 180) (layer "F.SilkS")
         (effects (font (size 1 1) (thickness 0.15)))
