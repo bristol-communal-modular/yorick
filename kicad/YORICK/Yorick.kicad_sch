@@ -5,6 +5,8 @@
   (paper "A3")
 
   (title_block
+    (title "Yorick")
+    (date "2023-11-25")
     (rev "rev1.1")
     (comment 2 "creativecommons.org/licenses/by/4.0/")
     (comment 3 "License: CC BY 4.0")
