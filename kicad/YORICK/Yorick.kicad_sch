@@ -3986,6 +3986,12 @@
 		(uuid "10bbda32-efdc-4ac6-85b8-06e314c436d0")
 	)
 	(junction
+		(at 104.14 104.14)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "13431b37-f280-4860-aee7-8d2cabbd62f3")
+	)
+	(junction
 		(at 260.35 78.74)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4413,7 +4419,7 @@
 	)
 	(wire
 		(pts
-			(xy 77.47 240.03) (xy 80.01 240.03)
+			(xy 77.47 240.03) (xy 91.44 240.03)
 		)
 		(stroke
 			(width 0)
@@ -5473,6 +5479,16 @@
 	)
 	(wire
 		(pts
+			(xy 104.14 99.06) (xy 104.14 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8484c17e-e674-4620-b585-35aae40e1749")
+	)
+	(wire
+		(pts
 			(xy 317.5 36.83) (xy 317.5 39.37)
 		)
 		(stroke
@@ -5663,7 +5679,7 @@
 	)
 	(wire
 		(pts
-			(xy 87.63 104.14) (xy 105.41 104.14)
+			(xy 87.63 104.14) (xy 104.14 104.14)
 		)
 		(stroke
 			(width 0)
@@ -6083,6 +6099,16 @@
 	)
 	(wire
 		(pts
+			(xy 104.14 104.14) (xy 105.41 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bbb9f486-ca47-4b0b-866c-edf951b3ef14")
+	)
+	(wire
+		(pts
 			(xy 77.47 242.57) (xy 80.01 242.57)
 		)
 		(stroke
@@ -6290,6 +6316,16 @@
 			(type default)
 		)
 		(uuid "d49ce568-d057-450a-8d84-a7b8950905a0")
+	)
+	(wire
+		(pts
+			(xy 110.49 99.06) (xy 104.14 99.06)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d5031a63-b05f-4892-8969-d3fa08403ed3")
 	)
 	(wire
 		(pts
@@ -6904,17 +6940,6 @@
 		)
 		(uuid "bd02faff-bd8c-406c-82ec-26a65c88f09c")
 	)
-	(label "MCU_SCK"
-		(at 92.71 104.14 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "bde0a1e0-d642-4d27-bd09-b1021b0fc59d")
-	)
 	(label "MCU_DOUT1"
 		(at 143.51 217.17 90)
 		(fields_autoplaced yes)
@@ -6970,17 +6995,6 @@
 		)
 		(uuid "e0385514-fc88-452c-814c-4f70e4d12fba")
 	)
-	(label "MCU_SCK"
-		(at 80.01 240.03 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "eab6acd4-3cfd-48ca-8ecc-82f66522d16a")
-	)
 	(label "MCU_DOUT2"
 		(at 157.48 217.17 90)
 		(fields_autoplaced yes)
@@ -6991,6 +7005,50 @@
 			(justify left bottom)
 		)
 		(uuid "fd18aaf1-b05c-4405-bda4-f9f20a672992")
+	)
+	(global_label "MCU_SCK"
+		(shape input)
+		(at 91.44 240.03 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "49ffc8a9-3309-425b-8808-6ede47ccc812")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 103.1942 240.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "MCU_SCK"
+		(shape input)
+		(at 110.49 99.06 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "aeb45ad6-f5b7-48ff-a2c0-aae3bf1bd1ee")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 122.2442 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
 	)
 	(symbol
 		(lib_id "4xxx:4069")
