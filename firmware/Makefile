@@ -1,5 +1,6 @@
 DEVICE      = attiny84
-PROGRAMMER  = -c usbtiny
+#PROGRAMMER  = -c usbtiny
+PROGRAMMER  = -c usbasp
 
 # for ATTiny84
 # see http://www.engbedded.com/fusecalc/
