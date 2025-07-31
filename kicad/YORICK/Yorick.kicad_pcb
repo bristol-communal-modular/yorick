@@ -16083,7 +16083,7 @@
 				)
 			)
 		)
-		(attr smd)
+		(attr smd board_only exclude_from_bom dnp)
 		(fp_poly
 			(pts
 				(xy -29.0322 -28.082334) (xy -29.0322 -27.8638) (xy -33.027667 -27.8638) (xy -37.0586 -27.8638)
