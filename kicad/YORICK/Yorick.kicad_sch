@@ -4749,6 +4749,12 @@
 		(uuid "59852dab-00ac-4210-b5db-92267956b55e")
 	)
 	(junction
+		(at 35.56 71.12)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "59c8e1b4-cf5d-46a4-95da-987007d61c4b")
+	)
+	(junction
 		(at 267.97 123.19)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4839,7 +4845,7 @@
 		(uuid "ca23af7a-96e2-47e3-9cb8-53ab4f97e15b")
 	)
 	(junction
-		(at 35.56 80.01)
+		(at 46.99 80.01)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "cef713b0-391b-4f8f-b38e-d794f4a2cd67")
@@ -5212,7 +5218,7 @@
 	)
 	(wire
 		(pts
-			(xy 35.56 80.01) (xy 35.56 82.55)
+			(xy 46.99 80.01) (xy 46.99 82.55)
 		)
 		(stroke
 			(width 0)
@@ -5332,6 +5338,16 @@
 	)
 	(wire
 		(pts
+			(xy 35.56 71.12) (xy 35.56 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2afe84b7-0915-4b96-a2f4-e18b03cb30df")
+	)
+	(wire
+		(pts
 			(xy 243.84 123.19) (xy 251.46 123.19)
 		)
 		(stroke
@@ -5372,6 +5388,16 @@
 	)
 	(wire
 		(pts
+			(xy 35.56 85.09) (xy 35.56 90.17)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "31abbcea-b88a-42b0-adc4-9d9a7e38dcda")
+	)
+	(wire
+		(pts
 			(xy 245.11 250.19) (xy 245.11 254)
 		)
 		(stroke
@@ -5379,6 +5405,16 @@
 			(type default)
 		)
 		(uuid "31b11baa-edc8-4130-b546-0380f02e04f0")
+	)
+	(wire
+		(pts
+			(xy 35.56 71.12) (xy 35.56 68.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "32ff2e6b-5eab-471f-bfcf-d0f687dd81a3")
 	)
 	(wire
 		(pts
@@ -6532,7 +6568,7 @@
 	)
 	(wire
 		(pts
-			(xy 35.56 68.58) (xy 35.56 72.39)
+			(xy 46.99 71.12) (xy 46.99 72.39)
 		)
 		(stroke
 			(width 0)
@@ -6662,13 +6698,23 @@
 	)
 	(wire
 		(pts
-			(xy 35.56 80.01) (xy 39.37 80.01)
+			(xy 46.99 80.01) (xy 50.8 80.01)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "ab2550e0-2f85-4317-bce7-f7811f823612")
+	)
+	(wire
+		(pts
+			(xy 46.99 71.12) (xy 35.56 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "aba429af-43fb-49f9-bca7-e511d7861dc5")
 	)
 	(wire
 		(pts
@@ -6912,7 +6958,7 @@
 	)
 	(wire
 		(pts
-			(xy 35.56 77.47) (xy 35.56 80.01)
+			(xy 46.99 77.47) (xy 46.99 80.01)
 		)
 		(stroke
 			(width 0)
@@ -8566,7 +8612,7 @@
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 39.37 80.01 270)
+		(at 50.8 80.01 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -8575,7 +8621,7 @@
 		(fields_autoplaced yes)
 		(uuid "0d042797-c69a-457c-a92a-a69daed2836f")
 		(property "Reference" "#FLG02"
-			(at 41.275 80.01 0)
+			(at 52.705 80.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8584,7 +8630,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 43.18 80.0099 90)
+			(at 54.61 80.0099 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8593,7 +8639,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 39.37 80.01 0)
+			(at 50.8 80.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8602,7 +8648,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 39.37 80.01 0)
+			(at 50.8 80.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8611,7 +8657,7 @@
 			)
 		)
 		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 39.37 80.01 0)
+			(at 50.8 80.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9739,7 +9785,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 65.532 45.72 90)
 			(effects
 				(font
@@ -10169,7 +10215,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0805_2012Metric"
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
 			(at 75.692 41.91 90)
 			(effects
 				(font
@@ -13831,6 +13877,73 @@
 	)
 	(symbol
 		(lib_id "power:GND")
+		(at 35.56 90.17 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "9babb76b-d7cd-4aae-9ec8-74d3d38608df")
+		(property "Reference" "#PWR029"
+			(at 35.56 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 35.56 94.6134 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 35.56 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 35.56 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 35.56 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a955f016-8cf0-416a-82b7-82ca34c935a3")
+		)
+		(instances
+			(project "Yorick"
+				(path "/5b0acaca-dc50-4fa5-b146-164c1b9ad031"
+					(reference "#PWR029")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
 		(at 67.31 49.53 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -14381,7 +14494,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 35.56 82.55 0)
+		(at 46.99 82.55 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -14390,7 +14503,7 @@
 		(fields_autoplaced yes)
 		(uuid "ab5c25ae-760b-4259-9ae6-6bb25aac84fa")
 		(property "Reference" "#PWR033"
-			(at 35.56 88.9 0)
+			(at 46.99 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14399,7 +14512,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 35.56 86.9934 0)
+			(at 46.99 86.9934 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14407,7 +14520,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 35.56 82.55 0)
+			(at 46.99 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14416,7 +14529,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 35.56 82.55 0)
+			(at 46.99 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14425,7 +14538,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 35.56 82.55 0)
+			(at 46.99 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16529,7 +16642,7 @@
 	)
 	(symbol
 		(lib_id "Device:NetTie_2")
-		(at 35.56 74.93 90)
+		(at 46.99 74.93 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -16538,7 +16651,7 @@
 		(fields_autoplaced yes)
 		(uuid "e53da228-fed5-4ad4-9fb2-e16a23973ddb")
 		(property "Reference" "NT2"
-			(at 38.1 73.6599 90)
+			(at 49.53 73.6599 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16547,7 +16660,7 @@
 			)
 		)
 		(property "Value" "NetTie_2"
-			(at 38.1 76.1999 90)
+			(at 49.53 76.1999 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16556,7 +16669,7 @@
 			)
 		)
 		(property "Footprint" "NetTie:NetTie-2_SMD_Pad0.5mm"
-			(at 35.56 74.93 0)
+			(at 46.99 74.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16565,7 +16678,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 35.56 74.93 0)
+			(at 46.99 74.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16574,7 +16687,7 @@
 			)
 		)
 		(property "Description" "Net tie, 2 pins"
-			(at 35.56 74.93 0)
+			(at 46.99 74.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17110,6 +17223,77 @@
 			(project "Yorick"
 				(path "/5b0acaca-dc50-4fa5-b146-164c1b9ad031"
 					(reference "RV4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:NetTie_2")
+		(at 35.56 82.55 270)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "f1c05f7e-ee4d-43a0-aa14-b9ac7192204b")
+		(property "Reference" "NT3"
+			(at 33.02 81.2799 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "NetTie_2"
+			(at 33.02 83.8199 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "NetTie:NetTie-2_SMD_Pad0.5mm"
+			(at 35.56 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 35.56 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Net tie, 2 pins"
+			(at 35.56 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "363a2163-2cac-4a18-bbf6-58f59def6394")
+		)
+		(pin "2"
+			(uuid "06e74d1f-871f-4d00-a0e0-955828bf7eab")
+		)
+		(instances
+			(project "Yorick"
+				(path "/5b0acaca-dc50-4fa5-b146-164c1b9ad031"
+					(reference "NT3")
 					(unit 1)
 				)
 			)
