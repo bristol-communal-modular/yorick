@@ -69,8 +69,8 @@
 		(allow_soldermask_bridges_in_footprints no)
 		(tenting front back)
 		(pcbplotparams
-			(layerselection 0x00000000_00000000_55555555_575555ff)
-			(plot_on_all_layers_selection 0x00000000_00000000_00000000_00000000)
+			(layerselection 0x00000000_00000000_55555555_57555550)
+			(plot_on_all_layers_selection 0x00000000_00000000_00000008_02000002)
 			(disableapertmacros no)
 			(usegerberextensions yes)
 			(usegerberattributes yes)
@@ -97,15 +97,15 @@
 			(plot_black_and_white yes)
 			(sketchpadsonfab no)
 			(plotpadnumbers no)
-			(hidednponfab no)
-			(sketchdnponfab yes)
-			(crossoutdnponfab yes)
+			(hidednponfab yes)
+			(sketchdnponfab no)
+			(crossoutdnponfab no)
 			(subtractmaskfromsilk no)
-			(outputformat 1)
+			(outputformat 5)
 			(mirror no)
 			(drillshape 0)
 			(scaleselection 1)
-			(outputdirectory "../../gerbers/")
+			(outputdirectory "../../build")
 		)
 	)
 	(net 0 "")
@@ -198,7 +198,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://components.omron.com/eu-en/sites/components.omron.com.eu/files/datasheet_pdf/A070-E1.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -222,11 +222,37 @@
 				)
 			)
 		)
-		(property "Part" "Omron B3F-1070 Extended"
+		(property "Part" ""
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "04bd08a5-11f6-409d-8c57-6ae490523a78")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer" "Omron"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1887c573-5429-4520-8dea-78c932a7315d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "B3F-1070"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "57516b94-b7fa-4780-8e20-7ce715ae7641")
 			(effects
 				(font
 					(size 1 1)
@@ -581,6 +607,19 @@
 				)
 			)
 		)
+		(property "Part" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "fff3c285-5617-4554-9904-f0e5c8703d55")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "MountingHole*")
 		(path "/ee03a134-7b09-47c0-a96d-0a6830ef331c")
 		(sheetname "/")
@@ -646,7 +685,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "http://qingpu-electronics.com/en/products/WQP-PJ398SM-362.html"
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -666,6 +705,45 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "WQP-PJ398SM"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d3c6e4c6-7a0b-441c-86b4-1829d54661f6")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer" "QingPu"
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1b8a8063-c2aa-46bc-bba3-ca7408b792be")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ae1b1ea2-3c60-47de-a05e-92a74209f468")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -980,7 +1058,7 @@
 		(descr "TO-92 leads in-line, wide, drill 0.75mm (see NXP sot054_po.pdf)")
 		(tags "to-92 sc-43 sc-43a sot54 PA33 transistor")
 		(property "Reference" "Q1"
-			(at -0.762 -1.778 0)
+			(at -1.905 -0.508 0)
 			(layer "F.SilkS")
 			(uuid "25fa3f5f-0bd0-4cb9-8621-91aa2580c106")
 			(effects
@@ -991,7 +1069,7 @@
 			)
 		)
 		(property "Value" "J113"
-			(at 2.54 -1.778 0)
+			(at -1.524 -1.905 0)
 			(layer "F.Fab")
 			(uuid "22858a14-47eb-4d7f-a982-bd30e2cd261c")
 			(effects
@@ -1023,6 +1101,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "224cd487-2548-47f3-b2ad-92978fcd668c")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -1158,7 +1249,7 @@
 			(uuid "0be39130-f275-4d6e-b5f5-3eb0a1036eb4")
 		)
 		(fp_text user "${REFERENCE}"
-			(at -0.762 -1.778 0)
+			(at -1.905 -0.508 0)
 			(layer "F.Fab")
 			(uuid "2d2e9ef5-a1e8-4936-98b9-5a29fb22903e")
 			(effects
@@ -1295,6 +1386,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "1fbf075a-7138-4743-b7f8-d9960293711d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d79afb72-279e-484a-b756-bbc0536f65a5")
 			(effects
 				(font
 					(size 1 1)
@@ -1512,6 +1616,19 @@
 				)
 			)
 		)
+		(property "Part" ""
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4232b1a6-d064-4d89-9817-1ff884b6560d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/8817bcc8-4a5b-4965-8a30-3304932343ac")
 		(sheetname "/")
@@ -1722,6 +1839,19 @@
 				)
 			)
 		)
+		(property "Part" ""
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f753cd6c-cc87-4618-a026-1e094ef1b26c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/3643763e-dabc-4d41-88f6-49c769bdd24b")
 		(sheetname "/")
@@ -1862,7 +1992,7 @@
 			)
 		)
 		(property "Value" "100nF"
-			(at 2.5 -1.016 90)
+			(at 2.5 -1.143 90)
 			(layer "F.Fab")
 			(uuid "2406178c-f612-48bc-8fd2-9f699e5487c2")
 			(effects
@@ -1913,6 +2043,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "0e422d99-9af9-4af4-92d1-cd180e0813a5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9ca8940b-0ac1-4e5c-9f47-80064a56c5a2")
 			(effects
 				(font
 					(size 1 1)
@@ -2112,6 +2255,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "e7e23de5-9a53-4e1e-bb0e-35bd1f9b4369")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a438258b-2b26-46c1-b5be-aa1019d681db")
 			(effects
 				(font
 					(size 1 1)
@@ -2329,6 +2485,19 @@
 				)
 			)
 		)
+		(property "Part" ""
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "96ba195c-7866-46c0-a4e4-9e8c3fd52e89")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/0067709e-4485-4156-bf44-8ef673ede4f6")
 		(sheetname "/")
@@ -2458,7 +2627,7 @@
 		(descr "LED, diameter 5.0mm, 2 pins, http://cdn-reichelt.de/documents/datenblatt/A500/LL-504BC2E-009.pdf, generated by kicad-footprint-generator")
 		(tags "LED")
 		(property "Reference" "D1"
-			(at -2.667 0 180)
+			(at -2.667 -1.016 180)
 			(layer "F.SilkS")
 			(uuid "8ce4f145-e0f1-4e82-a087-6dd0daa55518")
 			(effects
@@ -2469,7 +2638,7 @@
 			)
 		)
 		(property "Value" "LED"
-			(at 1.27 3.96 90)
+			(at -2.667 1.778 180)
 			(layer "F.Fab")
 			(uuid "6d407240-c8b8-4f50-8825-18346e72f1b0")
 			(effects
@@ -2509,6 +2678,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "d19a42d8-d2ca-4525-8a94-9a77f50c108c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5f47d1c4-7771-4842-8cfc-fc54a59e8f5a")
 			(effects
 				(font
 					(size 1 1)
@@ -2637,13 +2819,13 @@
 			(uuid "2076a58e-de1c-457a-a646-3ff85d9346b8")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 1.25 1.778 90)
+			(at -2.667 -1.016 180)
 			(layer "F.Fab")
 			(uuid "176254a6-d91b-42d1-9af0-f3650c56a8e5")
 			(effects
 				(font
-					(size 0.8 0.8)
-					(thickness 0.2)
+					(size 1 1)
+					(thickness 0.15)
 				)
 			)
 		)
@@ -2763,6 +2945,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "4dd60df3-ab97-4507-9484-b2a8ba3686b5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4a00fa90-3b90-45f5-85c1-94380b5f9dc2")
 			(effects
 				(font
 					(size 1 1)
@@ -2899,7 +3094,7 @@
 		(descr "CP, Radial series, Radial, pin pitch=2.00mm, diameter=5mm, height=7mm, Electrolytic Capacitor")
 		(tags "CP Radial series Radial pin pitch 2.00mm diameter 5mm height 7mm Electrolytic Capacitor")
 		(property "Reference" "C5"
-			(at 4.794 0 0)
+			(at -0.286 -3.81 0)
 			(layer "F.SilkS")
 			(uuid "0e4cd117-06cd-4480-8465-ffb87c092349")
 			(effects
@@ -2910,7 +3105,7 @@
 			)
 		)
 		(property "Value" "10uF"
-			(at 1.238 -4.7244 0)
+			(at 1.111 -4.826 0)
 			(layer "F.Fab")
 			(uuid "418823f6-6c98-40c9-a972-1b7fc4322b57")
 			(effects
@@ -2973,6 +3168,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "4d90aeac-9ae9-4bb2-b797-b8ce5dacc602")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6cbbe0d4-27ab-421e-9407-3cc720355caf")
 			(effects
 				(font
 					(size 1 1)
@@ -4229,7 +4437,7 @@
 			(uuid "eb646644-ca77-4a8b-a998-3f920fb1e8a2")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 1 0 90)
+			(at -0.286 -3.81 180)
 			(layer "F.Fab")
 			(uuid "fa33875c-4d71-477c-829b-1ac8a70b8a19")
 			(effects
@@ -4323,6 +4531,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f77cb1e2-1d7c-4177-9dd5-b3ee390a25f7")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -4444,6 +4665,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "a23bf48a-b50c-49f1-b27c-90f1d627169d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a4b4aba9-faea-481a-a0f4-1cc2f7a1d295")
 			(effects
 				(font
 					(size 1 1)
@@ -4661,6 +4895,19 @@
 				)
 			)
 		)
+		(property "Part" ""
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "78af6ff3-abbb-4d7c-868b-f449b3f21846")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/dc033e85-b5e0-4912-9e6b-f200b568d333")
 		(sheetname "/")
@@ -4871,6 +5118,19 @@
 				)
 			)
 		)
+		(property "Part" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d02e0106-a138-44ef-9ad2-6c4286cb342e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/8396454a-2b00-4695-8980-1fbe4fb346d0")
 		(sheetname "/")
@@ -5000,7 +5260,7 @@
 		(descr "CP, Radial series, Radial, pin pitch=2.00mm, diameter=5mm, height=7mm, Electrolytic Capacitor")
 		(tags "CP Radial series Radial pin pitch 2.00mm diameter 5mm height 7mm Electrolytic Capacitor")
 		(property "Reference" "C10"
-			(at -2.651688 -0.1016 270)
+			(at -3.286688 0.4318 0)
 			(layer "F.SilkS")
 			(uuid "5d2e85f3-21dd-466d-880b-fed0198f24b6")
 			(effects
@@ -5011,7 +5271,7 @@
 			)
 		)
 		(property "Value" "10uF"
-			(at 1 3.75 0)
+			(at -3.413688 1.8288 0)
 			(layer "F.Fab")
 			(uuid "ffe700b8-3ff4-4076-b088-ef5bb52d1ee8")
 			(effects
@@ -5074,6 +5334,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "89599852-af19-4366-a263-6a1188085a59")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f269bfae-805c-4478-9fcb-448c9bbb5fd0")
 			(effects
 				(font
 					(size 1 1)
@@ -6330,7 +6603,7 @@
 			(uuid "c252c941-f2a0-448f-831d-a2134318ebf4")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 1 0 0)
+			(at -3.286688 0.4318 180)
 			(layer "F.Fab")
 			(uuid "a434c1ab-8400-49fb-b19c-ef55a4cb5c18")
 			(effects
@@ -6455,6 +6728,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "ba9512c0-0d20-4319-bb76-58bc27da723e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9b25bcfa-2f6f-4d9f-be15-195feb15d72b")
 			(effects
 				(font
 					(size 1 1)
@@ -6632,6 +6918,58 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Tolerance" "1%"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4f5dec83-e045-420c-91f8-8d4da82fc2b6")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Power" "0.5W"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "cf16f144-8f9e-437d-b84b-ce9a882dd3f4")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Spec" "metal film"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c763a797-3a5f-49d5-851b-0e1eb9d50da4")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0e40bac4-7b7a-42ea-8a61-22cb4c7789e9")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -6846,6 +7184,19 @@
 				)
 			)
 		)
+		(property "Part" ""
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ab3565cc-9b88-423f-bf8e-3df8ac9222a3")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/f22924f9-f4a1-4f1e-8762-e714fd3cd7bb")
 		(sheetname "/")
@@ -6975,7 +7326,7 @@
 		(descr "CP, Radial series, Radial, pin pitch=2.00mm, diameter=5mm, height=7mm, Electrolytic Capacitor")
 		(tags "CP Radial series Radial pin pitch 2.00mm diameter 5mm height 7mm Electrolytic Capacitor")
 		(property "Reference" "C4"
-			(at 0.762 3.81 180)
+			(at -3.81 -1.778 180)
 			(layer "F.SilkS")
 			(uuid "5afbd714-17d4-4371-ac8e-73223465e1f6")
 			(effects
@@ -6986,7 +7337,7 @@
 			)
 		)
 		(property "Value" "10uF"
-			(at -3.81 0 0)
+			(at -3.81 -0.381 0)
 			(layer "F.Fab")
 			(uuid "0e7e489c-8842-42a8-a804-fbd0532b2d9b")
 			(effects
@@ -7049,6 +7400,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "0fce25db-1bbd-4827-918b-0ccd3ebd3dcd")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f5550d89-1fe7-4232-891c-bd8626ced201")
 			(effects
 				(font
 					(size 1 1)
@@ -8305,7 +8669,7 @@
 			(uuid "0593a215-bb2e-451e-ac4f-b8baa08d51d1")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 1 0 0)
+			(at -3.81 -1.778 0)
 			(layer "F.Fab")
 			(uuid "8a7c6d02-6967-4f2a-9ac5-24bbd5a12ba3")
 			(effects
@@ -8430,6 +8794,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "8a7ec2e7-c94b-4438-a1fc-b7e973500a07")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c89739f8-1934-4eb3-a6b8-c8403cde5cbf")
 			(effects
 				(font
 					(size 1 1)
@@ -8577,7 +8954,7 @@
 			)
 		)
 		(property "Value" "100pF"
-			(at 2.46 1.1176 0)
+			(at 2.46 1.1938 0)
 			(layer "F.Fab")
 			(uuid "f1152a9f-849a-471a-8685-a33efea829eb")
 			(effects
@@ -8628,6 +9005,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "e778fc84-a338-4dc6-ab88-f4ae2dfda051")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f3af6f3b-d921-4080-838c-b714867e2ba1")
 			(effects
 				(font
 					(size 1 1)
@@ -8797,6 +9187,45 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer" "GCT"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "77d8970e-c7ee-4e98-b7fb-de21fe050122")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "USB4085-GF-A "
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3a1e6fd0-b559-48f0-a1ad-572bf920c790")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "fe1f162e-5075-460c-8ccd-8f6efe565f14")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -9299,6 +9728,19 @@
 				)
 			)
 		)
+		(property "Part" ""
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "04ce3403-157d-4ffb-a5fc-30d20efc25e5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/e28a7cb1-7625-4349-b9a4-cadd3147e6cd")
 		(sheetname "/")
@@ -9502,6 +9944,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "de911640-8b6a-4ef4-bf28-460499689618")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5c1569ae-196b-4a6e-8514-eb524009ab89")
 			(effects
 				(font
 					(size 1 1)
@@ -9719,6 +10174,19 @@
 				)
 			)
 		)
+		(property "Part" ""
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f575e2dc-d225-413a-b6dd-020b65020224")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/2f85497c-8de5-4d42-862c-b9df59418ada")
 		(sheetname "/")
@@ -9870,7 +10338,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://components.omron.com/eu-en/sites/components.omron.com.eu/files/datasheet_pdf/A070-E1.pdf"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -9894,11 +10362,37 @@
 				)
 			)
 		)
-		(property "Part" "Omron B3F-1070 Extended"
+		(property "Part" ""
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "5c562391-e81a-47e1-9549-91f7a0a00b3d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer" "Omron"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0996cccc-8954-4018-838c-a0b951f60d38")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "B3F-1070"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4f3f0084-1209-49b7-8448-4de57a6dfec3")
 			(effects
 				(font
 					(size 1 1)
@@ -10252,6 +10746,19 @@
 				)
 			)
 		)
+		(property "Part" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "de1f009a-209a-4f56-bcda-9d50fc68e3c3")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/940bb8b1-5b6f-44d7-a128-4e6da83ce4f5")
 		(sheetname "/")
@@ -10372,7 +10879,7 @@
 			)
 		)
 		(property "Value" "100kB"
-			(at 2.032 -0.04 180)
+			(at 1.778 0.214 180)
 			(layer "F.Fab")
 			(uuid "e7d68672-4dc8-4d20-9758-4aa6c6cfbaa8")
 			(effects
@@ -10402,6 +10909,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "787f1711-e62a-4ac8-9d82-889cc798e81f")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -10593,7 +11113,7 @@
 			(uuid "536ea08b-cd59-4b8d-9fde-7daabf2f4ce6")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 0 7.58 180)
+			(at 1.778 5.802 180)
 			(layer "F.Fab")
 			(uuid "af0b8cf7-b301-4970-858c-0bf98fb1bd81")
 			(effects
@@ -10753,6 +11273,19 @@
 				)
 			)
 		)
+		(property "Part" ""
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "80c8aac1-886e-4088-aa34-a910cd38eb94")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/550bbd77-7c74-41c8-ae24-1e6900e3087f")
 		(sheetname "/")
@@ -10893,7 +11426,7 @@
 			)
 		)
 		(property "Value" "100nF"
-			(at 2.5 -1.016 90)
+			(at 2.5 -1.143 90)
 			(layer "F.Fab")
 			(uuid "4b30a99e-b384-4407-8c87-c10fb857b7a3")
 			(effects
@@ -10944,6 +11477,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "41c61eae-86a4-43a6-8582-fb869127ba3e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b70cf3c2-a19d-4c59-9505-244cc443a453")
 			(effects
 				(font
 					(size 1 1)
@@ -11019,7 +11565,7 @@
 			(uuid "c0e19414-bbcc-4749-ad28-d334cef91646")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 2.246 1.016 90)
+			(at 2.413 1.016 90)
 			(layer "F.Fab")
 			(uuid "72f2ca9c-8e5b-46c9-8c7c-b40fe42e8385")
 			(effects
@@ -11091,7 +11637,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "http://qingpu-electronics.com/en/products/WQP-PJ398SM-362.html"
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -11111,6 +11657,45 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "WQP-PJ398SM"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "271c3590-9a9e-4af4-ad43-7a428c62f0a8")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer" "QingPu"
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e14420e1-353b-41af-a806-d184575ddd27")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6571fd37-2382-49ec-bef4-e1f6a53dee11")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -11425,7 +12010,7 @@
 		(descr "8-lead though-hole mounted DIP package, row spacing 7.62mm (300 mils)")
 		(tags "THT DIP DIL PDIP 2.54mm 7.62mm 300mil")
 		(property "Reference" "U2"
-			(at -2.032 -0.9652 180)
+			(at -2.032 -0.762 180)
 			(layer "F.SilkS")
 			(uuid "4ac5e7e7-0a5d-4405-b3ad-572e8c0cd28b")
 			(effects
@@ -11436,7 +12021,7 @@
 			)
 		)
 		(property "Value" "MCP602"
-			(at 2.032 3.556 180)
+			(at 3.805 3.81 180)
 			(layer "F.Fab")
 			(uuid "b28906b8-5a4f-4fbe-91f1-bf5f951663ca")
 			(effects
@@ -11466,6 +12051,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3618d3b9-e610-4c6a-8f22-c5eb7763b975")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -11598,7 +12196,7 @@
 			(uuid "a0805056-c58e-4272-960b-5b7d51ef8413")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 3.81 3.81 180)
+			(at 5.207 3.81 180)
 			(layer "F.Fab")
 			(uuid "745c2184-5092-4971-a641-3f2d6d9d43cf")
 			(effects
@@ -11715,7 +12313,7 @@
 		(descr "14-lead though-hole mounted DIP package, row spacing 7.62mm (300 mils)")
 		(tags "THT DIP DIL PDIP 2.54mm 7.62mm 300mil")
 		(property "Reference" "U3"
-			(at -2.032 15.1404 180)
+			(at -2.032 15.24 180)
 			(layer "F.SilkS")
 			(uuid "a40f665e-ae65-4ddb-8e5b-cac67d2b26e5")
 			(effects
@@ -11726,7 +12324,7 @@
 			)
 		)
 		(property "Value" "ATtiny84V-10P"
-			(at 2.032 7.366 180)
+			(at 3.805 7.62 180)
 			(layer "F.Fab")
 			(uuid "2020b95e-896a-4683-89e4-99e7257311a9")
 			(effects
@@ -11756,6 +12354,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b1daf56f-e140-4431-9356-14213e384aff")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -11888,7 +12499,7 @@
 			(uuid "fc824aaf-9a23-4740-b2b9-1ca8e46071c7")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 3.81 7.62 180)
+			(at 2.413 7.62 180)
 			(layer "F.Fab")
 			(uuid "4aa934c8-c7df-4bae-ae88-7017e0283e67")
 			(effects
@@ -12073,7 +12684,7 @@
 		(descr "TO-92 leads in-line, wide, drill 0.75mm (see NXP sot054_po.pdf)")
 		(tags "to-92 sc-43 sc-43a sot54 PA33 transistor")
 		(property "Reference" "Q2"
-			(at -1.016 -2.032 180)
+			(at -0.889 -1.651 180)
 			(layer "F.SilkS")
 			(uuid "9eac205a-8936-4fb0-b436-2e62041cc98a")
 			(effects
@@ -12084,7 +12695,7 @@
 			)
 		)
 		(property "Value" "J113"
-			(at 2.54 -1.778 180)
+			(at -1.651 -3.175 180)
 			(layer "F.Fab")
 			(uuid "c9662845-3ddc-41d5-a757-749fb444ea69")
 			(effects
@@ -12116,6 +12727,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "10906e78-a708-4a86-9d00-a859db9fd0f2")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -12251,7 +12875,7 @@
 			(uuid "72cd524d-0561-4681-a5bd-eaa5f5928eb8")
 		)
 		(fp_text user "${REFERENCE}"
-			(at -1.016 -2.032 180)
+			(at -0.889 -1.651 180)
 			(layer "F.Fab")
 			(uuid "cd9cac7a-5f3e-47af-b75f-fbdc60930ad9")
 			(effects
@@ -12356,6 +12980,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "400e4a65-899c-4828-8e50-818a8738685f")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -12480,7 +13117,7 @@
 			)
 		)
 		(property "Value" "100kB"
-			(at 1.778 -0.04 180)
+			(at 1.778 0.214 180)
 			(layer "F.Fab")
 			(uuid "2ee023fa-a8cc-4cac-b4b2-a00d78fc772f")
 			(effects
@@ -12510,6 +13147,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f36b034f-32bb-48b2-b1c2-63ae8bb58daa")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -12701,7 +13351,7 @@
 			(uuid "8c65cf8f-ddda-431d-88be-b90844e74078")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 7.62 2.54 90)
+			(at 1.778 5.802 180)
 			(layer "F.Fab")
 			(uuid "87d8cb00-eba0-491f-bbc4-87a194f21abf")
 			(effects
@@ -12791,7 +13441,7 @@
 			)
 		)
 		(property "Value" "10kB"
-			(at 1.912 -0.014 0)
+			(at 1.778 -0.294 0)
 			(layer "F.Fab")
 			(uuid "e96b9422-d895-4f7b-b215-e86a03794eda")
 			(effects
@@ -12821,6 +13471,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "645f9a59-2810-4b20-a4e9-3302f163e4b7")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -13012,7 +13675,7 @@
 			(uuid "bc3d23b0-48db-41db-9154-7d3a51647365")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 0 7.58 180)
+			(at 1.778 5.802 180)
 			(layer "F.Fab")
 			(uuid "1d4b03fe-3c96-4b08-9019-35f470d7b3c0")
 			(effects
@@ -13205,6 +13868,19 @@
 				)
 			)
 		)
+		(property "Part" ""
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e600645c-0b64-4825-b17d-a8b655cfeca8")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/7954f917-0b0d-44cc-9a3f-7b0e5667f8aa")
 		(sheetname "/")
@@ -13375,6 +14051,58 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Tolerance" "1%"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "44a54212-c8b4-4337-ab46-a7f6cb6a4634")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Power" "0.5W"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "54adab4e-6182-4e11-b3d2-dd21528740b2")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Spec" "metal film"
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "57ed46bd-2f87-45fe-8bf5-a6bb67c9122e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4f8c5783-61ef-4090-a815-7d3e6a15dcd0")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -13589,6 +14317,19 @@
 				)
 			)
 		)
+		(property "Part" ""
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "36d7c211-856f-4c3f-b581-d47bee204f0b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/a96bdc63-d613-41f4-81cd-217192de23d5")
 		(sheetname "/")
@@ -13761,6 +14502,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "53c69844-71ce-4c22-8ccf-bf8eb87988ad")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -14200,18 +14954,6 @@
 			(fill yes)
 			(layer "F.Mask")
 			(uuid "cf7bc0f6-535a-4204-ad6e-473e8f79b8b9")
-		)
-		(fp_text user "${REFERENCE}"
-			(at -0.619566 2.511127 0)
-			(unlocked yes)
-			(layer "F.Fab")
-			(uuid "5c9a6ce8-4244-48df-ab91-4d17a46bd4d2")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
 		)
 		(pad "1" smd custom
 			(at -42.361748 -11.05)
@@ -14967,6 +15709,19 @@
 				)
 			)
 		)
+		(property "Part" ""
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9b83ec71-e10b-4afa-b554-9259a87ae3df")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/1cf3a5f1-6518-485e-9af2-868cef62bb3f")
 		(sheetname "/")
@@ -15107,7 +15862,7 @@
 			)
 		)
 		(property "Value" "100kA"
-			(at 2.166 -0.014 0)
+			(at 1.778 0.214 0)
 			(layer "F.Fab")
 			(uuid "fa63b1c9-25c4-4727-9486-04aebab9335c")
 			(effects
@@ -15137,6 +15892,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "24449b47-e590-4a14-acc7-a551080909f5")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -15328,7 +16096,7 @@
 			(uuid "4c1c6137-d2ea-441d-a60a-529114994fd8")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 0 7.58 180)
+			(at 1.778 5.802 180)
 			(layer "F.Fab")
 			(uuid "9d325136-52cd-4912-9b28-32dbcc0b81a0")
 			(effects
@@ -15481,6 +16249,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "55bb0e30-efec-498e-8277-6e9c9907ce3a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b0560529-8a7a-4b70-9ef4-6808808ddbf1")
 			(effects
 				(font
 					(size 1 1)
@@ -15698,6 +16479,19 @@
 				)
 			)
 		)
+		(property "Part" ""
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3576942c-8d1b-46c6-acff-4a4ffd9ec532")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/53cae138-490a-4abb-ae1c-35bebf4be0ef")
 		(sheetname "/")
@@ -15908,6 +16702,19 @@
 				)
 			)
 		)
+		(property "Part" ""
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "7a4ecdb5-88d2-4f84-a5ab-fcb6c61cfe10")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/65df06b8-715f-4bdb-840d-41bd76bd8232")
 		(sheetname "/")
@@ -16051,6 +16858,7 @@
 			(at 0 1 0)
 			(unlocked yes)
 			(layer "F.Fab")
+			(hide yes)
 			(uuid "ba9e48d9-b960-4380-97fa-f6e67afc917e")
 			(effects
 				(font
@@ -16268,7 +17076,7 @@
 			)
 		)
 		(property "Value" "100pF"
-			(at 2.46 0.762 90)
+			(at 2.46 1.1684 90)
 			(layer "F.Fab")
 			(uuid "8b9e5415-b841-4b52-9630-45c30aef3f7c")
 			(effects
@@ -16319,6 +17127,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "508572c0-4cd8-4183-98e9-888ccb9e2cae")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ebb903aa-ec4b-471c-b940-a82db59868d0")
 			(effects
 				(font
 					(size 1 1)
@@ -16525,6 +17346,19 @@
 				)
 			)
 		)
+		(property "Part" ""
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "777c5058-734d-4006-8dbc-8b9d64af1581")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/0e043e96-6084-43d9-a3d8-151a71898f73")
 		(sheetname "/")
@@ -16654,7 +17488,7 @@
 		(descr "LED, diameter 5.0mm, 2 pins, http://cdn-reichelt.de/documents/datenblatt/A500/LL-504BC2E-009.pdf, generated by kicad-footprint-generator")
 		(tags "LED")
 		(property "Reference" "D2"
-			(at -2.667 0 180)
+			(at -2.667 -1.016 180)
 			(layer "F.SilkS")
 			(uuid "6ad013f4-98e1-44f3-a38c-1865fda22773")
 			(effects
@@ -16665,7 +17499,7 @@
 			)
 		)
 		(property "Value" "LED"
-			(at 1.27 -4.064 90)
+			(at -2.667 1.778 180)
 			(layer "F.Fab")
 			(uuid "637683dd-3339-4e4f-83b2-92ad2feaa5ce")
 			(effects
@@ -16705,6 +17539,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "70ba4220-ab12-4c7c-a496-de8bd00364c0")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "20909f2a-befa-4493-96f7-2aa5bdc80f1d")
 			(effects
 				(font
 					(size 1 1)
@@ -16833,13 +17680,14 @@
 			(uuid "512b87df-87bc-4a71-8b68-cee18d4074eb")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 1.27 -1.524 90)
+			(at -2.667 -1.016 180)
 			(layer "F.Fab")
 			(uuid "05fe6d92-1091-4c36-b733-ce5960d7ac3a")
 			(effects
 				(font
-					(size 0.8 0.8)
-					(thickness 0.2)
+					(size 1 1)
+					(thickness 0.15)
+					(bold yes)
 				)
 			)
 		)
@@ -16947,6 +17795,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "b5803deb-83af-4b38-a4a5-dcbb22306feb")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4d4455c6-5a2a-42f5-854a-2338a3b5bc62")
 			(effects
 				(font
 					(size 1 1)
@@ -17153,6 +18014,19 @@
 				)
 			)
 		)
+		(property "Part" ""
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d815cd9d-394a-4110-b678-65f14bea7efc")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/a9598f06-0576-4228-bfdc-fa033ca27259")
 		(sheetname "/")
@@ -17328,6 +18202,19 @@
 				)
 			)
 		)
+		(property "Part" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c5f56a8a-4ce2-4a39-8bc9-484898cba14d")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Pin* Test*")
 		(path "/eda60a03-7668-4c18-a709-91e0c34843ed")
 		(sheetname "/")
@@ -17426,7 +18313,7 @@
 		(descr "14-lead though-hole mounted DIP package, row spacing 7.62mm (300 mils)")
 		(tags "THT DIP DIL PDIP 2.54mm 7.62mm 300mil")
 		(property "Reference" "U1"
-			(at -1.8288 3.0988 180)
+			(at 0 -2.794 180)
 			(layer "F.SilkS")
 			(uuid "af6a7a2a-8f17-49b4-9644-b6e20c6d7959")
 			(effects
@@ -17437,7 +18324,7 @@
 			)
 		)
 		(property "Value" "4069"
-			(at 3.864 12.166 180)
+			(at 3.805 7.62 180)
 			(layer "F.Fab")
 			(uuid "2b95dbc1-f104-489d-a48d-82b9414d87c0")
 			(effects
@@ -17471,8 +18358,21 @@
 				)
 			)
 		)
+		(property "Part" ""
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b05aaacf-11f8-49fe-bbb7-d75494eee3de")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "DIP?14*")
-		(path "/e0e27e24-e2e7-4153-ac00-0fbd5fd83fef")
+		(path "/85597f6c-1957-422e-be38-22bed9ec973e")
 		(sheetname "/")
 		(sheetfile "Yorick.kicad_sch")
 		(attr through_hole)
@@ -17599,7 +18499,7 @@
 			(uuid "41f40619-27a4-4177-ab45-fa589e2e2645")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 3.81 7.62 180)
+			(at 5.207 7.62 180)
 			(layer "F.Fab")
 			(uuid "9ced178b-fbf9-485d-81b7-9e7a454106b7")
 			(effects
@@ -17853,6 +18753,19 @@
 				)
 			)
 		)
+		(property "Part" ""
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0d8151f2-78ae-47ca-8a4d-9f6193a931cf")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/d93a210d-a229-4af4-87ac-b4a0086fa7f0")
 		(sheetname "/")
@@ -18063,6 +18976,19 @@
 				)
 			)
 		)
+		(property "Part" ""
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f6f4c292-744e-4b38-aab6-e9078dd78fa3")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/6e2d6f08-7d14-4803-b89a-e334807ec8b1")
 		(sheetname "/")
@@ -18203,7 +19129,7 @@
 			)
 		)
 		(property "Value" "100kB"
-			(at 1.912 -0.028 0)
+			(at 1.778 0.214 0)
 			(layer "F.Fab")
 			(uuid "892f4293-28dc-46e1-9e99-e91770ad493b")
 			(effects
@@ -18233,6 +19159,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ae39b417-cb4d-48c2-a14a-66c6bf8d4b96")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -18424,7 +19363,7 @@
 			(uuid "b3505cfe-9ebb-4fd5-9cf8-788094d0a2f7")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 0 7.58 180)
+			(at 1.778 5.802 180)
 			(layer "F.Fab")
 			(uuid "e87f9046-bd87-4321-b666-5a65dfb97a43")
 			(effects
@@ -18550,6 +19489,19 @@
 				)
 			)
 		)
+		(property "Part" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "35e7700d-bd15-4b3d-ba29-248dbd0438fd")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "MountingHole*")
 		(path "/7fdd1e00-5852-4936-b713-90b9c12c5041")
 		(sheetname "/")
@@ -18604,7 +19556,7 @@
 			)
 		)
 		(property "Value" "100nF"
-			(at 2.54 -1.016 90)
+			(at 2.54 -1.143 90)
 			(layer "F.Fab")
 			(uuid "63b7b9b5-e9dc-43f7-bc2d-714b6954136e")
 			(effects
@@ -18655,6 +19607,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "d2084274-2bae-417e-b005-f1957c7b0f7a")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5b5c664e-c7ac-4f9c-8e54-8ce3e73a95f1")
 			(effects
 				(font
 					(size 1 1)
@@ -18823,6 +19788,19 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a14f9342-11e0-4ed5-a43b-3d631a923799")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 			)
@@ -19003,7 +19981,7 @@
 			(uuid "f986745c-1f1b-4102-8bab-1d0d35183bf7")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 1.27 2.54 270)
+			(at -2.667 6.096 0)
 			(layer "F.Fab")
 			(uuid "7e38677b-5806-44fd-a259-17b4e4a9755b")
 			(effects
@@ -19173,6 +20151,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "31977756-1541-4758-a5e5-104aa88b5e29")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "61b54dd4-5b7c-421a-975c-11b150271bf6")
 			(effects
 				(font
 					(size 1 1)
@@ -19390,6 +20381,19 @@
 				)
 			)
 		)
+		(property "Part" ""
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d6071002-c584-410b-94f9-2f96176321e5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/cf4b76a2-59fc-4fc3-b956-76b930b20f9a")
 		(sheetname "/")
@@ -19530,7 +20534,7 @@
 			)
 		)
 		(property "Value" "100nF"
-			(at 2.445708 0.9956 90)
+			(at 2.445708 1.1226 90)
 			(layer "F.Fab")
 			(uuid "e031f8fb-fe4b-406b-86d1-4cab58209ae3")
 			(effects
@@ -19581,6 +20585,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "0a7677e8-6ea4-41af-aabb-5ee03c62d2be")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 90)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0f0700cc-635e-4401-9530-95634ca58fdb")
 			(effects
 				(font
 					(size 1 1)
@@ -19755,6 +20772,19 @@
 				)
 			)
 		)
+		(property "Part" ""
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "31676510-ba00-4e93-b41a-5e6ef570a70e")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Net*Tie*")
 		(path "/e53da228-fed5-4ad4-9fb2-e16a23973ddb")
 		(sheetname "/")
@@ -19862,6 +20892,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "0ef22941-e25a-4f2b-b376-3bbe7e9fb8f5")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "76af6c1e-f862-490d-a057-d8328c65bbf0")
 			(effects
 				(font
 					(size 1 1)
@@ -20034,6 +21077,19 @@
 				)
 			)
 		)
+		(property "Part" ""
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4eb7de45-71a0-4493-b232-918a290ed261")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "MountingHole*")
 		(path "/4cd1886d-e051-406a-8384-84facf8140ec")
 		(sheetname "/")
@@ -20151,6 +21207,19 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "a0c7ad12-e0b8-4c6a-a9bf-dcdb7ce343a3")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 180)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "de39729b-2b01-409f-8f64-61901e4376ae")
 			(effects
 				(font
 					(size 1 1)
@@ -20336,6 +21405,19 @@
 				)
 			)
 		)
+		(property "Part" ""
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "251ea51e-5c59-4159-8c20-b57c6708911f")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "Net*Tie*")
 		(path "/4af89510-f98f-4f7f-b38f-9e296361471f")
 		(sheetname "/")
@@ -20429,6 +21511,20 @@
 			(effects
 				(font
 					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+				(justify mirror)
+			)
+		)
+		(property "Part" ""
+			(at 0 0 270)
+			(unlocked yes)
+			(layer "B.Fab")
+			(hide yes)
+			(uuid "2f849cc7-d59a-4a60-ae2d-b21e966a69ae")
+			(effects
+				(font
+					(size 1 1)
 					(thickness 0.15)
 				)
 				(justify mirror)
