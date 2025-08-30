@@ -14765,7 +14765,7 @@
 				(hide yes)
 			)
 		)
-		(property "Footprint" "Yorick:TEETH"
+		(property "Footprint" "Yorick:Teeth_Pads"
 			(at 359.41 125.73 0)
 			(effects
 				(font

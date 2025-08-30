@@ -14543,12 +14543,12 @@
 			)
 		)
 	)
-	(footprint "Yorick:TEETH"
+	(footprint "Yorick:Teeth_Pads"
 		(layer "F.Cu")
 		(uuid "96516c07-56ff-41b8-bb82-df112d32d946")
 		(at 101.6 147.955)
 		(property "Reference" "J1"
-			(at -0.619566 -0.488873 0)
+			(at -0.511748 -0.5 0)
 			(unlocked yes)
 			(layer "F.SilkS")
 			(hide yes)
@@ -14561,10 +14561,9 @@
 			)
 		)
 		(property "Value" "Conn_01x12"
-			(at -0.619566 1.011127 0)
+			(at -0.511748 1 0)
 			(unlocked yes)
 			(layer "F.Fab")
-			(hide yes)
 			(uuid "eabd8739-695b-481f-9abe-03713f69ac57")
 			(effects
 				(font
@@ -14597,25 +14596,12 @@
 				)
 			)
 		)
-		(property "Part" ""
-			(at 0 0 0)
-			(unlocked yes)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "53c69844-71ce-4c22-8ccf-bf8eb87988ad")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
 		(property "Name" "Teeth Pads"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "5466173c-bb84-4f1b-8627-4ff5ef82bb83")
+			(uuid "ab750cb2-d9f7-4c1a-9f59-69b90b85fced")
 			(effects
 				(font
 					(size 1 1)
@@ -14654,7 +14640,7 @@
 			)
 			(fill yes)
 			(layer "F.Mask")
-			(uuid "e09b9a81-39ee-4c2a-a0af-ce9239815326")
+			(uuid "bc882e17-d115-4616-845c-b520400d7246")
 		)
 		(fp_poly
 			(pts
@@ -14684,7 +14670,7 @@
 			)
 			(fill yes)
 			(layer "F.Mask")
-			(uuid "365f4a34-87ae-456a-bc7f-7ad7655b1de5")
+			(uuid "b662ece7-4a99-4a4c-8e94-61c585923408")
 		)
 		(fp_poly
 			(pts
@@ -14717,7 +14703,7 @@
 			)
 			(fill yes)
 			(layer "F.Mask")
-			(uuid "8fc16ee8-ebff-421e-b600-5b568916065a")
+			(uuid "6f94e5d8-f24c-4300-9e8b-fdb3ff5d1f0d")
 		)
 		(fp_poly
 			(pts
@@ -14751,7 +14737,7 @@
 			)
 			(fill yes)
 			(layer "F.Mask")
-			(uuid "4d6b3ee3-a73e-41eb-ab1b-87c38badfafb")
+			(uuid "9b36d6fe-66a7-4166-9b74-a5725ea8944d")
 		)
 		(fp_poly
 			(pts
@@ -14788,7 +14774,7 @@
 			)
 			(fill yes)
 			(layer "F.Mask")
-			(uuid "c626a55c-95f7-4560-aaeb-d35a00e78500")
+			(uuid "217193b4-7bbf-4f0e-914b-3c8d628f9950")
 		)
 		(fp_poly
 			(pts
@@ -14825,7 +14811,7 @@
 			)
 			(fill yes)
 			(layer "F.Mask")
-			(uuid "c60169f4-66ae-409e-9930-d21c78621227")
+			(uuid "f3acf305-e3fb-47ec-9c29-284e32f56930")
 		)
 		(fp_poly
 			(pts
@@ -14863,7 +14849,7 @@
 			)
 			(fill yes)
 			(layer "F.Mask")
-			(uuid "0c96c3df-2027-4552-865b-2936a0917062")
+			(uuid "10b23762-468b-4d2c-99d4-fb795211aecb")
 		)
 		(fp_poly
 			(pts
@@ -14901,7 +14887,7 @@
 			)
 			(fill yes)
 			(layer "F.Mask")
-			(uuid "1f4b1919-37a2-4c2e-908c-24ac16ee26d0")
+			(uuid "6eeb6439-f1ef-47ce-a36a-01f0377213fa")
 		)
 		(fp_poly
 			(pts
@@ -14940,7 +14926,7 @@
 			)
 			(fill yes)
 			(layer "F.Mask")
-			(uuid "27bda8a1-d68f-4798-bbd9-25940f70aab5")
+			(uuid "4c55a2c5-e6ab-4dd4-9cf6-30e88c59a10c")
 		)
 		(fp_poly
 			(pts
@@ -14979,7 +14965,7 @@
 			)
 			(fill yes)
 			(layer "F.Mask")
-			(uuid "38c76a3f-4d27-496c-a0ed-303acc3b7334")
+			(uuid "b20d02e0-a406-4a41-9bba-874b0c552915")
 		)
 		(fp_poly
 			(pts
@@ -15017,7 +15003,7 @@
 			)
 			(fill yes)
 			(layer "F.Mask")
-			(uuid "438fa604-8f5b-4af5-ae25-be4d20cc34db")
+			(uuid "e2a94757-b8d8-4100-b909-28b00f8df072")
 		)
 		(fp_poly
 			(pts
@@ -15057,7 +15043,19 @@
 			)
 			(fill yes)
 			(layer "F.Mask")
-			(uuid "cf7bc0f6-535a-4204-ad6e-473e8f79b8b9")
+			(uuid "3b7c63c5-cf7b-44f1-a657-11969bd89a67")
+		)
+		(fp_text user "${REFERENCE}"
+			(at -0.511748 2.5 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(uuid "ec559e53-2801-49d8-89be-486e0195994b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
 		)
 		(pad "1" smd custom
 			(at -42.361748 -11.05)
@@ -18268,7 +18266,7 @@
 			)
 		)
 		(property ki_fp_filters "DIP?14*")
-		(path "/85597f6c-1957-422e-be38-22bed9ec973e")
+		(path "/3fcf9129-5014-4b95-b71b-f985b838e0d4")
 		(sheetname "/")
 		(sheetfile "Yorick.kicad_sch")
 		(attr through_hole)
