@@ -1,0 +1,35 @@
+Yorick Parts
+
+17 10k    resistor
+6  100k   resistor
+2  18r    resistor
+2  2k2    resistor
+2  5k1    resistor
+1  1m     resistor
+1  33k    resistor
+
+4  100nF  ceramic capacitor
+2  100pF  ceramic capacitor
+2  220nf  film capacitor (white boxes)
+3  10uF   electrolytic capacitor
+
+2  LEDs
+
+2  J113   JFETs
+
+1  6 pin  programming header
+1  8 pin  DIP socket
+2  14 pin DIP sockets
+1  USB C socket
+
+2  push   buttons
+2  audio  jacks
+1  10kB   dual-gang potentiometer
+1  100kA  potentiometer
+3  100kB  potentiometers
+
+1  4069      IC
+1  MCP602    IC
+1  ATtiny84  IC
+
+5  knobs
